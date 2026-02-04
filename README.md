@@ -109,6 +109,14 @@ Synthesis at transitions. No continuous tracking.
 
 `/refine` compares plan against original request, marks requirements as Covered/Partial/Missing, patches gaps with minimal changes.
 
+### Architecture Context
+
+`/map-codebase` generates Mermaid diagrams at multiple abstraction levels (structure, entry points, data flow, etc.) and stores them in `diagrams/`. CLAUDE.md references these via `[[wiki-links]]`.
+
+Claude reads CLAUDE.md every session — it already knows your architecture. No discovery phase needed.
+
+When code changes, regenerate diagrams. Drift between documentation and code is caught immediately. The diagrams ARE the documentation.
+
 ---
 
 ## Setup
@@ -158,31 +166,11 @@ Extended Thinking:
 
 ### Research Methodologies
 
-`/research` auto-selects based on topic:
-
-| Methodology | Use Case |
-|-------------|----------|
-| `scout/technical` | How to build something |
-| `scout/open-source` | Finding existing libraries |
-| `scout/feasibility` | Can we actually do this? |
-| `scout/deep-dive` | Deep understanding |
-| `scout/competitive` | How others solve it |
-| `scout/landscape` | Understanding a space |
-| `scout/history` | What's been tried before |
-| `scout/options` | Comparing approaches |
+`/research` auto-selects methodology based on topic: `scout/technical`, `scout/open-source`, `scout/feasibility`, `scout/deep-dive`, `scout/competitive`, `scout/landscape`, `scout/history`, `scout/options`.
 
 ### Thinking Frameworks
 
-| Framework | Use For |
-|-----------|---------|
-| `think/inversion` | What would guarantee failure? |
-| `think/first-principles` | Strip to fundamentals, rebuild |
-| `think/second-order` | Consequences of consequences |
-| `think/5-whys` | Drill to root cause |
-| `think/pareto` | Find the 20% that matters |
-| `think/opportunity-cost` | What you give up by choosing this |
-
-Additional: `think/swot`, `think/via-negativa`, `think/occams-razor`, `think/one-thing`, `think/10-10-10`, `think/eisenhower-matrix`, `think/crucible`
+Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`, `think/first-principles`, `think/second-order`, `think/5-whys`, `think/pareto`, `think/opportunity-cost`, `think/swot`, `think/via-negativa`, `think/occams-razor`, `think/one-thing`, `think/10-10-10`, `think/eisenhower-matrix`, `think/crucible`.
 
 ### File Locations
 
