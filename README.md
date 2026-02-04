@@ -130,8 +130,14 @@ Synthesis at transitions. No continuous tracking.
 ├──────────────────────────────────────────────────────────────────┤
 │                      EVERY SESSION                               │
 │                                                                  │
-│   Claude reads CLAUDE.md ───► Already knows architecture         │
-│                               No discovery phase needed          │
+│   Claude starts ───► reads CLAUDE.md ───► follows [[wiki-links]] │
+│                                                  │               │
+│                                                  ▼               │
+│                                           diagrams/*.md          │
+│                                                  │               │
+│                                                  ▼               │
+│                                     Already knows architecture   │
+│                                     No discovery phase needed    │
 │                                                                  │
 ├──────────────────────────────────────────────────────────────────┤
 │                      DRIFT REDUCTION                             │
