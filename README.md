@@ -98,21 +98,21 @@ Mix and match based on what you know.
 
 ### Stateless
 
-No phase tracking. No mandatory sequence. Run any command anytime.
+Other frameworks track "current phase" in state files — you must be in "planning" before "implementing." Flow-Friction has no state. Run any command anytime. Skip what you don't need.
 
 ### Intent Preservation
 
-Research is sculpting — intent evolves as you discover. Flow-Friction captures bookends, not the journey:
+You start with one idea, research reveals something better, your understanding evolves. This usually happens in conversation and gets lost.
 
-- `/research` outputs Original Intent and Evolved Understanding
-- `/refine` appends a Refinement Log (what changed, why)
-- `/pause` synthesizes session state for handoff
+Flow-Friction captures two points: where you started (Original Intent) and where you ended up (Evolved Understanding). Not every step — just the endpoints.
 
-Synthesis at transitions. No continuous tracking.
+- `/research` records Original Intent → Evolved Understanding
+- `/refine` logs what changed in the plan and why
+- `/pause` synthesizes current state for the next session
 
 ### Parallel Research
 
-`/research` assesses complexity: narrow topics get one scout agent, broad topics get 2-3 parallel scouts that synthesize findings. Based on [Anthropic's multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system).
+`/research` assesses complexity: narrow topics get one scout agent, broad topics get 2-3 parallel scouts that synthesize findings. See [Anthropic's multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system) for the underlying approach.
 
 ### Coverage Audit
 
