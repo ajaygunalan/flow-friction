@@ -63,24 +63,33 @@ UTILITIES: /pause, /resume, /commit_and_push
 
 Mix and match based on what you know.
 
-### Simple Fix
 ```
-Ask Claude → Fix → Done
-```
-
-### Debug (cause unknown)
-```
-/research "why is sensor drifting" → Find cause → Fix → Done
-```
-
-### New Feature (you know what to build)
-```
-/plan → /implement → /verify → Done
-```
-
-### Complex Feature (need to understand first)
-```
-/research → /plan → /refine (iterate) → /implement → /verify → Done
+┌─────────────────────────────────────────────────────────────────────────┐
+│  SIMPLE FIX (you know the fix)                                          │
+│                                                                         │
+│      Ask Claude ──────────────────────────────────────────────► Done    │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  DEBUG (cause unknown)                                                  │
+│                                                                         │
+│      /research ───► find cause ───► fix ──────────────────────► Done    │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  NEW FEATURE (you know what to build)                                   │
+│                                                                         │
+│      /plan ───► /implement ───► /verify ──────────────────────► Done    │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  COMPLEX FEATURE (need to understand first)                             │
+│                                                                         │
+│      /research ───► /plan ───► /refine ◄──┐                             │
+│                                    │      │ (iterate until solid)       │
+│                                    └──────┘                             │
+│                                    │                                    │
+│                                    ▼                                    │
+│                              /implement ───► /verify ─────────► Done    │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -111,11 +120,29 @@ Synthesis at transitions. No continuous tracking.
 
 ### Architecture Context
 
-`/map-codebase` generates Mermaid diagrams at multiple abstraction levels (structure, entry points, data flow, etc.) and stores them in `diagrams/`. CLAUDE.md references these via `[[wiki-links]]`.
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                         SETUP (once)                             │
+│                                                                  │
+│   /map-codebase ───► diagrams/*.md ───► CLAUDE.md [[links]]      │
+│                      (Mermaid)          (references diagrams)    │
+│                                                                  │
+├──────────────────────────────────────────────────────────────────┤
+│                      EVERY SESSION                               │
+│                                                                  │
+│   Claude reads CLAUDE.md ───► Already knows architecture         │
+│                               No discovery phase needed          │
+│                                                                  │
+├──────────────────────────────────────────────────────────────────┤
+│                      DRIFT REDUCTION                             │
+│                                                                  │
+│   Code changes? ───► /map-codebase ───► Diagrams update          │
+│                                         Docs = Code (no drift)   │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
-Claude reads CLAUDE.md every session — it already knows your architecture. No discovery phase needed.
-
-When code changes, regenerate diagrams. Drift between documentation and code is caught immediately. The diagrams ARE the documentation.
+The diagrams ARE the documentation. Regenerate when code changes.
 
 ---
 
