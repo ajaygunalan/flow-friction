@@ -8,7 +8,7 @@
 
 A meta-prompting framework for solo research. Commands like `/research`, `/plan`, `/implement` add structure on top of Claude Code — context management, workflows, thinking tools.
 
-Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
+Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/) amd [github](https://github.com/alexanderop/dotfiles)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
 
 Research is exploratory. Nine ideas die for every one that survives. You don't know what you're building until you've tried building it. Upfront ceremony wastes time on plans that get abandoned.
 
@@ -173,7 +173,7 @@ Project-Local Plans:
 { "plansDirectory": "docs/plan/" }
 ```
 
-Single Plan Enforcement — auto-delete old plans, preserve research:
+Single Plan Enforcement — auto-delete old plans when a new one is written:
 ```json
 {
   "hooks": {
@@ -181,7 +181,7 @@ Single Plan Enforcement — auto-delete old plans, preserve research:
       "matcher": "Write",
       "hooks": [{
         "type": "command",
-        "command": "FILE=$(jq -r '.tool_input.file_path'); DIR=$(dirname \"$FILE\"); echo \"$FILE\" | grep -q 'docs/plan/' && [ ! -f \"$FILE\" ] && find \"$DIR\" -maxdepth 1 -name '*.md' ! -name 'RESEARCH.md' -delete || true"
+        "command": "FILE=$(jq -r '.tool_input.file_path'); DIR=$(dirname \"$FILE\"); echo \"$FILE\" | grep -q 'docs/plan/' && [ ! -f \"$FILE\" ] && find \"$DIR\" -maxdepth 1 -name '*.md' -delete || true"
       }]
     }]
   }
@@ -209,7 +209,7 @@ Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`
 
 | File | Purpose |
 |------|---------|
-| `docs/plan/RESEARCH.md` | Research findings with intent bookends |
+| `docs/RESEARCH.md` | Research findings with intent bookends |
 | `docs/plan/*.md` | Plan files with refinement log |
 | `diagrams/*.md` | Architecture diagrams |
 | `RESUME.md` | Session handoff |

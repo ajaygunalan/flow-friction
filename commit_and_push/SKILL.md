@@ -10,18 +10,31 @@ allowed-tools:
 
 Push all unpushed commits with a `[>>]` checkpoint marker for human navigation.
 
+## Current State
+
+```
+Branch: !`git branch --show-current`
+
+Unpushed commits:
+!`git log origin/$(git branch --show-current)..HEAD --oneline 2>/dev/null || echo "(no remote tracking)"`
+
+Changed files:
+!`git diff origin/$(git branch --show-current)..HEAD --stat 2>/dev/null || git diff --stat`
+
+Working tree:
+!`git status -s`
+```
+
 ## Process
 
-1. **Gather** — run in parallel: `git status`, `git branch --show-current`, `git log origin/$branch..HEAD --oneline`, `git diff origin/$branch..HEAD --stat`. If nothing to push, stop.
+1. **Gather** — review the state above. If nothing to push, stop.
 
 2. **Summarize** — analyze all changes since last push.
 
-3. **Clear session log** — remove all entries from `## Session Log` in CLAUDE.md (keep the heading). Skip if no section exists.
+3. **Ask user** — generate 4 checkpoint message options (imperative mood, ~50 chars). Use AskUserQuestion. User selects one.
 
-4. **Ask user** — generate 4 checkpoint message options (imperative mood, ~50 chars). Use AskUserQuestion. User selects one.
-
-5. **Commit and push:**
-   - Stage uncommitted changes (specific files, not `git add -A`). Include CLAUDE.md if session log was cleared.
+4. **Commit and push:**
+   - Stage uncommitted changes (specific files, not `git add -A`).
    - If uncommitted changes exist, commit them first.
    - Create empty checkpoint commit: `git commit --allow-empty -m "[>>] <user's message VERBATIM>"`
    - `git push origin $branch`
