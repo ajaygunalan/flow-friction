@@ -8,11 +8,13 @@
 
 A meta-prompting framework for solo research. Commands like `/research`, `/plan`, `/implement` add structure on top of Claude Code — context management, workflows, thinking tools.
 
-Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/) amd [github](https://github.com/alexanderop/dotfiles)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
+Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/) and [github](https://github.com/alexanderop/dotfiles)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
 
 Research is exploratory. Nine ideas die for every one that survives. You don't know what you're building until you've tried building it. Upfront ceremony wastes time on plans that get abandoned.
 
 Flow-Friction inverts the order: explore first, structure survivors. No project init. No tracking files. No mandatory phases. When something survives and proves worth building, then add friction — a plan, refinement, proper implementation.
+
+Some docs are temporary (`RESEARCH.md`, `INSIGHTS.md`) — they capture what you're learning right now. The spec is permanent — it's the source of truth. `/clean-docs` absorbs the temporary into the permanent and deletes the rest.
 
 Built for solo researchers in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -20,17 +22,43 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 ## Commands
 
+### Build
+
 | Command | What It Does |
 |---------|--------------|
 | `/research` | Investigate unknowns — debugging, feasibility, approaches |
 | `/plan` | Create implementation plan with tasks |
-| `/refine` | Audit plan coverage, patch gaps, log changes |
+| `/refine` | Audit plan coverage, patch gaps |
 | `/implement` | Execute plan via subagents with atomic commits |
 | `/verify` | Check implementation matches the plan |
+
+### Learn
+
+| Command | What It Does |
+|---------|--------------|
+| `/learn` | Capture insights from the current conversation |
+| `/insights-from-2-days` | Surface insights from recent conversations (today + yesterday) |
+| `/clean-docs` | Read all docs, fix contradictions and redundancy, keep the spec clean |
+
+### Review
+
+| Command | What It Does |
+|---------|--------------|
+| `/review` | Code review with configurable thoroughness |
+| `/best-practices` | Expert-level best practices analysis |
+
+### Utilities
+
+| Command | What It Does |
+|---------|--------------|
 | `/pause` | Save session state for later |
 | `/resume` | Continue from saved state |
 | `/map-codebase` | Generate architecture diagrams |
 | `/commit_and_push` | Add checkpoint marker, push all commits |
+| `/conversation-search` | Search past conversation history |
+| `/create-skill` | Create a new skill |
+| `/heal-skill` | Fix a broken skill |
+| `/codex` | Pass a prompt to Codex CLI |
 
 ### What You Know → Where to Start
 
@@ -41,6 +69,8 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "I need to understand first"  →  /research
 "I know what to build"        →  /plan
 "I have a plan already"       →  /implement
+"Docs are messy"              →  /clean-docs
+"What did we learn recently?" →  /insights-from-2-days
 ```
 
 ### Dependencies
@@ -54,7 +84,9 @@ STANDALONE                     NEED A PLAN
             │
 /map-codebase                  /verify ────► checks against plan
 
-UTILITIES: /pause, /resume, /commit_and_push
+LEARNING: /learn, /insights-from-2-days ───► /clean-docs (absorbs into spec)
+
+UTILITIES: /pause, /resume, /commit_and_push, /conversation-search
 ```
 
 ---
@@ -88,6 +120,17 @@ Mix and match based on what you know.
 │                                    │                                    │
 │                                    ▼                                    │
 │                              /implement ───► /verify ─────────► Done    │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  DOC CLEANUP (knowledge accumulated, docs drifted)                      │
+│                                                                         │
+│      /insights-from-2-days ───► INSIGHTS.md ──┐                         │
+│      /learn ───► docs/ ──────────────────────┐│                         │
+│      /research ───► RESEARCH.md ─────────────┼┘                         │
+│                                              ▼                          │
+│                                        /clean-docs ──────────► Done     │
+│                              (absorbs temporary docs into spec,         │
+│                               deletes the ephemeral files)              │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -124,8 +167,8 @@ Flow-Friction captures two points: where you started (Original Intent) and where
 ┌──────────────────────────────────────────────────────────────────┐
 │                         SETUP (once)                             │
 │                                                                  │
-│   /map-codebase ───► diagrams/*.md ───► CLAUDE.md [[links]]      │
-│                      (Mermaid)          (references diagrams)    │
+│   /map-codebase ───► docs/diagrams/*.md ───► CLAUDE.md [[links]] │
+│                      (Mermaid)               (references diagrams)│
 │                                                                  │
 ├──────────────────────────────────────────────────────────────────┤
 │                      EVERY SESSION                               │
@@ -133,7 +176,7 @@ Flow-Friction captures two points: where you started (Original Intent) and where
 │   Claude starts ───► reads CLAUDE.md ───► follows [[wiki-links]] │
 │                                                  │               │
 │                                                  ▼               │
-│                                           diagrams/*.md          │
+│                                        docs/diagrams/*.md        │
 │                                                  │               │
 │                                                  ▼               │
 │                                     Already knows architecture   │
@@ -209,9 +252,10 @@ Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`
 
 | File | Purpose |
 |------|---------|
-| `docs/RESEARCH.md` | Research findings with intent bookends |
-| `docs/plan/*.md` | Plan files with refinement log |
-| `diagrams/*.md` | Architecture diagrams |
+| `docs/RESEARCH.md` | Research findings (ephemeral — absorbed by `/clean-docs`) |
+| `docs/INSIGHTS.md` | Recent conversation insights (ephemeral — absorbed by `/clean-docs`) |
+| `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
+| `docs/diagrams/*.md` | Architecture diagrams |
 | `RESUME.md` | Session handoff |
 | `CLAUDE.md` | Project rules + diagram references |
 
