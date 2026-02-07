@@ -1,4 +1,4 @@
----
+which---
 description: Research before planning - new features, debugging, exploration, refactoring
 argument-hint: [topic to investigate]
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, Teammate, SendMessage, TaskCreate, TaskList, TaskUpdate

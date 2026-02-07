@@ -1,5 +1,4 @@
 ---
-disable-model-invocation: true
 description: Expert-level best practices analysis for the current problem
 ---
 

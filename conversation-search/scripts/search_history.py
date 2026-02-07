@@ -76,7 +76,7 @@ def encode_project_path(path: str) -> str:
     """Encode project path for directory name."""
     if path.startswith('/'):
         path = path[1:]
-    return '-' + path.replace('/', '-')
+    return '-' + path.replace('/', '-').replace('_', '-')
 
 
 def get_project_dirs(specific_project: Optional[str] = None) -> list:

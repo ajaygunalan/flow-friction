@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Evaluate decisions across three time horizons
 argument-hint: [decision or leave blank for current context]
 ---

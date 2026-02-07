@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Think through consequences of consequences
 argument-hint: [action or leave blank for current context]
 ---

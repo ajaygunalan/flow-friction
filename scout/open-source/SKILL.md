@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Find open-source solutions - libraries, tools, projects that solve this
 argument-hint: [problem/need or leave blank for current context]
 ---

@@ -1,5 +1,4 @@
 ---
-disable-model-invocation: true
 description: Add checkpoint marker and push all commits
 allowed-tools:
   - Read

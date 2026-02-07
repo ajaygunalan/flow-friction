@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Research competitors - who else does this, how, strengths/weaknesses
 argument-hint: [product/feature or leave blank for current context]
 ---

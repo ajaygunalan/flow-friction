@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Reality check - can we actually do this with our constraints?
 argument-hint: [idea/project or leave blank for current context]
 ---

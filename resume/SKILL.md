@@ -1,5 +1,4 @@
 ---
-disable-model-invocation: true
 description: Resume work from RESUME.md
 allowed-tools:
   - Read

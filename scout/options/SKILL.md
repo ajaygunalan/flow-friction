@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Compare multiple options side-by-side with recommendation
 argument-hint: [what to compare or leave blank for current context]
 ---

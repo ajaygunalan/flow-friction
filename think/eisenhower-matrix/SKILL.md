@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Apply Eisenhower matrix (urgent/important) to prioritize tasks or decisions
 argument-hint: [tasks or leave blank for current context]
 ---

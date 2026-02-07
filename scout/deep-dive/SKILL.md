@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Comprehensive investigation of a topic - thorough analysis with sources
 argument-hint: [topic or leave blank for current context]
 ---

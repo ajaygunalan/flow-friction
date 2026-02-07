@@ -1,5 +1,4 @@
 ---
-disable-model-invocation: true
 name: pause
 description: Save session state to RESUME.md for next agent to continue
 allowed-tools:

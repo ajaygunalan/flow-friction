@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Improve by removing rather than adding
 argument-hint: [situation or leave blank for current context]
 ---

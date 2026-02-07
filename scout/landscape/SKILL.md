@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Map the space - tools, players, trends, gaps in a domain
 argument-hint: [domain/space or leave blank for current context]
 ---

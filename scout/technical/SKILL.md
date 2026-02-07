@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Research how to implement something - approaches, libraries, tradeoffs
 argument-hint: [what to implement or leave blank for current context]
 ---

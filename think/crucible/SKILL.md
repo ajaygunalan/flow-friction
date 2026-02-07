@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Multi-wave 6-framework deep analysis — parallel Codex CLI agents in 3 dependency waves
 argument-hint: [subject to analyze] -- [source directory (optional, defaults to cwd)]
 ---
@@ -83,12 +82,12 @@ Agent table — substitute actual resolved paths when writing each file:
 
 | # | Prompt file | Methodology file | Prior analyses | Output file | Additional instruction |
 |---|---|---|---|---|---|
-| 1 | /tmp/crucible/01-first-principles.txt | ~/.claude/commands/think/first-principles.md | (none) | ./analysis/01-first-principles.md | |
-| 2 | /tmp/crucible/02-inversion.txt | ~/.claude/commands/think/inversion.md | (none) | ./analysis/02-inversion.md | |
-| 3 | /tmp/crucible/03-swot.txt | ~/.claude/commands/think/swot.md | (none) | ./analysis/03-swot.md | |
-| 4 | /tmp/crucible/04-second-order.txt | ~/.claude/commands/think/second-order.md | (none) | ./analysis/04-second-order.md | |
-| 5 | /tmp/crucible/05-via-negativa.txt | ~/.claude/commands/think/via-negativa.md | analysis/01 through 04 | ./analysis/05-via-negativa.md | Use prior analyses to inform cuts — First Principles=fundamental, Inversion=failure prevention, SWOT=competitive relevance, Second-Order=hidden consequences. |
-| 6 | /tmp/crucible/06-pareto-synthesis.txt | ~/.claude/commands/think/pareto.md | analysis/01 through 05 | ./analysis/06-pareto-synthesis.md | Final synthesis. Sections: THE CORE, THE CUT, THE RISKS, THE BLIND SPOTS, THE VERDICT, RECOMMENDED NEXT STEP. |
+| 1 | /tmp/crucible/01-first-principles.txt | ~/.claude/skills/think/first-principles.md | (none) | ./analysis/01-first-principles.md | |
+| 2 | /tmp/crucible/02-inversion.txt | ~/.claude/skills/think/inversion.md | (none) | ./analysis/02-inversion.md | |
+| 3 | /tmp/crucible/03-swot.txt | ~/.claude/skills/think/swot.md | (none) | ./analysis/03-swot.md | |
+| 4 | /tmp/crucible/04-second-order.txt | ~/.claude/skills/think/second-order.md | (none) | ./analysis/04-second-order.md | |
+| 5 | /tmp/crucible/05-via-negativa.txt | ~/.claude/skills/think/via-negativa.md | analysis/01 through 04 | ./analysis/05-via-negativa.md | Use prior analyses to inform cuts — First Principles=fundamental, Inversion=failure prevention, SWOT=competitive relevance, Second-Order=hidden consequences. |
+| 6 | /tmp/crucible/06-pareto-synthesis.txt | ~/.claude/skills/think/pareto.md | analysis/01 through 05 | ./analysis/06-pareto-synthesis.md | Final synthesis. Sections: THE CORE, THE CUT, THE RISKS, THE BLIND SPOTS, THE VERDICT, RECOMMENDED NEXT STEP. |
 
 For "Prior analyses" column, use absolute paths: `{SOURCE_DIR}/analysis/01-first-principles.md`, etc.
 Replace all {SUBJECT}, {SOURCE_FILES}, {SOURCE_DIR} placeholders with actual values.

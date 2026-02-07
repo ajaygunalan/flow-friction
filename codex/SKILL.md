@@ -1,5 +1,4 @@
 ---
-disable-model-invocation: true
 description: Pass a prompt to Codex CLI and return the result
 argument-hint: [prompt text, or leave blank to use current conversation context]
 ---

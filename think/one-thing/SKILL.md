@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Identify the single highest-leverage action
 argument-hint: [goal or leave blank for current context]
 ---

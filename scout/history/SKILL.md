@@ -1,5 +1,4 @@
 ---
-user-invocable: false
 description: Research what's been tried before - past attempts, lessons learned
 argument-hint: [problem/approach or leave blank for current context]
 ---
