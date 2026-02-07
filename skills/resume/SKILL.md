@@ -2,7 +2,12 @@
 description: Resume work from docs/RESUME.md
 allowed-tools:
   - Read
+  - Edit
+  - Write
+  - Glob
+  - Grep
   - Bash
+  - Task
   - AskUserQuestion
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Code review with configurable thoroughness - completes analysis before any fixes
 argument-hint: [files or scope to review]
-allowed-tools: Read, Glob, Grep, Task
+allowed-tools: Read, Glob, Grep, Task, AskUserQuestion
 ---
 
 Ask thoroughness level upfront: Quick (structure, obvious issues), Standard (architecture, patterns), or Exhaustive (edge cases, tests, security, performance).
