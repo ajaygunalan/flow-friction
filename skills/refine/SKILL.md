@@ -12,7 +12,7 @@ Read the plan markdown file from `docs/plan/`. If no plan exists, tell the user 
 
 If the original request is in this conversation, use it directly.
 
-If in a new session, find the session where this plan was created:
+If not, then find the session where this plan was created:
 
 ```bash
 python3 ~/.claude/skills/conversation-search/scripts/search_history.py --digest today

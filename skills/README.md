@@ -30,8 +30,6 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | `/plan` | Create implementation plan with tasks |
 | `/refine` | Audit plan coverage, patch gaps |
 | `/implement` | Execute plan via subagents with atomic commits |
-| `/verify` | Check implementation matches the plan |
-
 ### Learn
 
 | Command | What It Does |
@@ -80,7 +78,7 @@ STANDALONE                     NEED A PLAN
             │
 /plan ──────┼───────────────►  /implement ─► executes plan tasks
             │
-/map-codebase                  /verify ────► checks against plan
+/map-codebase
 
 LEARNING: /learn ───► /clean-docs (absorbs into spec)
 SEARCH:   /conversation-search
@@ -108,7 +106,7 @@ Mix and match based on what you know.
 ├─────────────────────────────────────────────────────────────────────────┤
 │  NEW FEATURE (you know what to build)                                   │
 │                                                                         │
-│      /plan ───► /implement ───► /verify ──────────────────────► Done    │
+│      /plan ───► /implement ──────────────────────────────────► Done    │
 │                                                                         │
 ├─────────────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                             │
@@ -118,7 +116,7 @@ Mix and match based on what you know.
 │                                    └──────┘                             │
 │                                    │                                    │
 │                                    ▼                                    │
-│                              /implement ───► /verify ─────────► Done    │
+│                              /implement ──────────────────────► Done    │
 │                                                                         │
 ├─────────────────────────────────────────────────────────────────────────┤
 │  DOC CLEANUP (knowledge accumulated, docs drifted)                      │

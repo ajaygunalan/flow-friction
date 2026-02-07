@@ -1,5 +1,9 @@
-# Project-specific content
-docs/
+# Ignore everything
+*
 
-# OS files
-.DS_Store
+# Track these
+!.gitignore
+!skills/
+!skills/**
+!agents/
+!agents/**
