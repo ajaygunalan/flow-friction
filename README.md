@@ -28,7 +28,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 |---------|--------------|
 | `/research` | Investigate unknowns — debugging, feasibility, approaches |
 | `/plan` | Create implementation plan with tasks |
-| `/refine` | Audit plan coverage, patch gaps |
+| `/verify-plan` | Audit plan coverage, ask about gaps, patch |
 | `/implement` | Execute plan via subagents with atomic commits |
 ### Learn
 
@@ -64,7 +64,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "Something's wrong, not sure" →  /research
 "I need to understand first"  →  /research
 "I know what to build"        →  /plan
-"I have a plan already"       →  /implement
+"I have a plan already"       →  /verify-plan → /implement
 "Docs are messy"              →  /clean-docs
 "What did we learn recently?" →  /conversation-search + /learn
 ```
@@ -74,9 +74,10 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 ```
 STANDALONE                     NEED A PLAN
 ──────────                     ───────────
-/research ──┐                  /refine ────► refines existing plan
+/research ──┐                  /verify-plan ► audits + patches existing plan
             │
-/plan ──────┼───────────────►  /implement ─► executes plan tasks
+/plan ──────┼───────────────►  /verify-plan ► verifies plan
+            │                  /implement ─► executes plan tasks
             │
 /map-codebase
 
@@ -111,9 +112,9 @@ Mix and match based on what you know.
 ├─────────────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                             │
 │                                                                         │
-│      /research ───► /plan ───► /refine ◄──┐                             │
-│                                    │      │ (iterate until solid)       │
-│                                    └──────┘                             │
+│      /research ───► /plan ───► /verify-plan ◄──┐                        │
+│                                    │           │ (iterate until solid)  │
+│                                    └───────────┘                        │
 │                                    │                                    │
 │                                    ▼                                    │
 │                              /implement ──────────────────────► Done    │
@@ -146,7 +147,7 @@ You start with one idea, research reveals something better, your understanding e
 Flow-Friction captures two points: where you started (Original Intent) and where you ended up (Evolved Understanding). Not every step — just the endpoints.
 
 - `/research` records Original Intent → Evolved Understanding
-- `/refine` logs what changed in the plan and why
+- `/verify-plan` audits coverage, asks about gaps, patches the plan
 - `/pause` synthesizes current state for the next session
 
 ### Parallel Research
@@ -155,7 +156,7 @@ Flow-Friction captures two points: where you started (Original Intent) and where
 
 ### Coverage Audit
 
-`/refine` compares plan against original request, marks requirements as Covered/Partial/Missing, patches gaps with minimal changes.
+`/verify-plan` compares plan against original request, marks requirements as Covered/Partial/Missing, asks clarifying questions about gaps, patches with minimal changes.
 
 ### Architecture Context
 
