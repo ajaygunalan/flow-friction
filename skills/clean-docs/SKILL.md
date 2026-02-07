@@ -7,45 +7,64 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion, Edit, Write, LS, Task
 
 Documentation is evolutionary. You start with a spec, implement, discover things you didn't know, find things you assumed were wrong. Each round deposits a doc. Over time docs diverge — the spec says X, a later doc says not-X, a third repeats half of each. The spec stops being the source of truth. Agents read the wrong doc and waste hours on assumptions that were already corrected somewhere else.
 
-This skill makes the docs tell one coherent story again.
+This skill orchestrates two subagents and owns all user interaction. Subagents cannot ask the user questions — only you can.
 
-## Scope
+## Flow
 
-Default: `docs/`, excluding `docs/diagrams/` and `docs/plan/`. User can override.
+### 1. Capture intent
 
-## Workflow
+If the user provided a query alongside the command (e.g. "clean docs, I pivoted from ROS to custom control"), note it. This intent focuses everything downstream.
 
-### Phase 1 — Analyze
+### 2. Delegate to doc-analyzer
 
-Spawn sub-agent `analyze-docs` with the target folder path. It reads every doc, maps temporal relationships, and returns a structured report covering: superseded beliefs, accumulated knowledge, dead branches, redundancy, and orphaned knowledge.
+Invoke the `doc-analyzer` subagent. Pass it:
+- Target folder (default `docs/`, excluding `docs/diagrams/` and `docs/plan/`, unless user overrides)
+- The user's intent if provided
 
-### Phase 2 — Align
+Wait for its structured report.
 
-Using the analyzer's report, ask the user 2-4 questions via AskUserQuestion. Scale question count to complexity — two for a small corpus, up to four if there's significant drift. Focus on evolution:
-- What beliefs changed since these docs were written?
-- What emerged during building that wasn't in the original vision?
-- What's still uncertain or actively being figured out?
-- Are there docs or sections that are definitely obsolete?
+### 3. Ask the user 2-4 questions
 
-Not file-level or paragraph-level questions. You're mapping the delta between initial assumptions and current understanding.
+Use AskUserQuestion. Scale to complexity — 2 for simple situations, up to 4 for complex.
 
-### Phase 3 — Restructure
+First 1-2 questions: alignment — what beliefs changed, what emerged that wasn't in the original vision, what's still uncertain. Use the user's initial intent and the analyzer's conflict report to make these specific, not generic.
 
-Spawn sub-agent `restructure-docs` with three inputs:
-1. The analyzer's report
-2. The user's alignment answers
-3. The target folder path
+Next 1-2 questions: intended actions — given the conflicts and redundancy the analyzer found, what does the user want to keep, merge, or kill. Present concrete choices derived from the analyzer report.
 
-The restructurer reads the docs again, discovers the project's knowledge layers, derives domain-specific file names, and produces a concrete proposal. It confirms the proposal with the user before executing. Based on scope:
-- Light changes (≤2 files): the restructurer executes directly.
-- Heavy changes (3+ files, new structure): writes a plan to `docs/plan/` and tells the user to run `/refine` then `/implement`.
+Skip questions whose answers are obvious from the user's initial intent.
+
+### 4. Delegate to doc-restructurer
+
+Invoke the `doc-restructurer` subagent. Pass it:
+- The analyzer's full report
+- The user's answers
+- The user's initial intent
+- Instructions: produce a proposal, do not execute yet
+
+Wait for its proposal.
+
+### 5. Confirm with user
+
+Present the restructurer's proposal as an executive summary:
+- What beliefs shifted
+- Proposed structure with file names and one-line descriptions
+- What gets merged/split/renamed/absorbed/deleted and why
+
+Ask the user to confirm or adjust.
+
+### 6. Execute
+
+After confirmation:
+- Light changes (≤2 files): tell the restructurer to execute directly.
+- Large restructuring (3+ files, new structure): have the restructurer write a plan to `docs/plan/`, tell the user to run `/refine` then `/implement`.
+- Medium cases: use judgment. If you can hold the full change cleanly, execute. Otherwise, plan.
 
 ## Principles
 
 - The spec is the source of truth. Ephemeral docs get absorbed into it, then deleted.
-- When docs contradict, the more recent understanding wins. Update the older doc.
+- When docs contradict, the more recent understanding wins.
 - Names are the first layer of documentation. A file listing should tell the project's story.
-- Each file = one coherent knowledge area. Don't merge unrelated things or split related ones.
-- Progressive disclosure: a newcomer reads the spec at altitude, drills into specific docs for depth.
+- Each file = one coherent knowledge area.
+- Progressive disclosure: spec at altitude, detail docs for depth.
 - Delete with confidence. Version control remembers.
 - Strategic decisions are the user's. Tactical decisions are yours.
