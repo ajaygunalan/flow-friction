@@ -52,7 +52,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | `/pause` | Save session state for later |
 | `/resume` | Continue from saved state |
 | `/map-codebase` | Generate Mermaid architecture diagrams |
-| `/commit_and_push` | Add checkpoint marker, push all commits |
+| `/commit_and_push` | Commit and push with user-chosen message |
 | `/create-skill` | Create a new skill |
 | `/heal-skill` | Fix a broken skill |
 
@@ -257,12 +257,7 @@ Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`
 
 ### Commit Strategy
 
-`/commit_and_push` adds a checkpoint marker and pushes all commits.
-
-```bash
-git log --oneline --grep="\[>>\]"  # Checkpoints (human)
-git log --oneline                   # Full history (AI)
-```
+`/commit_and_push` analyzes changes, offers 4 commit message options, commits with your choice, and pushes.
 
 ---
 

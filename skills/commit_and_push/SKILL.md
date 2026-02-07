@@ -1,13 +1,12 @@
 ---
-description: Add checkpoint marker and push all commits
+description: Commit and push — analyzes changes, offers commit message options, pushes
 allowed-tools:
   - Read
-  - Edit
   - Bash
   - AskUserQuestion
 ---
 
-Push all unpushed commits with a `[>>]` checkpoint marker for human navigation.
+Commit all changes and push.
 
 ## Current State
 
@@ -18,30 +17,24 @@ Unpushed commits:
 !`git log origin/$(git branch --show-current)..HEAD --oneline 2>/dev/null || echo "(no remote tracking)"`
 
 Changed files:
-!`git diff origin/$(git branch --show-current)..HEAD --stat 2>/dev/null || git diff --stat`
+!`git diff --stat`
 
-Working tree:
+Untracked:
 !`git status -s`
 ```
 
 ## Process
 
-1. **Gather** — review the state above. If nothing to push, stop.
+1. Review the state above. If nothing to commit and nothing to push, stop.
 
-2. **Summarize** — analyze all changes since last push.
+2. Read the diffs and understand what changed and why.
 
-3. **Ask user** — generate 4 checkpoint message options (imperative mood, ~50 chars). Use AskUserQuestion. User selects one.
+3. Generate 4 commit message options (~50 chars, written as commands like "Add login validation", "Fix memory leak"). Use AskUserQuestion so the user picks one or writes their own.
 
-4. **Commit and push:**
-   - Stage uncommitted changes (specific files, not `git add -A`).
-   - If uncommitted changes exist, commit them first.
-   - Create empty checkpoint commit: `git commit --allow-empty -m "[>>] <user's message VERBATIM>"`
-   - `git push origin $branch`
-   - Verify with `git status`
+4. Stage changed files by name. Commit with the user's chosen message exactly as they picked it. Push to origin. Verify with git status.
 
 ## Rules
 
-- User's selected message goes VERBATIM after `[>>]` — never modify it
-- Never `git add -A` — stage specific files
-- Never skip hooks, never force push
-- The `[>>]` commit is empty (`--allow-empty`) — it's just a marker
+- Ask the user to pick a commit message before committing.
+- Use the user's selected message exactly as-is.
+- Stage specific files by name.
