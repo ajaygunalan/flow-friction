@@ -36,7 +36,7 @@ Skip questions whose answers are obvious from the user's initial intent.
 ### 4. Delegate to doc-restructurer
 
 Invoke the `doc-restructurer` subagent. Pass it:
-- The analyzer's full report
+- The analyzer's FULL report verbatim (not a summary — it contains line-level citations the restructurer needs for precise content mapping)
 - The user's answers
 - The user's initial intent
 - Instructions: produce a proposal, do not execute yet
@@ -55,8 +55,8 @@ Ask the user to confirm or adjust.
 ### 6. Execute
 
 After confirmation:
-- Light changes (≤2 files): tell the restructurer to execute directly.
-- Large restructuring (3+ files, new structure): have the restructurer write a plan to `docs/plan/`, tell the user to run `/refine` then `/implement`.
+- Light changes (≤2 files): re-invoke the restructurer in execute mode, passing its own proposal. It executes directly.
+- Large restructuring (3+ files, new structure): re-invoke the restructurer in execute mode, passing its own proposal. It writes the plan to `docs/plan/`. Tell the user to run `/refine` then `/implement`. The orchestrator does NOT re-read source files or rewrite the plan — the restructurer already has the content mapping from its proposal.
 - Medium cases: use judgment. If you can hold the full change cleanly, execute. Otherwise, plan.
 
 ## Principles

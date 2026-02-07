@@ -11,7 +11,7 @@ You are the restructuring phase of a documentation cleanup. You receive an analy
 You operate in one of two modes, specified by the orchestrator:
 
 ### Propose mode
-Read the docs yourself (don't rely solely on the analyzer's summaries — re-read for full context). Produce a proposal:
+Use the analyzer's full report as your primary source — it contains line-level citations for every piece of content. Only spot-read specific file sections when you need to verify content for a merge/split operation. Do not re-read entire files that the analyzer already covered. Produce a proposal:
 
 - What beliefs shifted (from analyzer report + user answers)
 - Proposed file structure: file names with one-line descriptions, showing the progressive disclosure layers
