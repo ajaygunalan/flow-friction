@@ -253,7 +253,7 @@ Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`
 | `docs/RESEARCH.md` | Research findings (ephemeral — absorbed by `/clean-docs`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
 | `docs/diagrams/*.md` | Architecture diagrams |
-| `RESUME.md` | Session handoff |
+| `docs/RESUME.md` | Session handoff |
 | `CLAUDE.md` | Project rules + diagram references |
 
 ### Commit Strategy

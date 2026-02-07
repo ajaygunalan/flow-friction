@@ -1,5 +1,5 @@
 ---
-description: Resume work from RESUME.md
+description: Resume work from docs/RESUME.md
 allowed-tools:
   - Read
   - Bash
@@ -8,8 +8,8 @@ allowed-tools:
 
 ## Handoff State
 
-!`cat RESUME.md 2>/dev/null || echo "NO RESUME.md FOUND — tell user and stop."`
+!`cat docs/RESUME.md 2>/dev/null || echo "NO docs/RESUME.md FOUND — tell user and stop."`
 
 ---
 
-If the above says "NO RESUME.md FOUND", say so and stop. Otherwise, understand the handoff, delete RESUME.md (`rm RESUME.md`), and proceed with the work.
+If the above says "NO docs/RESUME.md FOUND", say so and stop. Otherwise, understand the handoff, delete docs/RESUME.md (`rm docs/RESUME.md`), and proceed with the work.
