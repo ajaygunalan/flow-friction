@@ -37,6 +37,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | Command | What It Does |
 |---------|--------------|
 | `/learn` | Capture insights from the current conversation |
+| `/conversation-search` | Search past conversation history |
 | `/clean-docs` | Read all docs, fix contradictions and redundancy, keep the spec clean |
 
 ### Review
@@ -44,7 +45,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | Command | What It Does |
 |---------|--------------|
 | `/review` | Code review with configurable thoroughness |
-| `/best-practices` | Expert-level best practices analysis |
+| `/best-practices` | Analyze current problem against expert-level best practices |
 
 ### Utilities
 
@@ -52,12 +53,10 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 |---------|--------------|
 | `/pause` | Save session state for later |
 | `/resume` | Continue from saved state |
-| `/map-codebase` | Generate architecture diagrams |
+| `/map-codebase` | Generate Mermaid architecture diagrams |
 | `/commit_and_push` | Add checkpoint marker, push all commits |
-| `/conversation-search` | Search past conversation history |
 | `/create-skill` | Create a new skill |
 | `/heal-skill` | Fix a broken skill |
-| `/codex` | Pass a prompt to Codex CLI |
 
 ### What You Know → Where to Start
 
@@ -84,8 +83,9 @@ STANDALONE                     NEED A PLAN
 /map-codebase                  /verify ────► checks against plan
 
 LEARNING: /learn ───► /clean-docs (absorbs into spec)
+SEARCH:   /conversation-search
 
-UTILITIES: /pause, /resume, /commit_and_push, /conversation-search
+UTILITIES: /pause, /resume, /commit_and_push
 ```
 
 ---
