@@ -29,7 +29,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | `/research` | Investigate unknowns — debugging, feasibility, approaches |
 | `/plan` | Create implementation plan with tasks |
 | `/verify-plan` | Audit plan coverage, ask about gaps, patch |
-| `/implement` | Execute plan via subagents with atomic commits |
+| `/implement` | Execute plan via subagent delegation |
 ### Learn
 
 | Command | What It Does |
@@ -257,19 +257,8 @@ Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`
 
 ### Commit Strategy
 
-Two layers: atomic commits for AI traceability, checkpoint markers for human navigation.
+`/commit_and_push` adds a checkpoint marker and pushes all commits.
 
-```
-/implement creates:
-    ├── "Task 1: Add force sensor interface"
-    ├── "Task 2: Implement PID controller"
-    └── "Task 3: Add tests"
-
-/commit_and_push adds:
-    └── "[>>] Add force control" → Push all
-```
-
-Navigate history:
 ```bash
 git log --oneline --grep="\[>>\]"  # Checkpoints (human)
 git log --oneline                   # Full history (AI)
