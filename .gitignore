@@ -3,6 +3,7 @@
 
 # Track these
 !.gitignore
+!README.md
 !skills/
 !skills/**
 !agents/
