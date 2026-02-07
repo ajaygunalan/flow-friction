@@ -6,7 +6,7 @@
 
 ## What & Why
 
-A meta-prompting framework for solo research. Commands like `/research`, `/plan`, `/implement` add structure on top of Claude Code — context management, workflows, thinking tools.
+A meta-prompting framework for solo research. Commands like `/research`, `/implement`, `/clean-docs` add structure on top of Claude Code — context management, workflows, thinking tools.
 
 Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/) and [github](https://github.com/alexanderop/dotfiles)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
 
@@ -26,8 +26,8 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/research` | Investigate unknowns — debugging, feasibility, approaches |
-| `/plan` | Create implementation plan with tasks |
+| `/research` | Investigate unknowns — new features, debugging, refactoring, feasibility, exploration |
+| `/plan` | Create implementation plan (built-in Claude Code feature, not a Flow-Friction skill) |
 | `/verify-plan` | Audit plan coverage, ask about gaps, patch |
 | `/implement` | Execute plan via subagent delegation |
 ### Learn
@@ -63,7 +63,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "I know the cause"            →  Just ask Claude
 "Something's wrong, not sure" →  /research
 "I need to understand first"  →  /research
-"I know what to build"        →  /plan
+"I know what to build"        →  /plan (built-in Claude Code)
 "I have a plan already"       →  /verify-plan → /implement
 "Docs are messy"              →  /clean-docs
 "What did we learn recently?" →  /conversation-search + /learn
@@ -76,7 +76,7 @@ STANDALONE                     NEED A PLAN
 ──────────                     ───────────
 /research ──┐                  /verify-plan ► audits + patches existing plan
             │
-/plan ──────┼───────────────►  /verify-plan ► verifies plan
+/plan ──────┼───────────────►  /verify-plan ► verifies plan  (built-in Claude Code)
             │                  /implement ─► executes plan tasks
             │
 /map-codebase
