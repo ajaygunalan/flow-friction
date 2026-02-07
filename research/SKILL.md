@@ -1,7 +1,7 @@
 ---
 description: Research before planning - new features, debugging, exploration, refactoring
 argument-hint: [topic to investigate]
-allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, Teammate, SendMessage, TaskCreate, TaskList, TaskUpdate
+allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, TaskCreate, TaskList, TaskUpdate
 ---
 
 Investigate $ARGUMENTS. Route to scout methodology: technical (how to build), open-source (libraries/tools), feasibility (can we?), deep-dive (thorough understanding), competitive (how others solve it), landscape (map the space), history (what's been tried), options (compare choices).

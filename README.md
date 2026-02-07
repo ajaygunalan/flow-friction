@@ -14,7 +14,7 @@ Research is exploratory. Nine ideas die for every one that survives. You don't k
 
 Flow-Friction inverts the order: explore first, structure survivors. No project init. No tracking files. No mandatory phases. When something survives and proves worth building, then add friction — a plan, refinement, proper implementation.
 
-Some docs are temporary (`RESEARCH.md`, `INSIGHTS.md`) — they capture what you're learning right now. The spec is permanent — it's the source of truth. `/clean-docs` absorbs the temporary into the permanent and deletes the rest.
+Some docs are temporary (`RESEARCH.md`) — they capture what you're learning right now. The spec is permanent — it's the source of truth. `/clean-docs` absorbs the temporary into the permanent and deletes the rest.
 
 Built for solo researchers in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -37,7 +37,6 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | Command | What It Does |
 |---------|--------------|
 | `/learn` | Capture insights from the current conversation |
-| `/insights-from-2-days` | Surface insights from recent conversations (today + yesterday) |
 | `/clean-docs` | Read all docs, fix contradictions and redundancy, keep the spec clean |
 
 ### Review
@@ -70,7 +69,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "I know what to build"        →  /plan
 "I have a plan already"       →  /implement
 "Docs are messy"              →  /clean-docs
-"What did we learn recently?" →  /insights-from-2-days
+"What did we learn recently?" →  /conversation-search + /learn
 ```
 
 ### Dependencies
@@ -84,7 +83,7 @@ STANDALONE                     NEED A PLAN
             │
 /map-codebase                  /verify ────► checks against plan
 
-LEARNING: /learn, /insights-from-2-days ───► /clean-docs (absorbs into spec)
+LEARNING: /learn ───► /clean-docs (absorbs into spec)
 
 UTILITIES: /pause, /resume, /commit_and_push, /conversation-search
 ```
@@ -124,9 +123,8 @@ Mix and match based on what you know.
 ├─────────────────────────────────────────────────────────────────────────┤
 │  DOC CLEANUP (knowledge accumulated, docs drifted)                      │
 │                                                                         │
-│      /insights-from-2-days ───► INSIGHTS.md ──┐                         │
-│      /learn ───► docs/ ──────────────────────┐│                         │
-│      /research ───► RESEARCH.md ─────────────┼┘                         │
+│      /learn ───► docs/ ──────────────────────┐                          │
+│      /research ───► RESEARCH.md ─────────────┤                          │
 │                                              ▼                          │
 │                                        /clean-docs ──────────► Done     │
 │                              (absorbs temporary docs into spec,         │
@@ -246,14 +244,13 @@ Extended Thinking:
 
 ### Thinking Frameworks
 
-Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`, `think/first-principles`, `think/second-order`, `think/5-whys`, `think/pareto`, `think/opportunity-cost`, `think/swot`, `think/via-negativa`, `think/occams-razor`, `think/one-thing`, `think/10-10-10`, `think/eisenhower-matrix`, `think/crucible`.
+Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`, `think/first-principles`, `think/second-order`, `think/5-whys`, `think/pareto`, `think/opportunity-cost`, `think/swot`, `think/via-negativa`, `think/occams-razor`, `think/one-thing`, `think/10-10-10`, `think/eisenhower-matrix`.
 
 ### File Locations
 
 | File | Purpose |
 |------|---------|
 | `docs/RESEARCH.md` | Research findings (ephemeral — absorbed by `/clean-docs`) |
-| `docs/INSIGHTS.md` | Recent conversation insights (ephemeral — absorbed by `/clean-docs`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
 | `docs/diagrams/*.md` | Architecture diagrams |
 | `RESUME.md` | Session handoff |

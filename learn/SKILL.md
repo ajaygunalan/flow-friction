@@ -1,13 +1,38 @@
 ---
+name: learn
 description: Analyze conversation for learnings and save to docs folder
-argument-hint: [optional topic hint]
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-Extract reusable, non-obvious, project-specific insights from this conversation. Focus on: $ARGUMENTS
+# Learn from Conversation
 
-Only capture what would help in future similar situations. Skip if nothing valuable was learned.
+Analyze this conversation for insights worth preserving in project documentation.
+If `$ARGUMENTS` provided, focus on that topic. Otherwise, analyze the full conversation.
 
-Save to `docs/` . Match existing doc style. Propose new kebab-case file if no existing doc fits.
+## Phase 1: Analyze
 
-Present what you found and where you'll save it. **Wait for explicit user approval before writing.**
+Identify insights that are **reusable**, **non-obvious**, and **project-specific**:
+- New patterns/approaches discovered
+- Gotchas or pitfalls encountered
+- Architecture decisions and rationale
+- Conventions established
+- Troubleshooting solutions
+
+If nothing valuable was learned, say so and exit.
+
+## Phase 2: Locate
+
+Read existing `docs/` folder to find the best home. If no doc fits, propose a new kebab-case file.
+Never modify CLAUDE.md — all learnings go to `/docs` only.
+
+## Phase 3: Draft
+
+Format to match existing doc style: clear heading, concise explanation, code examples if applicable, context on when it applies.
+
+## Phase 4: Approve (BLOCKING)
+
+Present: what insight, where it goes, exact content. **Wait for explicit approval before saving.**
+
+## Phase 5: Save
+
+After approval, save and confirm.
