@@ -65,17 +65,15 @@ topic: <topic name>
 
 **Status:** Iteration N | **Date:** YYYY-MM-DD
 
-## Problem Statement
-<!-- What are we investigating? Why does it matter? -->
+## What are we investigating?
 
-## Key Findings
-<!-- What do we know? Only [TESTED] findings are confirmed. -->
+## What do we know?
 
-## Codebase Patterns
-<!-- What exists already? How does the current code handle this? -->
+## What don't we know?
 
-## Recommended Approach
-<!-- So what do we do? -->
+## What exists already?
+
+## So what do we do?
 
 ## Sources
 - [Source Title](URL) - Brief description
