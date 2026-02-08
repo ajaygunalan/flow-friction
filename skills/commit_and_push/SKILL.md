@@ -33,7 +33,7 @@ Write the commit message:
 - **Subject line** (~50-72 chars): High-level *what and why* — strategy, not tactics. Written as a command ("Fix X by doing Y", "Add X for Y"). A stranger reading just this line should understand the purpose.
 - **Body** (if multiple changes): One blank line after subject, then bullet points for the key tactical changes. Each bullet is a specific *what you did*, not a restatement of the subject.
 
-Present 2 options via AskUserQuestion: one tighter, one more detailed. User picks or writes their own. Stage changed files by name. Commit with the user's chosen message exactly as they picked it. Push to origin. Verify with git status.
+Present 2 options via the ask_user_question tool: one tighter, one more detailed. User picks or writes their own. Stage changed files by name. Commit with the user's chosen message exactly as they picked it. Push to origin. Verify with git status.
 
 ---
 

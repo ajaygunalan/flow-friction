@@ -10,7 +10,7 @@ If `docs/diagrams/` and CLAUDE.md "Deep Dive References" exist → update mode (
 
 ## What are the natural layers?
 
-Explore codebase via subagents. Propose abstraction levels that naturally emerge (2 for small codebases, up to 5 for complex). Present to user via AskUserQuestion.
+Explore codebase via subagents. Propose abstraction levels that naturally emerge (2 for small codebases, up to 5 for complex). Present to user via the ask_user_question tool.
 
 ## What goes in each diagram?
 

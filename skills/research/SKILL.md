@@ -15,7 +15,7 @@ awk '/^---/{c++; next} c==1 && /^status:/ && !/complete/{print FILENAME}' docs/r
 
 - **0 active** → New topic. Derive slug from `$ARGUMENTS` (e.g., "rerun query crash" → `rerun-query-crash.md`). Iteration 1. Create `docs/research/` if needed.
 - **1 active** → Continue that file. Read current findings. Treat `$ARGUMENTS` as new direction. Investigate gaps, don't redo work.
-- **2+ active** → **AskUserQuestion**: which one to continue, or start new?
+- **2+ active** → use the ask_user_question tool: which one to continue, or start new?
 
 Override: if `$ARGUMENTS` is clearly a new topic unrelated to any active file, start fresh.
 

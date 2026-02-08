@@ -8,7 +8,7 @@ allowed-tools: Read, Glob, Grep, AskUserQuestion
 
 - If `$ARGUMENTS` is provided and clear → use as direction, go to step 2
 - If conversation has clear momentum (one obvious next step) → infer, go to step 2
-- Otherwise → **AskUserQuestion** with 2-4 questions: what should the next agent focus on, what's the priority
+- Otherwise → use the ask_user_question tool with 2-4 questions: what should the next agent focus on, what's the priority
 
 ## 2. Synthesize the Prompt
 
@@ -25,7 +25,7 @@ Distill the current conversation — decisions, findings, dead ends, file paths 
 <dead ends and failed approaches to avoid>
 
 ## Where exactly do I start?
-< source files, entry points, and paths to read for implementation>
+<source files, entry points, and paths to read for implementation>
 ```
 
 Rules:

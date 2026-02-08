@@ -6,7 +6,7 @@ allowed-tools: Read, Glob, Grep, Task, AskUserQuestion
 
 ## How deep should this go?
 
-Ask thoroughness level upfront via AskUserQuestion:
+Ask thoroughness level upfront via the ask_user_question tool:
 - **Quick** — structure, obvious issues
 - **Standard** — architecture, patterns
 - **Exhaustive** — edge cases, tests, security, performance

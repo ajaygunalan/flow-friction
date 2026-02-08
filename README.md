@@ -28,7 +28,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 |---------|--------------|
 | `/research` | Investigate unknowns — read code, run tests, trace bugs, write findings to `docs/research/` |
 | `/plan` | Create implementation plan (built-in Claude Code feature, not a Flow-Friction skill) |
-| `/verify-plan` | Audit plan coverage, ask about gaps, patch |
+| `/verify-plan` | Ask user questions, then audit and patch the plan |
 | `/implement` | Execute plan via subagent delegation |
 ### Learn
 
@@ -66,26 +66,6 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "What did we learn recently?" →  /conversation-search + /learn
 ```
 
-### Dependencies
-
-```
-STANDALONE                     NEED A PLAN
-──────────                     ───────────
-/research ──┐                  /verify-plan ► audits + patches existing plan
-            │
-/plan ──────┼───────────────►  /verify-plan ► verifies plan  (built-in Claude Code)
-            │                  /implement ─► executes plan tasks
-            │
-/map-codebase
-
-LEARNING: /learn ───► /clean-docs (absorbs into spec)
-SEARCH:   /conversation-search
-
-UTILITIES: /commit_and_push, /next-prompt
-```
-
----
-
 ## Flows
 
 Mix and match based on what you know.
@@ -104,7 +84,7 @@ Mix and match based on what you know.
 ├─────────────────────────────────────────────────────────────────────────┤
 │  NEW FEATURE (you know what to build)                                   │
 │                                                                         │
-│      /plan ───► /implement ──────────────────────────────────► Done    │
+│      /plan ───► /verify-plan ───► /implement ────────────────► Done    │
 │                                                                         │
 ├─────────────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                             │
@@ -143,7 +123,7 @@ Each `/research` call is one iteration — investigate, write findings to `docs/
 
 ### Coverage Audit
 
-`/verify-plan` compares plan against original request, marks requirements as Covered/Partial/Missing, asks clarifying questions about gaps, patches with minimal changes.
+`/verify-plan` asks the user for questions about the plan first, then checks each requirement and patches what's missing or partial.
 
 ### Architecture Context
 

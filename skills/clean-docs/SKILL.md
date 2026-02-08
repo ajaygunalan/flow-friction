@@ -17,7 +17,7 @@ Wait for its structured report.
 
 ## What contradicts what?
 
-Use AskUserQuestion (2-4 questions, scale to complexity):
+Use the ask_user_question tool (2-4 questions, scale to complexity):
 
 First 1-2 questions: alignment — what beliefs changed, what emerged that wasn't in the original vision, what's still uncertain. Use the user's initial intent and the analyzer's conflict report to make these specific, not generic.
 
@@ -44,7 +44,7 @@ Present the restructurer's proposal as an executive summary:
 
 Ask the user to confirm or adjust. After confirmation:
 - Light changes (≤2 files): re-invoke the restructurer in execute mode, passing its own proposal. It executes directly.
-- Large restructuring (3+ files, new structure): re-invoke the restructurer in execute mode, passing its own proposal. It writes the plan to `docs/plan/`. Tell the user to run `/refine` then `/implement`. The orchestrator does NOT re-read source files or rewrite the plan — the restructurer already has the content mapping from its proposal.
+- Large restructuring (3+ files, new structure): re-invoke the restructurer in execute mode, passing its own proposal. It writes the plan to `docs/plan/`. Tell the user to run `/verify-plan` then `/implement`. The orchestrator does NOT re-read source files or rewrite the plan — the restructurer already has the content mapping from its proposal.
 - Medium cases: use judgment. If you can hold the full change cleanly, execute. Otherwise, plan.
 
 ## Principles
