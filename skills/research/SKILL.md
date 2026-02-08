@@ -1,73 +1,60 @@
 ---
 description: Research before planning - new features, debugging, exploration, refactoring
 argument-hint: [topic to investigate]
-allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, TaskCreate, TaskList, TaskUpdate, TaskGet, TeamCreate, TeamDelete, SendMessage
+allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, Bash
 ---
 
 # Research: $ARGUMENTS
 
 ## 1. Check for Existing Research
 
-Scan `docs/research/` for all `.md` files. Parse YAML frontmatter to find **active** files (any `status` that is NOT `complete`).
-
-To find active research files (frontmatter-only parsing, ignores body content):
+Scan `docs/research/` for active files:
 ```bash
 awk '/^---/{c++; next} c==1 && /^status:/ && !/complete/{print FILENAME}' docs/research/*.md 2>/dev/null
 ```
 
-- **0 active** → New topic. Derive a slug from `$ARGUMENTS` (e.g., "rerun query crash" → `rerun-query-crash.md`). This is Iteration 1. Create `docs/research/` directory if it doesn't exist.
-- **1 active** → Continue that file. Read current findings, note the iteration number. Treat `$ARGUMENTS` as the user's new direction or feedback. Agents must read existing findings and investigate gaps, not redo work.
-- **2+ active** → Use **AskUserQuestion** to ask which one to continue, or whether to start a new topic. List each active file with its topic and current iteration.
+- **0 active** → New topic. Derive slug from `$ARGUMENTS` (e.g., "rerun query crash" → `rerun-query-crash.md`). Iteration 1. Create `docs/research/` if needed.
+- **1 active** → Continue that file. Read current findings. Treat `$ARGUMENTS` as new direction. Investigate gaps, don't redo work.
+- **2+ active** → **AskUserQuestion**: which one to continue, or start new?
 
-Override: if `$ARGUMENTS` clearly describes a new topic unrelated to any active file, start a new file regardless of active count.
+Override: if `$ARGUMENTS` is clearly a new topic unrelated to any active file, start fresh.
 
-## 2. Analyze the Research Question
+## 2. Investigate
 
-Based on `$ARGUMENTS` and any existing findings, determine what needs investigating. Identify relevant files from the project that agents will need to examine.
+You investigate directly. No teams. Read code, run commands, check docs, use context7 MCP, web search — whatever the problem needs.
 
-## 3. Propose Team Composition
+### Evidence Tagging
 
-Use **AskUserQuestion** to propose a team. Analyze the research question and suggest agents with roles tailored to the problem:
+Every finding must be tagged:
+- **[TESTED]** — you ran something, measured something, have output to prove it. This is a fact.
+- **[CODE-READ]** — you read the code and inferred this. This is a hypothesis until tested.
 
-- Determine how many agents the problem needs (could be 1, could be 5+)
-- Invent role names that fit the problem (not from a fixed menu)
-- Describe what each agent will investigate and deliver
+Only `[TESTED]` findings go into Key Findings as confirmed. `[CODE-READ]` findings are noted as hypotheses needing verification.
 
-Example question: "I think this needs 3 agents: `api-tracer` to trace the query pipeline, `sdk-auditor` to verify SDK compatibility, `docs-checker` to compare docs vs code. Adjust?"
+### Subagents for Independent Side-Tasks
 
-The user confirms, adjusts count, or changes roles.
+If genuinely independent work can run in parallel, spawn **Task subagents** (not teams):
+- e.g., "check official docs for X" + "search GitHub issues for Y" while you trace the code
+- Each subagent gets a focused prompt with file paths, context, and a specific deliverable
+- Spawn in parallel, read results when they return
+- Only for independent tasks — don't parallelize sequential investigation
 
-## 4. Spawn Team
+### Constraints
 
-```
-TeamCreate: "research-<topic-slug>"
-```
+- Include constraints from existing research in any subagent prompts (e.g., "DO NOT run how_to_query.py — it OOM-kills the machine")
+- Read the project's `CLAUDE.md` doc references to identify relevant docs before investigating
 
-Create tasks via TaskCreate for each agent, then spawn teammates.
+## 3. Write Research File
 
-### Spawn Prompt Requirements
+Write to `docs/research/<topic-slug>.md`.
 
-Every teammate gets ZERO conversation history. Their spawn prompt MUST include:
+### The Two Zones
 
-1. The research question and current iteration context
-2. Relevant file paths from the project
-3. Existing findings to build on (if continuing)
-4. Their specific deliverable — not "investigate X" but "produce findings about X with file:line references"
-5. Constraints from existing research (e.g., "DO NOT run how_to_query.py")
-6. Debate instruction: "After completing your investigation, use SendMessage to challenge other teammates' findings if you see contradictions."
+**Top sections = current truth.** Rewrite every iteration to reflect what you know NOW. Remove or correct anything disproven. The top should get *cleaner* over time, not uglier.
 
-### Team Lifecycle
+**Iterations section = append-only history.** Each iteration is a short log (3-5 lines) of what changed. This is the only section that grows.
 
-1. Create team and tasks via TaskCreate
-2. Spawn teammates — they claim tasks via TaskUpdate, mark completed when done
-3. Wait for all teammates to complete (read their messages as they come in)
-4. Synthesize findings — resolve contradictions, merge into research file
-5. Shutdown teammates via SendMessage (type: shutdown_request)
-6. Delete team via TeamDelete
-
-## 5. Write Research File
-
-Write to `docs/research/<topic-slug>.md`. Use this format exactly:
+### Format
 
 ```markdown
 ---
@@ -79,40 +66,34 @@ topic: <topic name>
 **Status:** Iteration N | **Date:** YYYY-MM-DD
 
 ## Problem Statement
-
-<Describe the problem and why it matters>
+<!-- What are we investigating? Why does it matter? -->
 
 ## Key Findings
-
-<Summarize the most relevant solutions and approaches>
+<!-- What do we know? Only [TESTED] findings are confirmed. -->
 
 ## Codebase Patterns
-
-<Document how the current codebase handles similar cases>
+<!-- What exists already? How does the current code handle this? -->
 
 ## Recommended Approach
-
-<Provide your recommendation based on all research>
+<!-- So what do we do? -->
 
 ## Sources
-
 - [Source Title](URL) - Brief description
 
 ## Iterations
 
 ### Iteration 1
-<Key learnings and discoveries from this round of investigation>
+<What was learned, 3-5 lines>
 
 ### Iteration 2
-<What changed, what was confirmed or ruled out, new insights>
+<What changed, what was confirmed or ruled out, 3-5 lines>
 ```
 
-### Format Rules
+### Update Rules
 
-- **YAML frontmatter**: Every research file has `status` and `topic` in frontmatter. Status is `iteration N` while ongoing, `complete` when done.
-- **On continuation**: Update Key Findings, Codebase Patterns, Recommended Approach, and Sources in place as understanding evolves. Append new iteration at the bottom. Bump iteration number in both frontmatter (`status: iteration N`) and the body `**Status:**` line.
-- **Iterations**: Oldest first, append new ones at the bottom. Each iteration captures key learnings from that round.
+- **YAML frontmatter**: `status` is `iteration N` while ongoing, `complete` when done.
+- **On continuation**: Rewrite top sections as current truth. If a prior finding was wrong, remove it from Key Findings and note "RETRACTED: X" in the new iteration log. Append new iteration at bottom. Bump iteration number in frontmatter and body.
 
-## 6. Report to User
+## 4. Report
 
-After writing, output: the file path, how many findings, and what the top recommendation is. Keep it to 2-3 lines.
+Output: file path, finding count, top insight. 2-3 lines max.

@@ -29,12 +29,15 @@ Untracked:
 
 2. Read the diffs and understand what changed and why.
 
-3. Generate 4 commit message options (~50 chars, written as commands like "Add login validation", "Fix memory leak"). Use AskUserQuestion so the user picks one or writes their own.
+3. Write the commit message:
+   - **Subject line** (~50-72 chars): High-level *what and why* — strategy, not tactics. Written as a command ("Fix X by doing Y", "Add X for Y"). A stranger reading just this line should understand the purpose.
+   - **Body** (if multiple changes): One blank line after subject, then bullet points for the key tactical changes. Each bullet is a specific *what you did*, not a restatement of the subject.
+   - Present 2 options via AskUserQuestion: one tighter, one more detailed. User picks or writes their own.
 
 4. Stage changed files by name. Commit with the user's chosen message exactly as they picked it. Push to origin. Verify with git status.
 
 ## Rules
 
 - Ask the user to pick a commit message before committing.
-- Use the user's selected message exactly as-is.
+- Use the user's selected message exactly as-is. If they pick a multi-line message, use a heredoc for the commit.
 - Stage specific files by name.

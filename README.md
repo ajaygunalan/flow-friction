@@ -53,8 +53,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | `/resume` | Continue from saved state |
 | `/map-codebase` | Generate Mermaid architecture diagrams |
 | `/commit_and_push` | Commit and push with user-chosen message |
-| `/create-skill` | Create a new skill |
-| `/heal-skill` | Fix a broken skill |
+| `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
 
 ### What You Know → Where to Start
 
@@ -84,7 +83,7 @@ STANDALONE                     NEED A PLAN
 LEARNING: /learn ───► /clean-docs (absorbs into spec)
 SEARCH:   /conversation-search
 
-UTILITIES: /pause, /resume, /commit_and_push
+UTILITIES: /pause, /resume, /commit_and_push, /next-prompt
 ```
 
 ---
@@ -244,7 +243,7 @@ Extended Thinking:
 
 ### Commit Strategy
 
-`/commit_and_push` analyzes changes, offers 4 commit message options, commits with your choice, and pushes.
+`/commit_and_push` analyzes changes, offers 2 commit message options (tighter vs. more detailed, with subject+body format), commits with your choice, and pushes.
 
 ---
 

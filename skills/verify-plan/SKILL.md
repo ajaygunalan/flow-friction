@@ -27,29 +27,27 @@ cat ~/.claude/projects/<encoded-project-path>/<session-id>.jsonl
 
 Extract from user messages: what they asked for, what they confirmed, what they rejected, what they emphasized.
 
-## 3. Audit Coverage
+## 3. Audit Coverage (internal)
 
-For each major requirement inferred from the user's intent, check the plan:
+For each requirement from step 2, check whether the plan addresses it. Track this internally — do NOT show the raw table to the user.
 
-| Requirement | Status | Where addressed |
-|-------------|--------|-----------------|
-| ... | Covered / Partial / Missing | Plan section or "—" |
+## 4. Synthesize
 
-Give a one-line coverage score (e.g., "4/5 requirements covered, 1 partial").
+Present a plain-English summary to the user:
+- **What the plan covers** — one paragraph, high-level
+- **Gaps** (if any) — for each gap, explain in simple terms: what's missing, why it matters, and whether it needs a code change or is just a docs/notes issue
+- If no gaps: say the plan is solid and move to step 6
 
-List the top gaps — requirements that are missing or only partially addressed.
+Keep it concise. No tables, no jargon, no "Covered/Partial/Missing" labels.
 
-## 4. Ask Clarifying Questions
+## 5. Clarify Gaps
 
-If gaps exist, use AskUserQuestion (1-3 questions) before patching:
-- Confirm whether the gap is intentional or an oversight
-- Clarify ambiguous requirements that could be addressed multiple ways
-- Ask about priorities if multiple gaps compete
+If gaps exist, use AskUserQuestion (1-3 questions):
+- Is the gap intentional or an oversight?
+- If ambiguous, what does the user prefer?
 
-If coverage is complete (all requirements covered), skip to step 5.
+If no gaps, skip to step 6.
 
-## 5. Patch the Plan
+## 6. Patch the Plan
 
-Produce a patched version that closes the gaps. Minimal changes — preserve the original structure. Only add or modify sections needed to address confirmed gaps. Do not rewrite sections that are already correct.
-
-After patching, re-run the coverage table to show the improvement.
+Minimal changes to close confirmed gaps. Preserve original structure. Do not rewrite sections that are already correct.
