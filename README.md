@@ -26,7 +26,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/research` | Investigate unknowns — new features, debugging, refactoring, feasibility, exploration |
+| `/research` | Investigate unknowns with dynamically assembled agent teams — you interactively decide team size and roles per problem |
 | `/plan` | Create implementation plan (built-in Claude Code feature, not a Flow-Friction skill) |
 | `/verify-plan` | Audit plan coverage, ask about gaps, patch |
 | `/implement` | Execute plan via subagent delegation |

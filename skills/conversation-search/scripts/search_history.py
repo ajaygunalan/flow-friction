@@ -20,7 +20,7 @@ import json
 import re
 import sys
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -66,10 +66,37 @@ def get_claude_projects_dir() -> Path:
 
 
 def decode_project_path(encoded: str) -> str:
-    """Decode encoded project path."""
-    if encoded.startswith('-'):
-        return '/' + encoded[1:].replace('-', '/')
-    return encoded.replace('-', '/')
+    """Decode encoded project path by resolving against filesystem.
+
+    The encoding is lossy (/, _, and - all become -), so we resolve
+    by encoding actual directories and comparing.
+    """
+    if not encoded.startswith('-'):
+        return encoded
+
+    # Try to identify the home directory from the encoded name
+    # Pattern: -home-username-rest... or -media-username-rest...
+    parts = encoded[1:].split('-')
+    if len(parts) >= 2:
+        home_candidate = Path('/') / parts[0] / parts[1]
+        if home_candidate.is_dir():
+            target_suffix = encoded[len('-' + parts[0] + '-' + parts[1]):]
+            # Check entries under home dir (and one level deeper)
+            try:
+                for entry in home_candidate.iterdir():
+                    if encode_project_path(str(entry)) == encoded:
+                        return str(entry)
+                    if entry.is_dir() and target_suffix.startswith(
+                        '-' + entry.name.replace('/', '-').replace('_', '-')
+                    ):
+                        for subentry in entry.iterdir():
+                            if encode_project_path(str(subentry)) == encoded:
+                                return str(subentry)
+            except PermissionError:
+                pass
+
+    # Fallback: naive replacement (lossy for paths with underscores/dashes)
+    return '/' + encoded[1:].replace('-', '/')
 
 
 def encode_project_path(path: str) -> str:
@@ -154,17 +181,26 @@ def extract_tool_results(content) -> list:
 
 
 def parse_timestamp(timestamp: str) -> Optional[datetime]:
-    """Parse ISO timestamp string to datetime."""
+    """Parse ISO timestamp string to local-naive datetime.
+
+    Timestamps in JSONL are UTC (ending in 'Z' or '+00:00').
+    We convert to local time so comparisons with datetime.now() work correctly.
+    """
     if not timestamp:
         return None
     try:
-        # Handle various ISO formats
         if 'T' in timestamp:
-            # Remove timezone info for simplicity
-            timestamp = timestamp.split('+')[0].split('Z')[0]
-            if '.' in timestamp:
-                return datetime.strptime(timestamp[:26], '%Y-%m-%dT%H:%M:%S.%f')
-            return datetime.strptime(timestamp[:19], '%Y-%m-%dT%H:%M:%S')
+            is_utc = timestamp.endswith('Z') or '+00:00' in timestamp
+            # Strip timezone suffix for parsing
+            clean = timestamp.split('+')[0].split('Z')[0]
+            if '.' in clean:
+                dt = datetime.strptime(clean[:26], '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                dt = datetime.strptime(clean[:19], '%Y-%m-%dT%H:%M:%S')
+            # Convert UTC to local time
+            if is_utc:
+                dt = dt.replace(tzinfo=timezone.utc).astimezone().replace(tzinfo=None)
+            return dt
         return datetime.strptime(timestamp[:10], '%Y-%m-%d')
     except (ValueError, IndexError):
         return None
@@ -655,7 +691,7 @@ Examples:
         sys.exit(0)
 
     # Regular search mode - require query
-    if not args.query:
+    if args.query is None:
         parser.error("query is required (unless using --digest)")
 
     # Get date filter
