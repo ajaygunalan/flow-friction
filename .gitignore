@@ -6,5 +6,6 @@
 !README.md
 !skills/
 !skills/**
+__pycache__/
 !agents/
 !agents/**

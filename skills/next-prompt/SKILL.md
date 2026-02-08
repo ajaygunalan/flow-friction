@@ -1,35 +1,45 @@
 ---
 description: Generate a ready-to-paste prompt for the next agent or session. Use when saying "next prompt", "give me a prompt", "prompt for next agent", "what should I do next", "continue prompt".
 argument-hint: [optional: specific focus or skill to target, e.g. "/research", "/implement"]
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Glob, Grep, AskUserQuestion
 ---
 
-# Next Prompt
+## 1. Understand Intent
 
-Analyze this conversation and produce a single, ready-to-paste prompt for the next agent or session.
+- If `$ARGUMENTS` is provided and clear → use as direction, go to step 2
+- If conversation has clear momentum (one obvious next step) → infer, go to step 2
+- Otherwise → **AskUserQuestion** with 2-4 questions: what should the next agent focus on, what's the priority, whether to target a specific skill
 
-## What to Extract
+Check for active research:
+```bash
+awk '/^---/{c++; next} c==1 && /^status:/ && !/complete/{print FILENAME}' docs/research/*.md 2>/dev/null
+```
 
-From the conversation, identify:
-- **Where we are**: what was accomplished, what was decided, what was ruled out
-- **Where we're going**: the obvious next step based on momentum
-- **What matters**: open questions, unverified assumptions, known risks
-- **What context the next agent needs**: file paths, findings, constraints — anything that would be lost between sessions
+If active research relates to this session's work, reference it in the prompt.
 
-## How to Write It
+## 2. Synthesize the Prompt
 
-The prompt must be **self-contained** — the next agent has zero conversation history. Include:
-1. Enough context to understand the situation without re-reading everything
-2. Specific file paths and line numbers where relevant
-3. What's been tried/proven/ruled out (so the agent doesn't repeat work)
-4. A clear deliverable — not "investigate X" but "produce X with Y"
-5. Priority signal — what explodes vs what's cosmetic
+Read the conversation. Extract decisions, findings, dead ends, file paths. Write a single prompt using these sections:
 
-If `$ARGUMENTS` names a skill (e.g. "/research", "/implement"), format the prompt for that skill's expected input style. Otherwise, write a general-purpose prompt.
+```markdown
+## What am I supposed to produce?
 
-## Output Format
+## What's the current state?
 
-Present exactly this:
+## What didn't work?
+
+## Where exactly do I start?
+```
+
+Rules:
+- **Self-contained.** The next agent has zero conversation history.
+- **Specific.** File paths, line numbers, command outputs — not vague summaries.
+- **One prompt.** Don't offer options. Pick the best next step.
+- If `$ARGUMENTS` names a skill (e.g. "/research", "/implement"), format for that skill's expected input style.
+
+## 3. Output
+
+Present exactly:
 
 ```
 ### Next Prompt
@@ -37,6 +47,6 @@ Present exactly this:
 <the prompt, ready to copy-paste>
 ```
 
-Then a 1-line note on which skill or workflow it's designed for (e.g. "Paste after `/research`" or "Use as a new session opener").
+Then a 1-line note on which skill or workflow it's designed for.
 
 No preamble. No options. One prompt. Done.

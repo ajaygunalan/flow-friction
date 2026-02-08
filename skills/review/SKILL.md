@@ -4,6 +4,21 @@ argument-hint: [files or scope to review]
 allowed-tools: Read, Glob, Grep, Task, AskUserQuestion
 ---
 
-Ask thoroughness level upfront: Quick (structure, obvious issues), Standard (architecture, patterns), or Exhaustive (edge cases, tests, security, performance).
+## How deep should this go?
 
-Complete ALL analysis before suggesting fixes — read all files, map dependencies, identify every issue first. Output: summary table (severity, location, issue), then detailed analysis, then recommendations. Never start fixing until the full review is documented.
+Ask thoroughness level upfront via AskUserQuestion:
+- **Quick** — structure, obvious issues
+- **Standard** — architecture, patterns
+- **Exhaustive** — edge cases, tests, security, performance
+
+## What's actually in the code?
+
+Read all files in scope. Map dependencies. Complete ALL analysis before suggesting any fixes.
+
+## What are the problems?
+
+Output a summary table: severity, location, issue. Then detailed analysis for each.
+
+## What should change?
+
+Recommendations — only after the full review is documented. Never start fixing until the review is complete.
