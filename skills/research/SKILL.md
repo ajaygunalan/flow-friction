@@ -41,6 +41,7 @@ If genuinely independent work can run in parallel, spawn **Task subagents** (not
 
 ### Constraints
 
+- **Test before concluding.** If you can run it, run it. Don't write a `[CODE-READ]` finding when a 10-second test would confirm or disprove it. Multiple iterations of this project had agents draw conclusions from code-reading that were wrong when tested.
 - Include constraints from existing research in any subagent prompts (e.g., "DO NOT run how_to_query.py — it OOM-kills the machine")
 - Read the project's `CLAUDE.md` doc references to identify relevant docs before investigating
 
@@ -90,7 +91,7 @@ topic: <topic name>
 ### Update Rules
 
 - **YAML frontmatter**: `status` is `iteration N` while ongoing, `complete` when done.
-- **On continuation**: Rewrite top sections as current truth. If a prior finding was wrong, remove it from Key Findings and note "RETRACTED: X" in the new iteration log. Append new iteration at bottom. Bump iteration number in frontmatter and body.
+- **On continuation**: Rewrite top sections as current truth. If a prior finding was wrong, remove it from "What do we know?" and note "RETRACTED: X" in the new iteration log. Append new iteration at bottom. Bump iteration number in frontmatter and body.
 
 ## 4. Report
 

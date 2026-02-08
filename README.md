@@ -26,7 +26,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/research` | Investigate unknowns with dynamically assembled agent teams — you interactively decide team size and roles per problem |
+| `/research` | Investigate unknowns — read code, run tests, trace bugs, write findings to `docs/research/` |
 | `/plan` | Create implementation plan (built-in Claude Code feature, not a Flow-Friction skill) |
 | `/verify-plan` | Audit plan coverage, ask about gaps, patch |
 | `/implement` | Execute plan via subagent delegation |
@@ -49,8 +49,6 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/pause` | Update active research file (if any) + save session state |
-| `/resume` | Continue from saved state |
 | `/map-codebase` | Generate Mermaid architecture diagrams |
 | `/commit_and_push` | Commit and push with user-chosen message |
 | `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
@@ -83,7 +81,7 @@ STANDALONE                     NEED A PLAN
 LEARNING: /learn ───► /clean-docs (absorbs into spec)
 SEARCH:   /conversation-search
 
-UTILITIES: /pause, /resume, /commit_and_push, /next-prompt
+UTILITIES: /commit_and_push, /next-prompt
 ```
 
 ---
@@ -141,12 +139,7 @@ Other frameworks track "current phase" in state files — you must be in "planni
 
 ### Research Iteration
 
-Each `/research` call is one iteration — agents investigate, findings are written to `docs/research/<topic>.md`. The file carries state between sessions. Two paths to iterate:
-
-- **`/research` only**: call it again, it finds the active file and continues (iteration 2, 3, ...)
-- **`/pause` + `/resume`**: pause captures conversational discoveries into the research file + RESUME.md; resume loads context, then `/research` continues
-
-`/research` proposes a dynamic team via AskUserQuestion — number and roles of agents are tailored to the problem (not from a fixed menu). See [Anthropic's multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system) for the underlying approach.
+Each `/research` call is one iteration — investigate, write findings to `docs/research/<topic>.md`. The file carries state between sessions. Call `/research` again, it finds the active file and continues (iteration 2, 3, ...). Use `/next-prompt` to hand off to a new session.
 
 ### Coverage Audit
 
@@ -238,7 +231,6 @@ Extended Thinking:
 | `docs/research/*.md` | Per-topic research files with YAML frontmatter (absorbed by `/clean-docs` when `status: complete`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
 | `docs/diagrams/*.md` | Architecture diagrams |
-| `docs/RESUME.md` | Session handoff |
 | `CLAUDE.md` | Project rules + diagram references |
 
 ### Commit Strategy
