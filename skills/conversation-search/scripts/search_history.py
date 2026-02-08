@@ -325,7 +325,8 @@ def calculate_relevance_score(query: str, conversation: Conversation) -> tuple:
     """Calculate relevance score for a conversation."""
     query_tokens = tokenize(query)
     if not query_tokens:
-        return 0.0, []
+        # Empty query matches everything (useful with date filters)
+        return 1.0, []
 
     total_score = 0.0
     matched_messages = []
