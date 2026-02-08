@@ -14,7 +14,7 @@ Research is exploratory. Nine ideas die for every one that survives. You don't k
 
 Flow-Friction inverts the order: explore first, structure survivors. No project init. No tracking files. No mandatory phases. When something survives and proves worth building, then add friction — a plan, refinement, proper implementation.
 
-Some docs are temporary (`RESEARCH.md`) — they capture what you're learning right now. The spec is permanent — it's the source of truth. `/clean-docs` absorbs the temporary into the permanent and deletes the rest.
+Research lives in `docs/research/<topic>.md` — per-topic files with YAML frontmatter (`status: iteration N` while ongoing, `status: complete` when done). The spec is permanent — it's the source of truth. `/clean-docs` absorbs completed research into the spec and deletes the source files.
 
 Built for solo researchers in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -49,7 +49,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/pause` | Save session state for later |
+| `/pause` | Update active research file (if any) + save session state |
 | `/resume` | Continue from saved state |
 | `/map-codebase` | Generate Mermaid architecture diagrams |
 | `/commit_and_push` | Commit and push with user-chosen message |
@@ -123,7 +123,7 @@ Mix and match based on what you know.
 │  DOC CLEANUP (knowledge accumulated, docs drifted)                      │
 │                                                                         │
 │      /learn ───► docs/ ──────────────────────┐                          │
-│      /research ───► RESEARCH.md ─────────────┤                          │
+│      /research ───► docs/research/*.md ───────┤                          │
 │                                              ▼                          │
 │                                        /clean-docs ──────────► Done     │
 │                              (absorbs temporary docs into spec,         │
@@ -140,19 +140,14 @@ Mix and match based on what you know.
 
 Other frameworks track "current phase" in state files — you must be in "planning" before "implementing." Flow-Friction has no state. Run any command anytime. Skip what you don't need.
 
-### Intent Preservation
+### Research Iteration
 
-You start with one idea, research reveals something better, your understanding evolves. This usually happens in conversation and gets lost.
+Each `/research` call is one iteration — agents investigate, findings are written to `docs/research/<topic>.md`. The file carries state between sessions. Two paths to iterate:
 
-Flow-Friction captures two points: where you started (Original Intent) and where you ended up (Evolved Understanding). Not every step — just the endpoints.
+- **`/research` only**: call it again, it finds the active file and continues (iteration 2, 3, ...)
+- **`/pause` + `/resume`**: pause captures conversational discoveries into the research file + RESUME.md; resume loads context, then `/research` continues
 
-- `/research` records Original Intent → Evolved Understanding
-- `/verify-plan` audits coverage, asks about gaps, patches the plan
-- `/pause` synthesizes current state for the next session
-
-### Parallel Research
-
-`/research` assesses complexity: narrow topics get one scout agent, broad topics get 2-3 parallel scouts that synthesize findings. See [Anthropic's multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system) for the underlying approach.
+`/research` proposes a dynamic team via AskUserQuestion — number and roles of agents are tailored to the problem (not from a fixed menu). See [Anthropic's multi-agent research](https://www.anthropic.com/engineering/multi-agent-research-system) for the underlying approach.
 
 ### Coverage Audit
 
@@ -237,19 +232,11 @@ Extended Thinking:
 
 ## Reference
 
-### Research Methodologies
-
-`/research` auto-selects methodology based on topic: `scout/technical`, `scout/open-source`, `scout/feasibility`, `scout/deep-dive`, `scout/competitive`, `scout/landscape`, `scout/history`, `scout/options`.
-
-### Thinking Frameworks
-
-Standalone reasoning tools, auto-selected or invoked directly: `think/inversion`, `think/first-principles`, `think/second-order`, `think/5-whys`, `think/pareto`, `think/opportunity-cost`, `think/swot`, `think/via-negativa`, `think/occams-razor`, `think/one-thing`, `think/10-10-10`, `think/eisenhower-matrix`.
-
 ### File Locations
 
 | File | Purpose |
 |------|---------|
-| `docs/RESEARCH.md` | Research findings (ephemeral — absorbed by `/clean-docs`) |
+| `docs/research/*.md` | Per-topic research files with YAML frontmatter (absorbed by `/clean-docs` when `status: complete`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
 | `docs/diagrams/*.md` | Architecture diagrams |
 | `docs/RESUME.md` | Session handoff |

@@ -12,6 +12,17 @@ You receive:
 - A target folder (default `docs/`, excluding `docs/diagrams/` and `docs/plan/`)
 - Optionally, user intent (e.g. "I pivoted from ROS to custom control")
 
+## Research Files
+
+`docs/research/` contains research files with YAML frontmatter. Only include research files where `status: complete` in the frontmatter. Skip all others — they are in-progress investigations.
+
+To find completed research files (frontmatter-only parsing, ignores body content):
+```bash
+awk '/^---/{c++; next} c==1 && /^status: complete/{print FILENAME}' docs/research/*.md 2>/dev/null
+```
+
+Read only the files returned. Treat them as knowledge sources to be absorbed into permanent docs.
+
 ## Process
 
 Read all markdown files in scope. For each doc, infer its temporal position — what references what, which contradicts which, level of specificity. Use user intent to focus your analysis if provided.

@@ -40,3 +40,4 @@ For large restructuring (3+ files):
 - Progressive disclosure: spec gives altitude, detail docs give depth. No doc should require reading three others first.
 - When absorbing ephemeral docs into the spec, rewrite for coherence — don't just paste.
 - Delete the source after absorption. Version control remembers.
+- When absorbing a completed research file from `docs/research/`, extract findings into the relevant permanent doc, then delete the research file.
