@@ -73,10 +73,14 @@ def decode_project_path(encoded: str) -> str:
 
 
 def encode_project_path(path: str) -> str:
-    """Encode project path for directory name."""
+    """Encode project path for directory name.
+
+    Claude Code replaces ALL non-alphanumeric characters with dashes,
+    not just slashes. E.g. /home/ajay/rcm_qp_drake -> -home-ajay-rcm-qp-drake
+    """
     if path.startswith('/'):
         path = path[1:]
-    return '-' + path.replace('/', '-')
+    return '-' + re.sub(r'[^a-zA-Z0-9]', '-', path)
 
 
 def get_project_dirs(specific_project: Optional[str] = None) -> list:
