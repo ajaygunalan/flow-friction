@@ -6,6 +6,6 @@ allowed-tools: Bash, Read, Glob, Grep, Edit, Write, AskUserQuestion
 
 Read `docs/plan/<>.md`. If no plan exists, tell the user and stop.
 
-Step 1 — Use the `ask_user_question tool` : "Do you have any questions about the plan before we implement?" Let the user flag design decisions, preferences, or concerns the agent can't resolve alone.
+The original request in this conversation is the source of truth.
 
-Step 2 — Check each user requirement against the plan. Fix what's missing or partial. Keep changes minimal — preserve structure, don't rewrite.
+Read the plan against the original request. Identify ambiguities, missing requirements, and unclear design decisions. Use the ask_user_question tool to ask specific questions about what you found. Then fix the plan — keep changes minimal, preserve structure rather than rewrite.

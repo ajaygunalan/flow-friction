@@ -1,23 +1,17 @@
 ---
 description: Research before planning - new features, debugging, exploration, refactoring
-argument-hint: [topic to investigate]
+argument-hint: <file path or topic>
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, AskUserQuestion, Edit, Write, Task, Bash
 ---
 
 # Research: $ARGUMENTS
 
-## 1. Check for Existing Research
+## 1. What are we researching?
 
-Scan `docs/research/` for active files:
-```bash
-awk '/^---/{c++; next} c==1 && /^status:/ && !/complete/{print FILENAME}' docs/research/*.md 2>/dev/null
-```
+`$ARGUMENTS` is mandatory.
 
-- **0 active** → New topic. Derive slug from `$ARGUMENTS` (e.g., "rerun query crash" → `rerun-query-crash.md`). Iteration 1. Create `docs/research/` if needed.
-- **1 active** → Continue that file. Read current findings. Treat `$ARGUMENTS` as new direction. Investigate gaps, don't redo work.
-- **2+ active** → use the ask_user_question tool: which one to continue, or start new?
-
-Override: if `$ARGUMENTS` is clearly a new topic unrelated to any active file, start fresh.
+- **File path** (e.g., `docs/research/rerun-query-crash.md`) → Continue that file. Read current findings, investigate gaps, don't redo work.
+- **Query** (e.g., "rerun query crash") → New topic. Derive slug from query (→ `rerun-query-crash.md`). Iteration 1. Create `docs/research/` if needed.
 
 ## 2. Investigate
 

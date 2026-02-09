@@ -50,6 +50,7 @@ Ask the user to confirm or adjust. After confirmation:
 ## Principles
 
 - The spec is the source of truth. Ephemeral docs get absorbed into it, then deleted.
+- When deleting ephemeral docs, delete the **files only**, not the containing folders. The user keeps empty folders as placeholders for future research/plans.
 - When docs contradict, the more recent understanding wins.
 - Names are the first layer of documentation. A file listing should tell the project's story.
 - Each file = one coherent knowledge area.
