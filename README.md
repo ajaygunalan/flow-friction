@@ -14,7 +14,7 @@ Research is exploratory. Nine ideas die for every one that survives. You don't k
 
 Flow-Friction inverts the order: explore first, structure survivors. No project init. No tracking files. No mandatory phases. When something survives and proves worth building, then add friction — a plan, refinement, proper implementation.
 
-Research lives in `docs/research/<topic>.md` — per-topic files with YAML frontmatter (`status: iteration N` while ongoing, `status: complete` when done). The spec is permanent — it's the source of truth. `/clean-docs` absorbs completed research into the spec and deletes the source files.
+Code is the documentation. Research and plans are ephemeral — they live in `docs/research/` and `docs/plan/`, get absorbed into permanent homes (code comments, CLAUDE.md, Mermaid diagrams, rare reference docs), then deleted. `/clean-docs` does this absorption.
 
 Built for solo researchers in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -36,7 +36,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 |---------|--------------|
 | `/learn` | Capture insights from the current conversation |
 | `/conversation-search` | Search past conversation history |
-| `/clean-docs` | Read all docs, fix contradictions and redundancy, keep the spec clean |
+| `/clean-docs` | Absorb plan/research into code comments, diagrams, CLAUDE.md — delete the rest |
 
 ### Review
 
@@ -103,7 +103,9 @@ Mix and match based on what you know.
 │      /research ───► docs/research/*.md ───────┤                          │
 │                                              ▼                          │
 │                                        /clean-docs ──────────► Done     │
-│                              (absorbs temporary docs into spec,         │
+│                              (drains plan/ and research/,               │
+│                               places knowledge in code comments,        │
+│                               diagrams, CLAUDE.md, or reference docs,   │
 │                               deletes the ephemeral files)              │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -119,7 +121,7 @@ Other frameworks track "current phase" in state files — you must be in "planni
 
 ### Research Iteration
 
-Each `/research` call is one iteration — investigate, write findings to `docs/research/<topic>.md`. The file carries state between sessions. Call `/research` again, it finds the active file and continues (iteration 2, 3, ...). Use `/next-prompt` to hand off to a new session.
+Each `/research` call is one iteration — investigate, write findings to `docs/research/<topic>.md`. The file carries state between sessions. Call `/research` again, it finds the active file and continues (iteration 2, 3, ...). When done, `/clean-docs` absorbs findings into code comments, diagrams, or CLAUDE.md and deletes the research file. Use `/next-prompt` to hand off to a new session.
 
 ### Coverage Audit
 
@@ -208,10 +210,10 @@ Extended Thinking:
 
 | File | Purpose |
 |------|---------|
-| `docs/research/*.md` | Per-topic research files with YAML frontmatter (absorbed by `/clean-docs` when `status: complete`) |
+| `docs/research/*.md` | Per-topic research files (ephemeral — absorbed by `/clean-docs`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
-| `docs/diagrams/*.md` | Architecture diagrams |
-| `CLAUDE.md` | Project rules + diagram references |
+| `docs/diagrams/*.md` | Mermaid architecture diagrams (permanent) |
+| `CLAUDE.md` | Routing table — commands, debug-by-symptom, diagram links |
 
 ### Commit Strategy
 
