@@ -6,7 +6,7 @@
 
 ## What & Why
 
-A meta-prompting framework for solo research. Commands like `/research`, `/implement`, `/clean-docs` add structure on top of Claude Code — context management, workflows, thinking tools.
+A meta-prompting framework for solo research. Commands like `/research`, `/implement`, `/index-sync` add structure on top of Claude Code — context management, workflows, thinking tools.
 
 Most frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Agent OS](https://github.com/ajaygunalan/agent-os), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/) and [github](https://github.com/alexanderop/dotfiles)) copy enterprise processes: project init, phase tracking, mandatory progression, audit trails. This works for teams shipping products. It fails for research.
 
@@ -14,9 +14,34 @@ Research is exploratory. Nine ideas die for every one that survives. You don't k
 
 Flow-Friction inverts the order: explore first, structure survivors. No project init. No tracking files. No mandatory phases. When something survives and proves worth building, then add friction — a plan, refinement, proper implementation.
 
-Code is the documentation. Research and plans are ephemeral — they live in `docs/research/` and `docs/plan/`, get absorbed into permanent homes (code comments, CLAUDE.md, Mermaid diagrams, rare reference docs), then deleted. `/clean-docs` does this absorption.
-
 Built for solo researchers in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
+
+---
+
+## Documentation Philosophy
+
+**The book is the code. Everything else is an index into the book.**
+
+Knowledge is layered through progressive disclosure. A reader starts at the top and drills only as deep as they need:
+
+```
+README             →  "what is this" (human entry point)
+CLAUDE.md          →  "where to look" (agent entry point, read every session)
+  ↓
+Mermaid diagrams   →  "how it connects" (visual indexes)
+  ↓
+Reference docs     →  "cross-file detail" (rare — only when no single file owns it)
+  ↓
+Code comments      →  "what will bite you here" (margin notes, last resort)
+  ↓
+Code               →  the book (source of truth)
+```
+
+**Every fact has exactly one home.** No redundancy across levels. Lower levels link to higher levels (`# See docs/diagrams/wrench_pipeline.md`), never re-explain.
+
+**Comments only prevent misunderstanding.** The moment you comment everything, comments become noise and the real traps disappear. Comment only when someone will misunderstand without it — a trap, a non-obvious constraint, a design choice that looks wrong but isn't. Not every file. Not every function. Just where it prevents harm.
+
+Research and plans are ephemeral — they live in `docs/research/` and `docs/plan/`, get absorbed into their permanent home in the hierarchy, then deleted. `/index-sync` does this absorption and keeps all indexes in sync with the code.
 
 ---
 
@@ -30,13 +55,14 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 | `/plan` | Create implementation plan (built-in Claude Code feature, not a Flow-Friction skill) |
 | `/verify-plan` | Ask user questions, then audit and patch the plan |
 | `/implement` | Execute plan via subagent delegation |
+
 ### Learn
 
 | Command | What It Does |
 |---------|--------------|
 | `/learn` | Capture insights from the current conversation |
 | `/conversation-search` | Search past conversation history |
-| `/clean-docs` | Absorb plan/research into code comments, diagrams, CLAUDE.md — delete the rest |
+| `/index-sync` | Sync all knowledge indexes to match current code — README, CLAUDE.md, diagrams, reference docs, code comments |
 
 ### Review
 
@@ -49,7 +75,6 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 
 | Command | What It Does |
 |---------|--------------|
-| `/map-codebase` | Generate Mermaid architecture diagrams |
 | `/commit_and_push` | Commit and push with user-chosen message |
 | `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
 
@@ -62,7 +87,7 @@ Built for solo researchers in robotics, ML, scientific computing, data science, 
 "I need to understand first"  →  /research
 "I know what to build"        →  /plan (built-in Claude Code)
 "I have a plan already"       →  /verify-plan → /implement
-"Docs are messy"              →  /clean-docs
+"Indexes drifted"             →  /index-sync
 "What did we learn recently?" →  /conversation-search + /learn
 ```
 
@@ -97,16 +122,19 @@ Mix and match based on what you know.
 │                              /implement ──────────────────────► Done    │
 │                                                                         │
 ├─────────────────────────────────────────────────────────────────────────┤
-│  DOC CLEANUP (knowledge accumulated, docs drifted)                      │
+│  INDEX SYNC (code changed, indexes drifted)                             │
 │                                                                         │
-│      /learn ───► docs/ ──────────────────────┐                          │
-│      /research ───► docs/research/*.md ───────┤                          │
-│                                              ▼                          │
-│                                        /clean-docs ──────────► Done     │
-│                              (drains plan/ and research/,               │
-│                               places knowledge in code comments,        │
-│                               diagrams, CLAUDE.md, or reference docs,   │
-│                               deletes the ephemeral files)              │
+│      /index-sync ───► analyze all indexes against code                  │
+│                        │                                                │
+│                        ▼                                                │
+│                   executive summary ───► user picks what to fix         │
+│                        │                                                │
+│                        ▼                                                │
+│                   update diagrams, docs, comments, CLAUDE.md, README   │
+│                   drain ephemeral files, delete absorbed sources        │
+│                        │                                                │
+│                        ▼                                                │
+│                      Done (all indexes match the code)                  │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -121,22 +149,16 @@ Other frameworks track "current phase" in state files — you must be in "planni
 
 ### Research Iteration
 
-Each `/research` call is one iteration — investigate, write findings to `docs/research/<topic>.md`. The file carries state between sessions. Call `/research` again, it finds the active file and continues (iteration 2, 3, ...). When done, `/clean-docs` absorbs findings into code comments, diagrams, or CLAUDE.md and deletes the research file. Use `/next-prompt` to hand off to a new session.
+Each `/research` call is one iteration — investigate, write findings to `docs/research/<topic>.md`. The file carries state between sessions. Call `/research` again, it finds the active file and continues (iteration 2, 3, ...). When done, `/index-sync` absorbs findings into their permanent home in the hierarchy and deletes the research file. Use `/next-prompt` to hand off to a new session.
 
 ### Coverage Audit
 
 `/verify-plan` asks the user for questions about the plan first, then checks each requirement and patches what's missing or partial.
 
-### Architecture Context
+### Index Sync
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                         SETUP (once)                             │
-│                                                                  │
-│   /map-codebase ───► docs/diagrams/*.md ───► CLAUDE.md [[links]] │
-│                      (Mermaid)               (references diagrams)│
-│                                                                  │
-├──────────────────────────────────────────────────────────────────┤
 │                      EVERY SESSION                               │
 │                                                                  │
 │   Claude starts ───► reads CLAUDE.md ───► follows [[wiki-links]] │
@@ -151,13 +173,12 @@ Each `/research` call is one iteration — investigate, write findings to `docs/
 ├──────────────────────────────────────────────────────────────────┤
 │                      DRIFT REDUCTION                             │
 │                                                                  │
-│   Code changes? ───► /map-codebase ───► Diagrams update          │
-│                                         Docs = Code (no drift)   │
+│   Code changed? ───► /index-sync ───► All indexes updated        │
+│                                       (diagrams, docs, comments, │
+│                                        CLAUDE.md, README)        │
 │                                                                  │
 └──────────────────────────────────────────────────────────────────┘
 ```
-
-The diagrams ARE the documentation. Regenerate when code changes.
 
 ---
 
@@ -210,10 +231,11 @@ Extended Thinking:
 
 | File | Purpose |
 |------|---------|
-| `docs/research/*.md` | Per-topic research files (ephemeral — absorbed by `/clean-docs`) |
+| `docs/research/*.md` | Per-topic research files (ephemeral — absorbed by `/index-sync`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
-| `docs/diagrams/*.md` | Mermaid architecture diagrams (permanent) |
-| `CLAUDE.md` | Routing table — commands, debug-by-symptom, diagram links |
+| `docs/diagrams/*.md` | Mermaid architecture diagrams (permanent index) |
+| `CLAUDE.md` | Agent routing table — commands, debug-by-symptom, diagram links |
+| `README` | Human entry point — project overview |
 
 ### Commit Strategy
 
