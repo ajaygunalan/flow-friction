@@ -1,7 +1,8 @@
 ---
 description: Sync all knowledge indexes to match the current code — README, CLAUDE.md,
   Mermaid diagrams, reference docs, code comments. Triggers include "index sync",
-  "sync knowledge", "docs drifted", "update diagrams", "clean docs", "map codebase".
+  "sync knowledge", "docs drifted", "update diagrams", "clean docs", "map codebase",
+  "absorb research", "docs are messy".
 allowed-tools: Task, Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash
 ---
 
@@ -22,8 +23,10 @@ Code comments      →  "what will bite you here" (margin notes, last resort)
 Code               →  the book (source of truth)
 ```
 
-**Every fact has exactly one home.** Lower levels link to higher levels
-(`# See docs/diagrams/wrench_pipeline.md`), never re-explain.
+**Every fact has exactly one home.** Redundancy causes drift — when the same
+fact lives in 3 places, they eventually contradict each other. Lower levels
+link to higher levels (`# See docs/diagrams/wrench_pipeline.md`), never
+re-explain.
 
 **Comments only prevent misunderstanding.** The moment you comment everything,
 comments become noise and the real traps disappear. A function called
@@ -39,7 +42,11 @@ Not every file. Not every function. Not every class. Only where it prevents harm
 
 ### Phase 1: Analyze
 
-Code is the source of truth. Read and compare each index against it:
+Code is the source of truth. This skill works anytime — after a research cycle,
+after code changes, or just to check for drift. Ephemeral files are optional;
+the other indexes always get checked.
+
+Read and compare each index against the code:
 
 | Index | Compare against | Looking for |
 |---|---|---|

@@ -37,9 +37,9 @@ Code comments      →  "what will bite you here" (margin notes, last resort)
 Code               →  the book (source of truth)
 ```
 
-**Every fact has exactly one home.** No redundancy across levels. Lower levels link to higher levels (`# See docs/diagrams/wrench_pipeline.md`), never re-explain.
+**Every fact has exactly one home.** Redundancy causes drift — when the same fact lives in 3 places, they eventually contradict each other. No redundancy across levels. Lower levels link to higher levels (`# See docs/diagrams/wrench_pipeline.md`), never re-explain.
 
-**Comments only prevent misunderstanding.** The moment you comment everything, comments become noise and the real traps disappear. Comment only when someone will misunderstand without it — a trap, a non-obvious constraint, a design choice that looks wrong but isn't. Not every file. Not every function. Just where it prevents harm.
+**Comments only prevent misunderstanding.** The moment you comment everything, comments become noise and the real traps disappear. Comment only when someone will misunderstand without it — a trap, a non-obvious constraint, a design choice that looks wrong but isn't. Not every file. Not every function. Not every class. Just where it prevents harm.
 
 Research and plans are ephemeral — they live in `docs/research/` and `docs/plan/`, get absorbed into their permanent home in the hierarchy, then deleted. `/index-sync` does this absorption and keeps all indexes in sync with the code.
 
