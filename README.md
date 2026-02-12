@@ -190,6 +190,29 @@ Commands work immediately. Just use them.
 
 ### Recommended
 
+`~/.claude/settings.json`:
+```json
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "alwaysThinkingEnabled": true,
+  "plansDirectory": "docs/plan/"
+}
+```
+
+| Setting | Why |
+|---------|-----|
+| `ENABLE_TOOL_SEARCH` | Deferred tool loading — lets `/research` discover MCP tools on the fly |
+| `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` | Multi-agent coordination — used by `/research` and `/implement` |
+| `bypassPermissions` | Skip confirmation prompts (solo use only — don't enable on shared machines) |
+| `alwaysThinkingEnabled` | Always-on extended thinking |
+| `plansDirectory` | Store plans in `docs/plan/` instead of `~/.claude/plans/` |
+
 Task Persistence — tasks survive `/clear` and new sessions:
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
@@ -198,10 +221,7 @@ claude() {
 }
 ```
 
-Project-Local Plans:
-```json
-{ "plansDirectory": "docs/plan/" }
-```
+### Optional
 
 Single Plan Enforcement — auto-delete old plans when a new one is written:
 ```json
@@ -216,11 +236,6 @@ Single Plan Enforcement — auto-delete old plans when a new one is written:
     }]
   }
 }
-```
-
-Extended Thinking:
-```json
-{ "alwaysThinkingEnabled": true }
 ```
 
 ---
