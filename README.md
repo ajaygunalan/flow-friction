@@ -60,7 +60,7 @@ Research and plans are ephemeral — they live in `docs/research/` and `docs/pla
 
 | Command | What It Does |
 |---------|--------------|
-| `/learn` | Capture insights from the current conversation |
+| `/learn` | Capture insights from the conversation into `docs/research/` (ephemeral — placed by `/index-sync`) |
 | `/conversation-search` | Search past conversation history |
 | `/index-sync` | Sync all knowledge indexes to match current code — README, CLAUDE.md, diagrams, reference docs, code comments |
 
