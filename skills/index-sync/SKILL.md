@@ -1,92 +1,78 @@
 ---
-description: Sync all knowledge indexes to match the current code — README, CLAUDE.md,
-  Mermaid diagrams, reference docs, code comments. Triggers include "index sync",
-  "sync knowledge", "docs drifted", "update diagrams", "clean docs", "map codebase",
-  "absorb research", "docs are messy".
+description: Sync documentation indexes to match the current code -- README, CLAUDE.md,
+  diagrams, reference docs. Triggers include "index sync", "sync knowledge", "docs drifted",
+  "update diagrams", "clean docs", "map codebase", "absorb research", "docs are messy".
 allowed-tools: Task, Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash
 ---
 
-## Philosophy
+Indexes point to code; they never replace it. Code is the source of truth. This skill syncs the indexes -- never the code itself.
 
-The book is the code. Everything else is an index into the book.
+**The index stack** -- each layer exists because the one above wasn't enough detail:
 
 ```
-README             →  "what is this" (human entry point)
-CLAUDE.md          →  "where to look" (agent entry point, read every session)
-  ↓
-Mermaid diagrams   →  "how it connects" (visual indexes)
-  ↓
-Reference docs     →  "cross-file detail" (rare — only when no single file owns it)
-  ↓
-Code comments      →  "what will bite you here" (margin notes, last resort)
-  ↓
-Code               →  the book (source of truth)
+README          "what is this"           (human entry point)
+CLAUDE.md       "where to look"          (agent entry point, routing tables)
+Diagrams        "how it connects"        (visual maps in docs/diagrams/)
+Reference docs  "cross-file detail"      (only when no single file owns it)
+Code            the truth                (never touched by this skill)
 ```
 
-**Every fact has exactly one home.** Redundancy causes drift — when the same
-fact lives in 3 places, they eventually contradict each other. Lower levels
-link to higher levels (`# See docs/diagrams/wrench_pipeline.md`), never
-re-explain.
-
-**Comments only prevent misunderstanding.** The moment you comment everything,
-comments become noise and the real traps disappear. A function called
-`compute_rcm_error` doesn't need a comment saying "computes the RCM error."
-Comment only when someone will misunderstand without it:
-- **Trap** — code is correct but misleading; without the comment, someone will "fix" it and break things
-- **Non-obvious constraint** — ordering/timing/sign dependency invisible from code structure
-- **Design rationale** — "why A not B" when genuinely non-obvious
-
-Not every file. Not every function. Not every class. Only where it prevents harm.
+Lower layers link up, never re-explain. When placing new knowledge, pick the highest layer that's sufficient.
 
 ## Process
 
-### Phase 1: Analyze
+### 1. Scan
 
-Code is the source of truth. This skill works anytime — after a research cycle,
-after code changes, or just to check for drift. Ephemeral files are optional;
-the other indexes always get checked.
+Read the code first. Then compare each index against it. Use subagents in parallel for large scans.
 
-Read and compare each index against the code:
+- **CLAUDE.md** -- Do "By task" routes point to the right files? Are there new modules with no routing entry? Commands correct? Debug table current?
+- **Diagrams** -- Do nodes and edges match the code? Modules added, removed, renamed?
+- **Reference docs** -- Content still match the code? Sections now redundant with a diagram or code comment?
+- **README** -- Overview and setup instructions current?
+- **Ephemeral files** (`docs/research/`, `docs/plan/`) -- Unplaced knowledge waiting for a permanent home.
 
-| Index | Compare against | Looking for |
-|---|---|---|
-| README | Code + project structure | Stale overview, wrong setup instructions, missing entry points |
-| CLAUDE.md | File structure + code | Dead links, outdated routing/debug tables, missing entries |
-| Mermaid diagrams | Actual code structure (classes, functions, data flow) | Drift — modules added/removed/renamed |
-| Reference docs | Code + ephemeral files | Stale content, new info from research, redundancy with diagrams |
-| Code comments | Higher-level indexes | Duplicates to remove (already in a diagram/doc), missing trap comments to add |
-| Ephemeral files (research/, plan/) | — (these ARE new knowledge) | Findings needing permanent homes |
+Do NOT scan code comments. This skill syncs indexes, not code.
 
-Use subagents in parallel for large analyses.
+### 2. Report
 
-### Phase 2: Executive Summary
+Present findings grouped by file, with specific proposed actions. The user reads this and decides what to fix.
 
-Present findings to the user, grouped:
-- **Stale** — drifted from code
-- **Missing** — code has it, indexes don't
-- **Redundant** — same fact in multiple places (violates one-home rule)
-- **New** — unplaced knowledge from ephemeral files
+Good -- the user can decide in 30 seconds:
+```
+CLAUDE.md:
+  - "By task" missing entry for terminal.py (added since last sync)
+  - Commands: --no-workflow flag not documented
+  - Debug table: "Diagnostics stale" row references wrong file
 
-### Phase 3: Options
+docs/diagrams/architecture.md:
+  - Node "rtde_utils" renamed to "rtde_connection" in code
 
-Present specific, actionable choices. Not "fix everything" — user picks:
-- Which diagrams to update/create
-- Which reference docs to refine/delete
-- Which ephemeral files to drain and where
-- Which code comments to add/move/remove
-- What to update in CLAUDE.md and README
+docs/force-sensing-pipeline.md:
+  - Calibration values match code, no changes needed
+  - Section 3 duplicates wrench_pipeline.md diagram -- recommend removing prose version
+```
 
-### Phase 4: Execute
+Bad -- vague, no actions, user can't decide anything:
+```
+Stale:
+  - Several diagrams may have drifted
+  - Some CLAUDE.md entries could be outdated
+Missing:
+  - There might be new modules not yet documented
+```
 
-Based on user selections:
-1. Update/create Mermaid diagrams (one subagent per diagram, max 60 nodes,
-   exact function/class/variable names from code)
-2. Refine or delete reference docs
-3. Place ephemeral knowledge in its permanent home (pick the highest
-   appropriate level in the hierarchy)
-4. Add/remove code comments — only traps, only where needed
-5. Update CLAUDE.md routing tables and README
-6. Delete drained ephemeral files (keep empty folders as placeholders)
+Include "no changes needed" for clean files so the user knows you checked.
+
+### 3. Fix
+
+Execute the user's selections.
+
+- **CLAUDE.md**: Add/remove/update entries within the existing structure. Every code module should have a routing entry.
+- **Diagrams**: Use exact names from code. Max 60 nodes per diagram. Format below.
+- **Reference docs**: Use judgment. The test: does this doc save someone from reading 3+ source files to understand a cross-cutting concern? If yes, keep and update. If no, the knowledge belongs in code comments or a diagram. Flag judgment calls to the user -- don't silently decide.
+- **Ephemeral files**: Drain knowledge into its permanent home at the highest appropriate level. Delete the file after draining.
+
+After all edits, verify: every file mentioned in CLAUDE.md exists, every diagram references real code entities, no dead links.
 
 ### Diagram format
 
