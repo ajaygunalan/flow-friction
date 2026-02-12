@@ -27,7 +27,7 @@ Structure only what survived investigation. `/plan` (built-in Claude Code) draft
 
 ### Build
 
-One subagent per task. `/implement` delegates plan tasks to parallel subagents. `/commit_and_push` analyzes your changes, offers two commit message options (tighter vs. more detailed), commits with your choice, and pushes.
+One subagent per task. `/implement` delegates plan tasks to parallel subagents. `/commit_and_push` analyzes your changes, offers four commit message options (same intent, different phrasing), commits with your choice, and pushes.
 
 ### Distill
 
