@@ -1,85 +1,75 @@
 ---
-description: Sync documentation indexes to match the current code -- README, CLAUDE.md,
-  diagrams, reference docs. Triggers include "index sync", "sync knowledge", "docs drifted",
-  "update diagrams", "clean docs", "map codebase", "absorb research", "docs are messy".
+description: Distill knowledge into diagrams. Triggers include "index sync", "sync
+  knowledge", "distill", "update diagrams", "absorb research", "clean docs", "compress
+  knowledge".
 allowed-tools: Task, Read, Write, Edit, Glob, Grep, AskUserQuestion, Bash
 ---
 
-Indexes point to code; they never replace it. Code is the source of truth. This skill syncs the indexes -- never the code itself.
+Knowledge lives in two places: the code and the diagram layer. This skill keeps the diagram layer alive -- absorbing new knowledge, reflecting code changes, and reshaping structure as the codebase evolves.
 
-**The index stack** -- each layer exists because the one above wasn't enough detail:
+## Sources
+
+1. **Ephemeral files** -- `docs/research/` and `docs/plan/` accumulate notes and decisions during development. This skill drains them.
+2. **Code changes** -- new modules, renames, deletions, restructured logic. Code is always the source of truth.
+
+## Output stack
+
+Place knowledge at the highest level that captures it faithfully:
 
 ```
-README          "what is this"           (human entry point)
-CLAUDE.md       "where to look"          (agent entry point, routing tables)
-Diagrams        "how it connects"        (visual maps in docs/diagrams/)
-Reference docs  "cross-file detail"      (only when no single file owns it)
-Code            the truth                (never touched by this skill)
+Mermaid diagrams    primary -- compress knowledge visually       docs/diagrams/{name}.md
+Reference docs      overflow -- cross-file detail only           docs/*.md
+CLAUDE.md           routing -- "where to look" tables            CLAUDE.md
+README              routing -- "what is this" + setup            README.md
 ```
-
-Lower layers link up, never re-explain. When placing new knowledge, pick the highest layer that's sufficient.
 
 ## Process
 
-### 1. Scan
+### 1. Read everything
 
-Read the code first. Then compare each index against it. Use subagents in parallel for large scans.
+Read code, ephemeral files, existing diagrams, and reference docs. Use subagents in parallel for large scans.
 
-- **CLAUDE.md** -- Do "By task" routes point to the right files? Are there new modules with no routing entry? Commands correct? Debug table current?
-- **Diagrams** -- Do nodes and edges match the code? Modules added, removed, renamed?
-- **Reference docs** -- Content still match the code? Sections now redundant with a diagram or code comment?
-- **README** -- Overview and setup instructions current?
-- **Ephemeral files** (`docs/research/`, `docs/plan/`) -- Unplaced knowledge waiting for a permanent home.
+### 2. Synthesize
 
-Do NOT scan code comments. This skill syncs indexes, not code.
+Compress knowledge into diagrams. This is creative work -- not mechanical diffing.
 
-### 2. Report
+**Diagrams are alive.** Expand, create, split, merge, rename, or delete them as the codebase evolves. A diagram that no longer fits gets restructured, not patched. When restructuring, tell the user what you're doing and why.
 
-Present findings grouped by file, with specific proposed actions. The user reads this and decides what to fix.
+**Ephemeral files get drained.** Extract their knowledge into diagrams (or reference docs when diagrams genuinely can't capture it). Delete the file after draining. For notes with unresolved questions, extract what's solid and flag the open questions to the user. Dead ends get deleted with nothing extracted.
 
-Good -- the user can decide in 30 seconds:
+**Reference docs hold overflow.** The test: does this knowledge span 3+ source files AND resist visual representation? Checklists, exact numeric values, and deployment traps needing prose all qualify. Everything else belongs in a diagram or in the code itself. Reference docs can also be created, merged, or deleted as the codebase evolves.
+
+**Code changes update diagrams.** Renamed module? Rename the node. New subsystem? New diagram or expanded existing one. Deleted code? Remove it from all diagrams and routing. When code and docs conflict, code wins.
+
+Not all diagram files are strictly Mermaid -- some (like `viz_conventions.md`) are bullet-point references. That's fine when the content is a list of traps rather than a graph.
+
+### 3. Update routing layers
+
+After diagrams and reference docs are current:
+
+- **CLAUDE.md** -- every code module has a routing entry. "By task" table points to the right places. Commands and debug table reflect current code.
+- **README** -- overview and setup stay current. Points to docs, never duplicates them.
+
+### 4. Verify
+
+A healthy documentation system satisfies all of these:
+
+1. Ephemeral folders are drained -- `docs/research/` and `docs/plan/` contain no `.md` files after sync (except files with flagged open questions)
+2. Diagrams use real names -- every node and label corresponds to an actual code entity
+3. Routing is complete -- every code module in `rcm_qp/` is reachable from CLAUDE.md
+4. Routing is valid -- every file path mentioned in CLAUDE.md and README exists on disk
+5. No redundancy across layers -- knowledge lives in one place; routing layers point, never re-explain
+6. Reference docs earn their keep -- each captures cross-cutting knowledge no diagram or single file owns
+7. Diagrams stay focused -- no diagram exceeds ~60 nodes; split when they grow
+
+## Diagram format
+
+File: `docs/diagrams/{name}.md`
+
 ```
-CLAUDE.md:
-  - "By task" missing entry for terminal.py (added since last sync)
-  - Commands: --no-workflow flag not documented
-  - Debug table: "Diagnostics stale" row references wrong file
-
-docs/diagrams/architecture.md:
-  - Node "rtde_utils" renamed to "rtde_connection" in code
-
-docs/force-sensing-pipeline.md:
-  - Calibration values match code, no changes needed
-  - Section 3 duplicates wrench_pipeline.md diagram -- recommend removing prose version
+# {Title}
+{One sentence: what this shows and when to read it.}
+\```mermaid
+{content -- use exact names from code}
+\```
 ```
-
-Bad -- vague, no actions, user can't decide anything:
-```
-Stale:
-  - Several diagrams may have drifted
-  - Some CLAUDE.md entries could be outdated
-Missing:
-  - There might be new modules not yet documented
-```
-
-Include "no changes needed" for clean files so the user knows you checked.
-
-### 3. Fix
-
-Execute the user's selections.
-
-- **CLAUDE.md**: Add/remove/update entries within the existing structure. Every code module should have a routing entry.
-- **Diagrams**: Use exact names from code. Max 60 nodes per diagram. Format below.
-- **Reference docs**: Use judgment. The test: does this doc save someone from reading 3+ source files to understand a cross-cutting concern? If yes, keep and update. If no, the knowledge belongs in code comments or a diagram. Flag judgment calls to the user -- don't silently decide.
-- **Ephemeral files**: Drain knowledge into its permanent home at the highest appropriate level. Delete the file after draining.
-
-After all edits, verify: every file mentioned in CLAUDE.md exists, every diagram references real code entities, no dead links.
-
-### Diagram format
-
-File `docs/diagrams/{name}.md`:
-
-    # {Title}
-    {One sentence: what this shows and when to read it.}
-    ```mermaid
-    {content}
-    ```

@@ -31,9 +31,9 @@ One subagent per task. `/implement` delegates plan tasks to parallel subagents. 
 
 ### Distill
 
-Concentrate scattered knowledge into its one true home, delete the residue. `/learn` captures raw insights from the conversation into `docs/research/`. `/index-sync` distills them — absorbing findings into Mermaid diagrams, CLAUDE.md, code comments, README — then deletes the ephemeral source files. `/next-prompt` generates a ready-to-paste prompt for the next session.
+Compress scattered knowledge into diagrams, delete the residue. `/learn` captures raw insights from the conversation into `docs/research/`. `/index-sync` distills them — absorbing findings into Mermaid diagrams, updating reference docs for overflow, reshaping diagram structure as the codebase evolves — then drains the ephemeral source files. `/next-prompt` generates a ready-to-paste prompt for the next session.
 
-This is where the Mermaid diagrams earn their keep. **The code is the book. Everything else is an index into it.** Mermaid diagrams are the visual index layer — they show how modules connect, how data flows, which functions transform what. Every session, Claude reads CLAUDE.md, follows wiki-links to `docs/diagrams/*.md`, and already knows the architecture. No re-discovery phase. No wasted context window. Every fact has exactly one home. Redundancy causes drift — when the same fact lives in 3 places, they eventually contradict each other. Research and plans are ephemeral; they get distilled and deleted. What survives lives in the code and its indexes.
+**The code is the book. Diagrams are the primary index.** Mermaid diagrams show how modules connect, how data flows, which functions transform what. Every session, Claude reads CLAUDE.md, follows wiki-links to `docs/diagrams/*.md`, and already knows the architecture. No re-discovery. No context-stuffing. Every fact has exactly one home. Research and plans are ephemeral — they get distilled into diagrams and deleted. What survives lives in the code and its visual index.
 
 ---
 
@@ -83,19 +83,19 @@ Mix and match based on what you know.
 │                            /implement ───────────────────► Done  │
 │                                                                   │
 ├───────────────────────────────────────────────────────────────────┤
-│  INDEX SYNC (code changed, indexes drifted)                       │
+│  INDEX SYNC (knowledge accumulated, code changed)                 │
 │                                                                   │
-│    /index-sync ───► analyze all indexes against code              │
+│    /index-sync ───► read code + ephemeral files + diagrams        │
 │                      │                                            │
 │                      ▼                                            │
-│                 executive summary ───► user picks what to fix     │
+│                 synthesize — compress knowledge into diagrams,     │
+│                 reshape diagram structure, drain ephemeral files   │
 │                      │                                            │
 │                      ▼                                            │
-│                 update diagrams, docs, comments, CLAUDE.md,       │
-│                 README — drain ephemeral files, delete absorbed   │
+│                 update routing layers (CLAUDE.md, README)          │
 │                      │                                            │
 │                      ▼                                            │
-│                    Done (all indexes match the code)              │
+│                    Done (ephemeral folders empty, diagrams alive)  │
 │                                                                   │
 └───────────────────────────────────────────────────────────────────┘
 ```
@@ -197,7 +197,7 @@ claude() {
 | `/commit_and_push` | Commit and push with user-chosen message |
 | `/review` | Code review with configurable thoroughness |
 | `/learn` | Capture conversation insights into `docs/research/` |
-| `/index-sync` | Sync all knowledge indexes to match current code |
+| `/index-sync` | Distill knowledge into diagrams — absorb ephemeral files, reflect code changes, reshape structure |
 | `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
 
 ---
