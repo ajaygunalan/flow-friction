@@ -8,7 +8,7 @@ A set of Claude Code skills for solo research workflows — context management, 
 
 ## The Problem
 
-Most AI coding frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/)) copy enterprise ceremony: project init, phase tracking, mandatory progression. That works for teams shipping products. It fails for research — you don't know what you're building until you've tried building it.
+Most AI coding frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done) are bloated with specs documents and rigid linear pattern. It fails for research — you don't know what you're building until you've tried building it.
 
 Worse, they lose architectural knowledge between sessions. Claude starts fresh every time, re-discovering what it already mapped yesterday. Flow-Friction solves this with Mermaid diagrams as a living visual index — synced to the code, read every session via CLAUDE.md wiki-links. No re-discovery. No context-stuffing. Claude opens the session already knowing the architecture.
 
