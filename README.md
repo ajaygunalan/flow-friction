@@ -8,36 +8,40 @@ A set of Claude Code skills for solo research workflows — context management, 
 
 ## The Problem
 
-Most AI coding frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/)) copy enterprise ceremony: project init, phase tracking, mandatory progression. That works for teams shipping products. It fails for research — you don't know what you're building until you've tried building it. Flow-Friction inverts the order: explore first, structure survivors.
+Most AI coding frameworks ([BMAD](https://github.com/bmad-code-org/BMAD-METHOD), [GSD](https://github.com/glittercowboy/get-shit-done), [Spec-Driven](https://alexop.dev/posts/spec-driven-development-claude-code-in-action/)) copy enterprise ceremony: project init, phase tracking, mandatory progression. That works for teams shipping products. It fails for research — you don't know what you're building until you've tried building it.
+
+Worse, they lose architectural knowledge between sessions. Claude starts fresh every time, re-discovering what it already mapped yesterday. Flow-Friction solves this with Mermaid diagrams as a living visual index — synced to the code, read every session via CLAUDE.md wiki-links. No re-discovery. No context-stuffing. Claude opens the session already knowing the architecture.
+
+Flow-Friction inverts the order: investigate first, structure survivors.
 
 ---
 
 ## The Rhythm
 
 ```
-EXPLORE ──────────────► DECIDE ─────────────► BUILD ──────────────► REMEMBER
+INVESTIGATE ──────────► PLAN ───────────────► BUILD ──────────────► DISTILL
 /research                /plan (built-in)      /implement            /learn
 /best-practices          /verify-plan          /commit_and_push      /index-sync
 /conversation-search                                                 /next-prompt
 ```
 
-### Explore
+### Investigate
 
 Understand before acting. `/research` investigates unknowns — read code, run tests, trace bugs, write findings to `docs/research/`. Call it again and it continues where it left off (iteration 2, 3, ...). `/best-practices` names the problem class and checks your approach against expert-level patterns. `/conversation-search` finds what you've already learned across past sessions.
 
-### Decide
+### Plan
 
-Structure only what survived exploration. `/plan` (built-in Claude Code) drafts the implementation plan. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial.
+Structure only what survived investigation. `/plan` (built-in Claude Code) drafts the implementation plan. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial.
 
 ### Build
 
 One subagent per task. `/implement` delegates plan tasks to parallel subagents. `/commit_and_push` analyzes your changes, offers two commit message options (tighter vs. more detailed), commits with your choice, and pushes.
 
-### Remember
+### Distill
 
-Capture what matters, discard the scaffolding. `/learn` extracts insights from the conversation into `docs/research/`. `/index-sync` absorbs those findings into their permanent home — diagrams, docs, comments, CLAUDE.md, README — then deletes the ephemeral source files. `/next-prompt` generates a ready-to-paste prompt for the next session.
+Concentrate scattered knowledge into its one true home, delete the residue. `/learn` captures raw insights from the conversation into `docs/research/`. `/index-sync` distills them — absorbing findings into Mermaid diagrams, CLAUDE.md, code comments, README — then deletes the ephemeral source files. `/next-prompt` generates a ready-to-paste prompt for the next session.
 
-The underlying idea: **the code is the book, everything else is an index into it.** Every fact has exactly one home. Redundancy causes drift — when the same fact lives in 3 places, they eventually contradict each other. Research and plans are ephemeral; they get absorbed and deleted. What survives lives in the code and its indexes.
+This is where the Mermaid diagrams earn their keep. **The code is the book. Everything else is an index into it.** Mermaid diagrams are the visual index layer — they show how modules connect, how data flows, which functions transform what. Every session, Claude reads CLAUDE.md, follows wiki-links to `docs/diagrams/*.md`, and already knows the architecture. No re-discovery phase. No wasted context window. Every fact has exactly one home. Redundancy causes drift — when the same fact lives in 3 places, they eventually contradict each other. Research and plans are ephemeral; they get distilled and deleted. What survives lives in the code and its indexes.
 
 ---
 
