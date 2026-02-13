@@ -23,11 +23,11 @@ Understand before acting. `/research` investigates unknowns — read code, run t
 
 ### Plan
 
-Structure only what survived investigation. `/plan` (built-in Claude Code) drafts the implementation plan. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial.
+Structure only what survived investigation. `/plan` (built-in Claude Code) drafts the implementation plan. Commit the plan, then `/roborev:design-review` validates the design — completeness, feasibility, task scoping — before you invest in implementation. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial.
 
 ### Build
 
-One subagent per task. `/implement` delegates plan tasks to parallel subagents — each agent commits atomically after completing its task. RoboRev auto-reviews every commit in the background. `/roborev:fix` addresses review findings. `/checkpoint` marks a human-verified milestone — summarizes all work since the last checkpoint, creates a marker commit, and optionally pushes.
+One subagent per task. `/implement` delegates plan tasks to parallel subagents — each agent commits atomically after completing its task. RoboRev auto-reviews every commit in the background. `/roborev:fix` addresses review findings interactively. `roborev refine` runs the fix-review cycle autonomously until all pass. `roborev analyze --branch` catches duplication, complexity, and refactoring opportunities across the branch. `/checkpoint` marks a human-verified milestone — summarizes all work since the last checkpoint, creates a marker commit, and optionally pushes.
 
 ### Distill
 
@@ -45,8 +45,10 @@ Compress scattered knowledge into diagrams, delete the residue. `/learn` capture
 "Something's wrong, not sure" →  /research
 "I need to understand first"  →  /research
 "I know what to build"        →  /plan (built-in Claude Code)
+"Plan needs design validation" →  /roborev:design-review
 "I have a plan already"       →  /verify-plan → /implement
 "Reviews found issues"        →  /roborev:fix
+"Code smells accumulating"    →  roborev analyze <type>
 "Ready to checkpoint"         →  /checkpoint
 "Indexes drifted"             →  /index-sync
 "What did we learn recently?" →  /conversation-search + /learn
@@ -80,12 +82,18 @@ Mix and match based on what you know.
 ├───────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                       │
 │                                                                   │
-│    /research ───► /plan ───► /verify-plan ◄──┐                    │
+│    /research ───► /plan ───► /roborev:design-review               │
+│                                      │                            │
+│                                      ▼                            │
+│                              /verify-plan ◄──┐                    │
 │                                  │           │ (iterate)          │
 │                                  └───────────┘                    │
 │                                  │                                │
 │                                  ▼                                │
-│                            /implement ───► /roborev:fix          │
+│                            /implement ───► /roborev:fix           │
+│                                                  │                │
+│                                                  ▼                │
+│                              roborev analyze --branch             │
 │                                                  │                │
 │                                                  ▼                │
 │                                            /checkpoint ──► Done  │
@@ -114,7 +122,7 @@ Mix and match based on what you know.
 
 **Stateless.** No tracking files, no "current phase." Run any command anytime. Skip what you don't need. Other frameworks require you to be in "planning" before "implementing" — Flow-Friction doesn't.
 
-**No ceremony.** No mandatory progression. Research files are ephemeral — they get absorbed into their permanent home and deleted. The only persistent artifacts are the code and its indexes. One-time `roborev init` per repo enables continuous review — after that, everything is automatic.
+**No ceremony.** No mandatory progression. Research files are ephemeral — they get absorbed into their permanent home and deleted. The only persistent artifacts are the code and its indexes. One-time `roborev init` per repo enables continuous review and analysis — reviews are automatic, analysis is on-demand.
 
 **Built for solo researchers** in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -148,7 +156,7 @@ Commands work immediately. Just use them.
 | `alwaysThinkingEnabled` | Always-on extended thinking |
 | `plansDirectory` | Store plans in `docs/plan/` instead of `~/.claude/plans/` |
 
-**Per-repo setup** — initialize [RoboRev](https://github.com/roborev-dev/roborev) for continuous code review:
+**Per-repo setup** — initialize [RoboRev](https://github.com/roborev-dev/roborev) for continuous code review and analysis:
 
     roborev init
 
@@ -233,7 +241,8 @@ claude() {
 | `/roborev:review-branch` | Review all commits on current branch |
 | `roborev tui` | Interactive terminal UI — browse reviews, verdicts, findings |
 | `roborev refine` | Automated fix loop — fix, re-review, repeat until all pass |
-| `roborev analyze <type>` | Targeted analysis — `duplication`, `complexity`, `dead-code`, `refactor`, `architecture` |
+| `roborev analyze <type>` | Targeted analysis — `duplication`, `complexity`, `dead-code`, `refactor`, `architecture`, `test-fixtures`, `api-design`. Use `--branch` for branch-scoped, `--fix` to auto-apply. |
+| `/roborev:design-review-branch` | Design-focused review for all commits on current branch |
 
 ---
 
