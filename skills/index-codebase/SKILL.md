@@ -23,11 +23,28 @@ Three formats, each with a job:
 
 Progressive disclosure: CLAUDE.md (5 sec) → diagrams + markdown files (2-5 min) → code (source of truth). Each layer adds depth. A developer stops at the layer that answers their question.
 
-### Diagram Types (max 3-6 per codebase)
+### Diagram Types
 
-- **Topology** (`graph TD`) — Module dependencies. Reveals convergence hubs, tiers, coupling. One per codebase max.
+- **Topology** (`graph TD`) — Module dependencies. Reveals convergence hubs, tiers, coupling. One overview topology, plus sub-topologies for complex subsystems.
 - **Dataflow** (`flowchart TD`) — How data transforms across files. Include constants if they're tuning/debugging targets.
 - **Decomposition** (`graph TD` with subgraphs) — Breaks dense logic into named semantic blocks. For math, optimization, complex algorithms.
+
+Diagram count scales with structural complexity, not lines of code:
+- Small codebase (under 50K, few boundaries): 2-5 diagrams
+- Medium codebase (50K-200K, multiple modules): 5-12 diagrams
+- Large codebase (200K+, many subsystems): 10-25 diagrams
+
+More small diagrams, not fewer big ones.
+
+### Diagram Levels
+
+Diagrams form a two-level hierarchy:
+
+**Overview** (one per codebase) — The system at a glance. Major subsystems and how they connect. 5-10 nodes, plain English labels. This is the first diagram any developer reads. Always a Topology. Links to detail diagrams via "See [subsystem detail](./subsystem.md)".
+
+**Detail** (as many as earned) — Zooms into one area. Can be Topology (subsystem internals), Dataflow (a cross-file pipeline), or Decomposition (dense algorithm). 7-12 nodes, code names where they add clarity.
+
+CLAUDE.md routes to the overview. The overview routes to details. Details route to code.
 
 ### Markdown File Criteria
 
@@ -60,7 +77,7 @@ Spawn subagents based on codebase complexity (2 for small, up to 5 for complex).
 Subagents execute this evaluation process:
 
 ### For diagrams:
-1. **Map the modules** — list every package/module and its dependencies. 10+ nodes → topology candidate. Under 10 → skip.
+1. **Map the modules** — list every package/module and its dependencies. If modules have non-trivial interconnections spanning 3+ files, the overview is a topology candidate. If it exceeds 12 nodes, split into overview + sub-topologies (keep each under 12 nodes).
 2. **Identify cross-file flows** — features where data transforms across 3+ files. These are dataflow candidates. Look for: request pipelines, sensor-to-actuator chains, data ingestion paths, event processing, build/deploy pipelines.
 3. **Find the dense spots** — files with complex math, optimization, or algorithmic logic that takes >5 min to understand. These are decomposition candidates.
 4. **Collect framework traps** — "learned this the hard way" knowledge about hidden framework behavior. These go as warning notes on relevant diagrams, or as a standalone trap list markdown file if no parent diagram fits.
@@ -81,8 +98,9 @@ Apply the litmus test to every candidate. Discard anything that fails.
 
 Present the filtered candidate list to the user via AskUserQuestion:
 
-**Diagrams:**
-- For each: proposed type (Topology/Dataflow/Decomposition), filename, what it shows, which files it covers, why it passes the litmus test
+**Diagrams (present overview first, then details):**
+- **Overview diagram:** proposed filename, which major subsystems it shows (5-10 nodes), why it earns a diagram
+- **Detail diagrams:** for each: proposed level (overview/detail), type (Topology/Dataflow/Decomposition), filename, what it shows, which files it covers, why it passes the litmus test
 
 **Markdown files:**
 - For each: filename, what topic it covers, why it can't be a CLAUDE.md row or a diagram
@@ -95,6 +113,8 @@ User approves, removes, or adds. Adjust before generating.
 ## Phase 4: Generate
 
 One subagent per approved artifact, parallel where possible.
+
+Generate the overview diagram first. Detail diagrams can be generated in parallel after the overview exists, so they can link back to it.
 
 ### Diagram format
 
@@ -115,7 +135,8 @@ File: `docs/diagrams/{name}.md`
 Rules:
 - Use exact function/class names from code where they add clarity
 - Semantic names over variable names
-- Each diagram <= 60 nodes; split if larger
+- Each diagram: 5-12 nodes. Hard ceiling 12 — split if larger.
+- Diagrams with 7+ nodes: organize into 2-4 subgroups of 3-5 nodes each. Each subgroup = one working-memory chunk.
 - Data dimensions and types on edges
 - Framework-specific warnings as highlighted notes — highest-value content
 - Leave out: implementation internals, 1:1 code duplication, obvious control flow

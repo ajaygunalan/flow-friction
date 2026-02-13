@@ -51,6 +51,10 @@ Spawn one subagent per document (parallel). Each subagent:
 2. **Check every specific value** — file paths, constants, thresholds, commands, procedures against current code and environment.
 3. **Re-apply the litmus test** — is this knowledge still external to the code? Or has it been absorbed into code comments, config files, or self-documenting structure?
 
+### For diagram sizing:
+- **Oversized** — any diagram exceeding 12 nodes. Recommend splitting into overview + detail or multiple focused diagrams.
+- **Missing hierarchy** — no overview diagram exists, or overview doesn't link to detail diagrams. Flag as structural gap.
+
 ### For CLAUDE.md:
 1. **Check every file path** in "by task" routing — does the file still exist? Is it still the right entry point?
 2. **Check every command** — does it still work? Are flags current?
@@ -70,13 +74,13 @@ Spawn one subagent per document (parallel). Each subagent:
 
 ### Additionally, do a light scan for gaps:
 
-Diagram types for reference when classifying new candidates (max 3-6 per codebase):
-- **Topology** (`graph TD`) — Module dependencies. One per codebase max.
+Diagram types for reference when classifying new candidates:
+- **Topology** (`graph TD`) — Module dependencies. One overview topology, plus sub-topologies for complex subsystems.
 - **Dataflow** (`flowchart TD`) — Cross-file data transforms. Include tuning constants.
 - **Decomposition** (`graph TD` with subgraphs) — Dense algorithm structure.
 
 5. **Identify new code areas** that now pass the litmus test:
-   - New modules (10+ nodes → topology update or new diagram)
+   - New modules with non-trivial interconnections spanning 3+ files (→ topology update or new diagram; split if >12 nodes; keep each under 12)
    - New cross-file flows (3+ files → dataflow candidate)
    - New dense logic (>5 min to grok → decomposition candidate)
    - New external system knowledge (deployment, hardware, third-party → markdown file candidate)
@@ -147,7 +151,8 @@ File: `docs/diagrams/{name}.md`
 Rules:
 - Use exact function/class names from code where they add clarity
 - Semantic names over variable names
-- Each diagram <= 60 nodes; split if larger
+- Each diagram: 5-12 nodes. Hard ceiling 12 — split if larger.
+- Diagrams with 7+ nodes: organize into 2-4 subgroups of 3-5 nodes each. Each subgroup = one working-memory chunk.
 - Data dimensions and types on edges
 - Framework-specific warnings as highlighted notes
 - Leave out: implementation internals, 1:1 code duplication, obvious control flow
