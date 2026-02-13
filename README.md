@@ -14,7 +14,7 @@ REVIEW        /roborev:review  /roborev:review-branch
               /roborev:design-review  /roborev:design-review-branch
 FIX           /roborev:fix  /roborev:address  /roborev:respond
 ANALYZE       roborev analyze <type>
-VISUALIZE     /walkthrough
+VISUALIZE     /walkthrough  /mermaid-to-html
 CHECKPOINT    /checkpoint
 DISTILL       /learn  /index-sync  /index-codebase  /next-prompt
 ```
@@ -34,6 +34,7 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 "Reviews found issues"        →  /roborev:fix
 "Code smells accumulating"    →  roborev analyze <type>
 "Explain how this works"      →  /walkthrough
+"Diagram looks bad in VS Code"→  /mermaid-to-html
 "New codebase, no docs"       →  /index-codebase
 "Session ending"              →  /learn → /index-sync → /next-prompt
 ```
