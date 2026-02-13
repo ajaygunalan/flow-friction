@@ -71,6 +71,7 @@ Spawn one subagent per document (parallel). Each subagent:
 1. **Read each research doc** — understand what knowledge it captured.
 2. **Identify the absorption target** — which permanent doc (diagram, markdown file, or CLAUDE.md section) should this knowledge merge into? Or does it warrant a new permanent doc?
 3. **Report as:** **Absorb** — `research-doc` → `target-doc` with a summary of what gets absorbed.
+4. **If research contradicts current code, code wins** — discard the contradicting content. Research docs capture point-in-time observations; code is the source of truth.
 
 ### Additionally, do a light scan for gaps:
 
@@ -132,47 +133,9 @@ For each user-approved action, spawn one subagent per document (parallel):
 - **Absorb:** subagent reads the ephemeral research doc + the target permanent doc + current code. Merges the knowledge into the target. Deletes the ephemeral file. Updates CLAUDE.md if the target is new.
 - **CLAUDE.md fix:** update stale paths, commands, routing entries, debugging symptoms, deep dive references.
 
-### Diagram format
+### Diagram and markdown file format
 
-File: `docs/diagrams/{name}.md`
-
-```
-# {Title}
-
-{One sentence: what this shows and when to read it.}
-
-\`\`\`mermaid
-{content}
-\`\`\`
-
-{Optional: framework traps, non-obvious details as highlighted callouts}
-```
-
-Rules:
-- Use exact function/class names from code where they add clarity
-- Semantic names over variable names
-- Each diagram: 5-12 nodes. Hard ceiling 12 — split if larger.
-- Diagrams with 7+ nodes: organize into 2-4 subgroups of 3-5 nodes each. Each subgroup = one working-memory chunk.
-- Data dimensions and types on edges
-- Framework-specific warnings as highlighted notes
-- Leave out: implementation internals, 1:1 code duplication, obvious control flow
-
-### Markdown file format
-
-File: `docs/{descriptive-name}.md`
-
-```
-# {Title}
-
-{One sentence: what this covers and when to read it.}
-
-{Content: checklists, tables, reference values, procedures, trap lists}
-```
-
-Rules:
-- Actionable, not narrative. Checklists > paragraphs. Tables > prose.
-- Include specific values, commands, and file paths.
-- Link to code files where the implementation lives.
+See [references/format-rules.md](references/format-rules.md) for diagram and markdown file format specifications, node ceiling (12), chunking rules (2-4 subgroups), and file layout templates.
 
 ## Phase 5: Verify
 

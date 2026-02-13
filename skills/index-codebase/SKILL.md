@@ -67,8 +67,11 @@ Do NOT create a markdown file when:
    - If not → fresh start. Create directories as needed.
 
 2. Check for ephemeral research docs in `docs/research/` and `docs/plan/`. These are temporary knowledge captured by `/learn` — absorb their content into the permanent docs you generate, then delete the ephemeral files.
+   If a research doc contradicts current code, code wins — discard the contradicting content. Research docs capture point-in-time observations; code is the source of truth.
 
 3. Use Glob to get a quick sense of codebase size and structure — this determines how many exploration agents to spawn.
+
+4. If `$ARGUMENTS` specifies a scope (directory or module), limit exploration to that scope. Diagrams and docs generated should cover only the scoped area. CLAUDE.md is still updated globally (adding routes to the new scoped docs).
 
 ## Phase 2: Explore and Evaluate
 
@@ -116,47 +119,9 @@ One subagent per approved artifact, parallel where possible.
 
 Generate the overview diagram first. Detail diagrams can be generated in parallel after the overview exists, so they can link back to it.
 
-### Diagram format
+### Diagram and markdown file format
 
-File: `docs/diagrams/{name}.md`
-
-```
-# {Title}
-
-{One sentence: what this shows and when to read it.}
-
-\`\`\`mermaid
-{content}
-\`\`\`
-
-{Optional: framework traps, non-obvious details as highlighted callouts}
-```
-
-Rules:
-- Use exact function/class names from code where they add clarity
-- Semantic names over variable names
-- Each diagram: 5-12 nodes. Hard ceiling 12 — split if larger.
-- Diagrams with 7+ nodes: organize into 2-4 subgroups of 3-5 nodes each. Each subgroup = one working-memory chunk.
-- Data dimensions and types on edges
-- Framework-specific warnings as highlighted notes — highest-value content
-- Leave out: implementation internals, 1:1 code duplication, obvious control flow
-
-### Markdown file format
-
-File: `docs/{descriptive-name}.md`
-
-```
-# {Title}
-
-{One sentence: what this covers and when to read it.}
-
-{Content: checklists, tables, reference values, procedures, trap lists}
-```
-
-Rules:
-- Actionable, not narrative. Checklists > paragraphs. Tables > prose.
-- Include specific values, commands, and file paths — these are what people search for.
-- Link to code files where the implementation lives.
+See [references/format-rules.md](references/format-rules.md) for diagram and markdown file format specifications, node ceiling (12), chunking rules (2-4 subgroups), and file layout templates.
 
 ### CLAUDE.md format
 
