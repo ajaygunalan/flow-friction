@@ -12,6 +12,7 @@ PLAN          /plan  /verify-plan  /roborev:design-review
 BUILD         /implement
 REVIEW        /roborev:fix  /roborev:address  /roborev:respond  roborev refine
 ANALYZE       roborev analyze <type>
+VISUALIZE     /walkthrough
 CHECKPOINT    /checkpoint
 DISTILL       /learn  /index-sync  /next-prompt
 ```
@@ -28,6 +29,7 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 "I know what to build"        →  /plan → /verify-plan → /implement
 "Reviews found issues"        →  /roborev:fix
 "Code smells accumulating"    →  roborev analyze <type>
+"Explain how this works"      →  /walkthrough
 "Session ending"              →  /learn → /index-sync → /next-prompt
 ```
 
@@ -66,6 +68,7 @@ claude() {
 | `docs/research/*.md` | Ephemeral findings (absorbed by `/index-sync`) |
 | `docs/plan/*.md` | Ephemeral plans (deleted after build) |
 | `docs/diagrams/*.md` | Permanent Mermaid diagrams |
+| `walkthrough-*.html` | Interactive visual walkthroughs (shareable, standalone) |
 | `CLAUDE.md` | Agent routing table |
 
 ---
