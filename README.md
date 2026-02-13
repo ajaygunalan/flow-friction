@@ -8,16 +8,18 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 
 ```
 INVESTIGATE   /research  /best-practices  /conversation-search
-PLAN          /plan  /verify-plan  /roborev:design-review
+PLAN          /plan  /verify-plan
 BUILD         /implement
-REVIEW        /roborev:fix  /roborev:address  /roborev:respond  roborev refine
+REVIEW        /roborev:review  /roborev:review-branch
+              /roborev:design-review  /roborev:design-review-branch
+FIX           /roborev:fix  /roborev:address  /roborev:respond
 ANALYZE       roborev analyze <type>
 VISUALIZE     /walkthrough
 CHECKPOINT    /checkpoint
-DISTILL       /learn  /index-sync  /next-prompt
+DISTILL       /learn  /index-sync  /index-codebase  /next-prompt
 ```
 
-Research files are ephemeral — they exist to be absorbed, not maintained. `/learn` captures insights, `/index-sync` compresses them into Mermaid diagrams, then deletes the source files.
+Research files are ephemeral — they exist to be absorbed, not maintained. `/learn` captures insights, `/index-sync` compresses them into Mermaid diagrams, then deletes the source files. `/index-codebase` builds the full documentation index from scratch.
 
 **The code is the book. Diagrams are the primary index.**
 
@@ -27,9 +29,12 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 "I know the fix"              →  Just ask Claude
 "Something's wrong, not sure" →  /research
 "I know what to build"        →  /plan → /verify-plan → /implement
+"Review my code"              →  /roborev:review  (branch: /roborev:review-branch)
+"Design review"               →  /roborev:design-review  (branch: -branch)
 "Reviews found issues"        →  /roborev:fix
 "Code smells accumulating"    →  roborev analyze <type>
 "Explain how this works"      →  /walkthrough
+"New codebase, no docs"       →  /index-codebase
 "Session ending"              →  /learn → /index-sync → /next-prompt
 ```
 
