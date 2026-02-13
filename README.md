@@ -72,7 +72,7 @@ Mix and match based on what you know.
 ├───────────────────────────────────────────────────────────────────┤
 │  NEW FEATURE (you know what to build)                             │
 │                                                                   │
-│    /plan ───► /verify-plan ───► /implement ───► review+fix loop  │
+│    /plan ───► /verify-plan ───► /implement ───► /roborev:fix     │
 │                                                      │            │
 │                                                      ▼            │
 │                                                /checkpoint ► Done │
@@ -85,7 +85,7 @@ Mix and match based on what you know.
 │                                  └───────────┘                    │
 │                                  │                                │
 │                                  ▼                                │
-│                            /implement ───► review+fix loop       │
+│                            /implement ───► /roborev:fix          │
 │                                                  │                │
 │                                                  ▼                │
 │                                            /checkpoint ──► Done  │
