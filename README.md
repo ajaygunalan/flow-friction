@@ -13,8 +13,8 @@ Flow-Friction inverts the order: investigate first, structure survivors. Mermaid
 ```
 INVESTIGATE ──────────► PLAN ───────────────► BUILD ──────────────► DISTILL
 /research                /plan (built-in)      /implement            /learn
-/best-practices          /verify-plan          /commit_and_push      /index-sync
-/conversation-search                                                 /next-prompt
+/best-practices          /verify-plan          /roborev:fix          /index-sync
+/conversation-search                           /checkpoint           /next-prompt
 ```
 
 ### Investigate
@@ -27,7 +27,7 @@ Structure only what survived investigation. `/plan` (built-in Claude Code) draft
 
 ### Build
 
-One subagent per task. `/implement` delegates plan tasks to parallel subagents. `/commit_and_push` analyzes your changes, offers four commit message options (same intent, different phrasing), commits with your choice, and pushes.
+One subagent per task. `/implement` delegates plan tasks to parallel subagents — each agent commits atomically after completing its task. RoboRev auto-reviews every commit in the background. `/roborev:fix` addresses review findings. `/checkpoint` marks a human-verified milestone — summarizes all work since the last checkpoint, creates a marker commit, and optionally pushes.
 
 ### Distill
 
@@ -46,6 +46,8 @@ Compress scattered knowledge into diagrams, delete the residue. `/learn` capture
 "I need to understand first"  →  /research
 "I know what to build"        →  /plan (built-in Claude Code)
 "I have a plan already"       →  /verify-plan → /implement
+"Reviews found issues"        →  /roborev:fix
+"Ready to checkpoint"         →  /checkpoint
 "Indexes drifted"             →  /index-sync
 "What did we learn recently?" →  /conversation-search + /learn
 ```
@@ -70,7 +72,10 @@ Mix and match based on what you know.
 ├───────────────────────────────────────────────────────────────────┤
 │  NEW FEATURE (you know what to build)                             │
 │                                                                   │
-│    /plan ───► /verify-plan ───► /implement ──────────────► Done  │
+│    /plan ───► /verify-plan ───► /implement ───► review+fix loop  │
+│                                                      │            │
+│                                                      ▼            │
+│                                                /checkpoint ► Done │
 │                                                                   │
 ├───────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                       │
@@ -80,7 +85,10 @@ Mix and match based on what you know.
 │                                  └───────────┘                    │
 │                                  │                                │
 │                                  ▼                                │
-│                            /implement ───────────────────► Done  │
+│                            /implement ───► review+fix loop       │
+│                                                  │                │
+│                                                  ▼                │
+│                                            /checkpoint ──► Done  │
 │                                                                   │
 ├───────────────────────────────────────────────────────────────────┤
 │  INDEX SYNC (knowledge accumulated, code changed)                 │
@@ -140,6 +148,12 @@ Commands work immediately. Just use them.
 | `alwaysThinkingEnabled` | Always-on extended thinking |
 | `plansDirectory` | Store plans in `docs/plan/` instead of `~/.claude/plans/` |
 
+**Per-repo setup** — initialize [RoboRev](https://github.com/roborev-dev/roborev) for automatic code review:
+
+    roborev init
+
+This installs a post-commit hook that auto-reviews every commit. Review findings are addressed with `/roborev:fix`.
+
 **Task persistence** — tasks survive `/clear` and new sessions:
 
 ```bash
@@ -193,12 +207,17 @@ claude() {
 | `/conversation-search` | Search past conversation history |
 | `/plan` | Create implementation plan (built-in Claude Code, not a Flow-Friction skill) |
 | `/verify-plan` | Ask user questions, then audit and patch the plan |
-| `/implement` | Execute plan via subagent delegation |
-| `/commit_and_push` | Commit and push with user-chosen message |
-| `/review` | Code review with configurable thoroughness |
+| `/implement` | Execute plan via subagent delegation — agents commit atomically |
+| `/checkpoint` | Mark a human-verified milestone — summarize work, create marker commit, optionally push |
 | `/learn` | Capture conversation insights into `docs/research/` |
 | `/index-sync` | Distill knowledge into diagrams — absorb ephemeral files, reflect code changes, reshape structure |
 | `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
+
+RoboRev commands (auto-installed per repo via `roborev init`):
+
+| `/roborev:review` | Request a code review for a commit (also runs automatically via post-commit hook) |
+| `/roborev:fix` | Fix all unaddressed review findings in one pass |
+| `/roborev:address` | Address a single review's findings |
 
 ---
 

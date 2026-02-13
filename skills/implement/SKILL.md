@@ -10,3 +10,5 @@ allowed-tools: Task, TaskCreate, TaskList, TaskUpdate, Read, Glob, Grep, Bash, E
 ## Who does what?
 
 Implement the plan above — one subagent per task via Task tool.
+
+Each subagent commits atomically after completing its task — small, self-contained commits with clear messages.
