@@ -114,7 +114,7 @@ Mix and match based on what you know.
 
 **Stateless.** No tracking files, no "current phase." Run any command anytime. Skip what you don't need. Other frameworks require you to be in "planning" before "implementing" — Flow-Friction doesn't.
 
-**No ceremony.** No project init, no mandatory progression. Research files are ephemeral — they get absorbed into their permanent home and deleted. The only persistent artifacts are the code and its indexes.
+**No ceremony.** No mandatory progression. Research files are ephemeral — they get absorbed into their permanent home and deleted. The only persistent artifacts are the code and its indexes. One-time `roborev init` per repo enables continuous review — after that, everything is automatic.
 
 **Built for solo researchers** in robotics, ML, scientific computing, data science, optimization, algorithm development. Not for teams needing sprint tracking or enterprises needing audit trails.
 
@@ -148,11 +148,18 @@ Commands work immediately. Just use them.
 | `alwaysThinkingEnabled` | Always-on extended thinking |
 | `plansDirectory` | Store plans in `docs/plan/` instead of `~/.claude/plans/` |
 
-**Per-repo setup** — initialize [RoboRev](https://github.com/roborev-dev/roborev) for automatic code review:
+**Per-repo setup** — initialize [RoboRev](https://github.com/roborev-dev/roborev) for continuous code review:
 
     roborev init
 
-This installs a post-commit hook that auto-reviews every commit. Review findings are addressed with `/roborev:fix`.
+This installs a post-commit hook that auto-reviews every commit in the background. Configure `.roborev.toml` in the repo root:
+
+```toml
+review_agent = "codex"
+fix_agent = "claude-code"
+```
+
+Codex reviews what Claude Code writes — different model, different perspective. Review findings are addressed with `/roborev:fix`. Use `roborev tui` to browse reviews interactively.
 
 **Task persistence** — tasks survive `/clear` and new sessions:
 
@@ -193,6 +200,7 @@ claude() {
 | `docs/research/*.md` | Per-topic research files (ephemeral — absorbed by `/index-sync`) |
 | `docs/plan/*.md` | Plan files (ephemeral — deleted after implementation) |
 | `docs/diagrams/*.md` | Mermaid architecture diagrams (permanent index) |
+| `.roborev.toml` | Per-repo RoboRev config — agent selection, review guidelines |
 | `CLAUDE.md` | Agent routing table — commands, debug-by-symptom, diagram links |
 | `README` | Human entry point — project overview |
 
@@ -213,11 +221,19 @@ claude() {
 | `/index-sync` | Distill knowledge into diagrams — absorb ephemeral files, reflect code changes, reshape structure |
 | `/next-prompt` | Generate a ready-to-paste prompt for the next session or agent |
 
-RoboRev commands (auto-installed per repo via `roborev init`):
+[RoboRev](https://github.com/roborev-dev/roborev) commands — continuous code review for coding agents (installed via `roborev skills install`):
 
+| Command | Description |
+|---------|-------------|
 | `/roborev:review` | Request a code review for a commit (also runs automatically via post-commit hook) |
 | `/roborev:fix` | Fix all unaddressed review findings in one pass |
 | `/roborev:address` | Address a single review's findings |
+| `/roborev:respond` | Comment on a review and mark addressed without code changes |
+| `/roborev:design-review` | Design-focused review — completeness, feasibility, task scoping |
+| `/roborev:review-branch` | Review all commits on current branch |
+| `roborev tui` | Interactive terminal UI — browse reviews, verdicts, findings |
+| `roborev refine` | Automated fix loop — fix, re-review, repeat until all pass |
+| `roborev analyze <type>` | Targeted analysis — `duplication`, `complexity`, `dead-code`, `refactor`, `architecture` |
 
 ---
 
