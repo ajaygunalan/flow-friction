@@ -23,11 +23,11 @@ Understand before acting. `/research` investigates unknowns — read code, run t
 
 ### Plan
 
-Structure only what survived investigation. `/plan` (built-in Claude Code) drafts the implementation plan. Commit the plan, then `/roborev:design-review` validates the design — completeness, feasibility, task scoping — before you invest in implementation. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial.
+Structure only what survived investigation. `/plan` (built-in Claude Code) drafts the implementation plan. `/verify-plan` asks you questions first, then audits every requirement and patches what's missing or partial. For plans with significant architecture decisions, commit the plan and run `/roborev:design-review` — a different model evaluates completeness, feasibility, and task scoping.
 
 ### Build
 
-One subagent per task. `/implement` delegates plan tasks to parallel subagents — each agent commits atomically after completing its task. RoboRev auto-reviews every commit in the background. `/roborev:fix` addresses review findings interactively. `roborev refine` runs the fix-review cycle autonomously until all pass. `roborev analyze --branch` catches duplication, complexity, and refactoring opportunities across the branch. `/checkpoint` marks a human-verified milestone — summarizes all work since the last checkpoint, creates a marker commit, and optionally pushes.
+One subagent per task. `/implement` delegates plan tasks to parallel subagents — each agent commits atomically after completing its task. RoboRev auto-reviews every commit in the background. `/roborev:fix` addresses review findings interactively. `roborev refine` runs the fix-review cycle autonomously until all pass. `roborev analyze` catches duplication, complexity, and refactoring opportunities across files. `/checkpoint` marks a human-verified milestone — summarizes all work since the last checkpoint, creates a marker commit, and optionally pushes.
 
 ### Distill
 
@@ -82,18 +82,12 @@ Mix and match based on what you know.
 ├───────────────────────────────────────────────────────────────────┤
 │  COMPLEX FEATURE (need to understand first)                       │
 │                                                                   │
-│    /research ───► /plan ───► /roborev:design-review               │
-│                                      │                            │
-│                                      ▼                            │
-│                              /verify-plan ◄──┐                    │
+│    /research ───► /plan ───► /verify-plan ◄──┐                    │
 │                                  │           │ (iterate)          │
 │                                  └───────────┘                    │
 │                                  │                                │
 │                                  ▼                                │
 │                            /implement ───► /roborev:fix           │
-│                                                  │                │
-│                                                  ▼                │
-│                              roborev analyze --branch             │
 │                                                  │                │
 │                                                  ▼                │
 │                                            /checkpoint ──► Done  │
