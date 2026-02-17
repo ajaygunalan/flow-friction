@@ -35,8 +35,7 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 "Design review"               →  /roborev:design-review  (branch: -branch)
 "Reviews found issues"        →  /roborev:fix
 "Code smells accumulating"    →  roborev analyze <type>
-"Explain how this works"      →  /walkthrough
-"Diagram looks bad in VS Code"→  /mermaid-to-html
+"Explain how this works"      →  /walkthrough  (→ /mermaid-to-html for interactive HTML)
 "New codebase, no docs"       →  /index-codebase
 "Session ending"              →  /learn → /index-sync → /next-prompt
 ```
@@ -76,7 +75,7 @@ claude() {
 | `docs/research/*.md` | Ephemeral findings (absorbed by `/index-sync`) |
 | `docs/plan/*.md` | Ephemeral plans (deleted after build) |
 | `docs/diagrams/*.md` | Permanent Mermaid diagrams |
-| `walkthrough-*.html` | Interactive visual walkthroughs (shareable, standalone) |
+| `walkthrough-*.md` | Mermaid walkthroughs (→ `/mermaid-to-html` for interactive HTML) |
 | `CLAUDE.md` | Agent routing table |
 
 ---
