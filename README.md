@@ -7,7 +7,7 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 ---
 
 ```
-RESEARCH      /brainstorm  /investigate  /best-practices  /conversation-search
+RESEARCH      /brainstorm  /investigate  /conversation-search
 PLAN          /plan  /verify-plan
 BUILD         /implement
 REVIEW        /roborev:review  /roborev:review-branch
