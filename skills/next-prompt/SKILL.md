@@ -32,6 +32,7 @@ Distill the conversation into a prompt for a fresh session entering plan mode. R
 **Picking "Start with":**
 - Were we talking through decisions, tradeoffs, design? → `/brainstorm <scratchpad-path>`
 - Were we tracing a bug, digging into code, hunting for answers? → `/investigate <scratchpad-path>`
+- Were we debating approaches, evaluating tradeoffs across multiple lenses, or need competing perspectives? → `/agent-team` in debate mode
 - Straightforward task with clear requirements? → raw task description, no skill
 
 Output one prompt, ready to copy-paste. No preamble, no options.

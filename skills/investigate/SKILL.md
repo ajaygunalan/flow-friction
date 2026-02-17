@@ -74,4 +74,4 @@ On continuation: rewrite Hypothesis/Confirmed/Ruled out as current truth. Append
 
 ## Phase 4: Report
 
-Present findings to the user. File path + key findings. Crisp summary they can act on — what you found, what it means, what's still open.
+Present findings to the user. File path + key findings. Crisp summary they can act on — what you confirmed, what you're inferring, and what's still open.
