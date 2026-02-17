@@ -26,3 +26,5 @@ Present: what insights were captured and the exact content. **Wait for explicit 
 Write to `docs/research/<topic-slug>.md`. Create `docs/research/` if needed. This file is **ephemeral** — `/index-sync` will later place each insight at the right level of the hierarchy (CLAUDE.md, diagram, reference doc, or code comment) and delete the file.
 
 Don't try to place knowledge in its permanent home — that's `/index-sync`'s job. `/learn` captures quickly, nothing more.
+
+When done, suggest: "To integrate these learnings into permanent docs, run `/index-sync`."

@@ -17,3 +17,5 @@ roborev run --wait "Review the plan in <plan_file_path> for feasibility, missing
 ```
 
 Combine your own findings with the roborev review findings. Then fix the plan — keep changes minimal, preserve structure rather than rewrite.
+
+If verification passed, suggest proceeding with `/implement`. If issues were found that need discussion, suggest returning to `/brainstorm`.
