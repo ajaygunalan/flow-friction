@@ -94,7 +94,7 @@ At session end, refine the scratchpad. Don't leave raw accumulated notes — dis
 
 - **More brainstorming** — "We still have open questions about X and Y"
 - **`/investigate`** — "We need to check whether Z is actually true before deciding"
-- **`/agent-team`** — "We're stuck between competing approaches — let's debate it with multiple perspectives"
+- **`/ensemble`** — "We're stuck between competing approaches — let's debate it with multiple perspectives"
 - **`/plan`** — "I think we have enough to plan. Ready for `/plan`?"
 - **Park it** — "This doesn't need action right now. Scratchpad is saved, we can pick it up anytime."
 - **`/next-prompt`** — "We've made progress but this needs another session. Let me generate a continuation prompt."

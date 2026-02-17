@@ -1,9 +1,9 @@
 ---
-name: agent-team
+name: ensemble
 description: Orchestrate multi-agent teams for debates, parallel implementation, research swarms, and review panels. Use when a task benefits from multiple perspectives working in parallel — evaluating competing approaches, optimizing documents, resolving design decisions, parallel coding, or coordinated research.
 ---
 
-# Agent Team
+# Ensemble
 
 ## When to Use
 
