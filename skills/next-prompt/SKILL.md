@@ -19,8 +19,19 @@ Distill the conversation into a prompt for a fresh session entering plan mode. R
 ## What do you need to know?
 <decisions, findings, constraints, dead ends if relevant>
 
+## Conversation state
+<open questions, user's leanings, pending decisions — not just facts>
+
 ## Where do you start?
 <source files, entry points, paths to read>
+
+## Start with
+<one of: /brainstorm <file>, /investigate <file>, or raw task>
 ```
+
+**Picking "Start with":**
+- Were we talking through decisions, tradeoffs, design? → `/brainstorm <scratchpad-path>`
+- Were we tracing a bug, digging into code, hunting for answers? → `/investigate <scratchpad-path>`
+- Straightforward task with clear requirements? → raw task description, no skill
 
 Output one prompt, ready to copy-paste. No preamble, no options.

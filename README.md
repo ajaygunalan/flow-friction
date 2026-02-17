@@ -7,7 +7,7 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 ---
 
 ```
-INVESTIGATE   /research  /best-practices  /conversation-search
+RESEARCH      /brainstorm  /investigate  /best-practices  /conversation-search
 PLAN          /plan  /verify-plan
 BUILD         /implement
 REVIEW        /roborev:review  /roborev:review-branch
@@ -27,7 +27,9 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 
 ```
 "I know the fix"              →  Just ask Claude
-"Something's wrong, not sure" →  /research
+"Something's wrong, not sure" →  /investigate
+"New feature, need to think"  →  /brainstorm
+"Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
 "I know what to build"        →  /plan → /verify-plan → /implement
 "Review my code"              →  /roborev:review  (branch: /roborev:review-branch)
 "Design review"               →  /roborev:design-review  (branch: -branch)
@@ -57,7 +59,7 @@ Recommended `~/.claude/settings.json`:
 }
 ```
 
-`ENABLE_TOOL_SEARCH` — MCP tool discovery for `/research`. `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` — multi-agent coordination for `/research` and `/implement`.
+`ENABLE_TOOL_SEARCH` — MCP tool discovery for `/investigate`. `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` — multi-agent coordination for `/investigate` and `/implement`.
 
 Persistent tasks across sessions:
 
