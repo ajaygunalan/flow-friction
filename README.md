@@ -10,7 +10,8 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 RESEARCH      /brainstorm  /investigate  /conversation-search  /ensemble
 PLAN          /plan  /verify-plan
 BUILD         /implement
-REVIEW        /roborev:fix  
+BRANCH        /branch  /merge
+REVIEW        /roborev:fix
 ANALYZE       roborev analyze <type>
 VISUALIZE     /walkthrough  /mermaid-to-html
 CHECKPOINT    /checkpoint
@@ -29,6 +30,8 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/le
 "New feature, need to think"  →  /brainstorm
 "Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
 "I know what to build"        →  /plan → /verify-plan → /implement
+"Start isolated work"         →  /branch <name>
+"Done with branch"            →  /merge <name>
 "Review my code"              →  /roborev:review  (branch: /roborev:review-branch)
 "Design review"               →  /roborev:design-review  (branch: -branch)
 "Reviews found issues"        →  /roborev:fix
