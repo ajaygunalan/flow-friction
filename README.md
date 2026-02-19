@@ -7,15 +7,15 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 ---
 
 ```
-RESEARCH      /brainstorm  /investigate  /conversation-search  /ensemble
+RESEARCH      /brainstorm  /investigate  /conversation-search  /swarm-agents
 PLAN          /plan  /verify-plan
-BUILD         /implement
+BUILD         /implement  /ralph
 WORKTREE      /create-worktrees  /merge
 REVIEW        /roborev:fix
 ANALYZE       roborev analyze <type>
 VISUALIZE     /walkthrough  /mermaid-to-html
 CHECKPOINT    /checkpoint
-DISTILL       /index-sync  /index-codebase  /next-prompt
+DISTILL       /index-sync  /index-codebase  /learn  /next-prompt
 ```
 
 Research files are ephemeral — they exist to be absorbed, not maintained. `/index-sync` compresses them into Mermaid diagrams, then deletes the source files. `/index-codebase` builds the full documentation index from scratch.
@@ -36,7 +36,9 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/in
 "Design review"               →  /roborev:design-review  (branch: -branch)
 "Reviews found issues"        →  /roborev:fix
 "Code smells accumulating"    →  roborev analyze <type>
-"Need multiple perspectives"  →  /ensemble
+"Need multiple perspectives"  →  /swarm-agents
+"Have a PRD to automate"     →  /ralph
+"Capture what we learned"    →  /learn
 "Explain how this works"      →  /walkthrough  (→ /mermaid-to-html for interactive HTML)
 "New codebase, no docs"       →  /index-codebase
 "Session ending"              →  /index-sync → /next-prompt
