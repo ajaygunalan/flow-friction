@@ -16,7 +16,7 @@ Abort if `$ARGUMENTS` is empty. Find the worktree path for `$ARGUMENTS` via `git
 
 ## Test
 
-Detect test runner in order: `package.json`, Makefile `test` target, `Cargo.toml`, pytest, `go.mod`. If none found, ask user. Fail → abort.
+Detect test runner in order: `package.xml` (ROS2 — run `bash ~/.claude/skills/merge/scripts/ros2-test.sh <worktree-path>`), `package.json`, Makefile `test` target, `Cargo.toml`, pytest, `go.mod`. If none found, ask user. Fail → abort.
 
 ## Squash merge
 
@@ -30,4 +30,4 @@ Read branch log and staged diff. Present 4 commit message options via ask_user_q
 
 Push main. If push fails → warn but continue.
 
-Remove worktree, delete local branch, delete remote branch (ignore if never pushed), delete backup tag. Print `git log --oneline -5` to confirm.
+Remove worktree, delete local branch, delete remote branch (ignore if never pushed), delete backup tag. For ROS2 packages (worktree path contains `/src/<pkg>`), also `rm -rf` the overlay workspace directory (two levels up from the git worktree path) to clean up `build/` and `install/`. Print `git log --oneline -5` to confirm.
