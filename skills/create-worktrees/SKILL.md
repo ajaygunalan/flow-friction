@@ -2,6 +2,7 @@
 description: One-time setup — create main + 4 numbered worktree slots for any repo
 allowed-tools:
   - Bash
+  - AskUserQuestion
 ---
 
 Abort if not in a git repo. Abort if working directory is dirty (`git status --porcelain` is non-empty).
@@ -13,19 +14,35 @@ REPO_NAME=$(basename "$REPO_ROOT")
 
 ## Detect layout
 
-Check if this repo is **nested** inside a larger build system or **standalone**.
+Walk up from `$REPO_ROOT` (max 3 levels) checking each ancestor for build system markers:
 
-**Nested ROS2**: repo's parent directory is named `src` AND `$REPO_ROOT/../../install/setup.bash` exists.
+**Nested ROS2**: an ancestor has `install/setup.bash` AND the repo is inside that ancestor's `src/` directory.
 
-**Nested general**: repo's parent directory contains `Cargo.toml` with `[workspace]`, or a `CMakeLists.txt` that is NOT the repo's own.
+**Nested Cargo**: an ancestor contains `Cargo.toml` with `[workspace]` in it.
 
-**Standalone**: none of the above.
+**Nested CMake**: an ancestor contains `CMakeLists.txt` that is NOT the repo's own (i.e., a parent project).
+
+**Standalone**: no build system markers found above the repo.
+
+## Confirm with user
+
+Present the detected layout via AskUserQuestion before proceeding:
+
+> Detected **standalone** / **nested ROS2** / **nested (Cargo workspace)** / **nested (CMake superproject)** layout.
+>
+> - Flow A (standalone): bare repo + internal worktrees inside `$REPO_ROOT/`
+> - Flow B (nested ROS2): overlay worktrees outside workspace at `$WT_BASE/`
+> - Flow C (nested): flat worktrees outside at `$WT_BASE/`
+>
+> Options: [Proceed with detected layout] / [Switch to standalone] / [Switch to nested] / [Abort]
+
+This protects against misdetection before any destructive operations.
 
 ---
 
 ## Flow A: Standalone repo (bare repo + internal worktrees)
 
-> Use for: standalone Python, Rust, C++, Go, Node, etc.
+> Use for: standalone Python, Rust, C, C++, Go, Node, etc.
 
 Abort if `.bare/` already exists (already set up).
 
@@ -142,12 +159,13 @@ Print rebuild command: `cd $WT_BASE/w1 && source $SETUP_FILE && colcon build --p
 
 > Use for: Cargo workspace member, CMake subproject, etc.
 
-The original repo stays in place as "main". Worktrees go outside as siblings.
+The original repo stays in place as "main". Worktrees go outside as siblings next to the parent project.
 
 ### Determine paths
 
+`PARENT_PROJECT` = the ancestor directory where the build system marker was found during detection.
+
 ```bash
-PARENT_PROJECT=$(find_parent_build_system)   # the workspace/superproject root
 WT_BASE="$(dirname "$PARENT_PROJECT")/${REPO_NAME}-worktrees"
 ```
 
@@ -169,7 +187,22 @@ For each slot, `cd` in and detect build system (see [dependency table](#dependen
 
 ### Confirm
 
-Print the layout and remind user to `cd` into a slot to start working.
+Print:
+
+```
+$PARENT_PROJECT/                              ← parent workspace/superproject
+└── .../$REPO_NAME/                           ← original repo = "main"
+
+$WT_BASE/                                     ← outside parent project
+├── w1/     ← work slot (flat worktree)
+├── w2/     ← work slot
+├── w3/     ← work slot
+└── w4/     ← work slot
+```
+
+Remind user: `cd $WT_BASE/w1 && git checkout -b feature-name` to start working.
+
+Note: these flat worktrees build standalone, outside the parent workspace. If the project depends on workspace siblings, the user may need to configure build paths manually.
 
 ---
 
