@@ -41,6 +41,8 @@ If the request is vague, ask one clarifying question. Otherwise proceed.
 
 ## Step 3: Generate the diagram
 
+**Styling**: Follow the `d2-diagram` skill's style rules — ELK layout, theme 0, color-coded classes with `border-radius: 8`, single-line labels. Use its color palette and domain mappings for consistent visuals across all project diagrams.
+
 **Keep to 5-12 nodes** grouped into **2-4 containers**.
 
 Set the diagram direction:

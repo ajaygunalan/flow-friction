@@ -44,6 +44,10 @@ Rules:
 - Framework-specific warnings as highlighted notes — highest-value content
 - Leave out: implementation internals, 1:1 code duplication, obvious control flow
 
+### D2 styling
+
+Follow the `d2-diagram` skill's style rules for all generated diagrams — ELK layout, theme 0, color-coded classes with `border-radius: 8`, single-line labels, titles. Use its color palette and domain color mappings. This ensures visual consistency across all diagrams regardless of which skill generates them.
+
 ### D2 syntax quick reference
 
 ```d2
