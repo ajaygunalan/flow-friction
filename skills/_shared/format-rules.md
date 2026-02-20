@@ -1,8 +1,8 @@
 ## Diagram types
 
-- **Topology** (`graph TD`) — Module dependencies. Reveals convergence hubs, tiers, coupling. One overview topology, plus sub-topologies for complex subsystems.
-- **Dataflow** (`flowchart TD`) — How data transforms across files. Include constants if they're tuning/debugging targets.
-- **Decomposition** (`graph TD` with subgraphs) — Breaks dense logic into named semantic blocks. For math, optimization, complex algorithms.
+- **Topology** (`direction: down`) — Module dependencies. Reveals convergence hubs, tiers, coupling. One overview topology, plus sub-topologies for complex subsystems.
+- **Dataflow** (`direction: down` or `direction: right`) — How data transforms across files. Include constants if they're tuning/debugging targets.
+- **Decomposition** (`direction: down` with containers) — Breaks dense logic into named semantic blocks. For math, optimization, complex algorithms.
 
 ## Diagram levels
 
@@ -17,7 +17,7 @@ Diagram count scales with structural complexity, not lines of code:
 - Medium codebase (50K-200K, multiple modules): 5-12 diagrams
 - Large codebase (200K+, many subsystems): 10-25 diagrams
 
-More small diagrams, not fewer big ones. Diagrams are lightweight — typically 40-60 lines of Mermaid + callouts. Add diagrams at framework boundaries — where connections are implicit (port wiring, entity hierarchies, config-driven behavior) and can't be traced with grep. Direct function call chains don't need diagrams.
+More small diagrams, not fewer big ones. Diagrams are lightweight — typically 40-60 lines of D2 + callouts. Add diagrams at framework boundaries — where connections are implicit (port wiring, entity hierarchies, config-driven behavior) and can't be traced with grep. Direct function call chains don't need diagrams.
 
 ## Diagram file format
 
@@ -28,7 +28,7 @@ File: `docs/diagrams/{name}.md`
 
 {One sentence: what this shows and when to read it.}
 
-\`\`\`mermaid
+\`\`\`d2
 {content}
 \`\`\`
 
@@ -39,10 +39,54 @@ Rules:
 - Use exact function/class names from code where they add clarity
 - Semantic names over variable names
 - Each diagram: 5-12 nodes. Hard ceiling 12 — split if larger.
-- Diagrams with 7+ nodes: organize into 2-4 subgroups of 2-5 nodes each. Each subgroup = one working-memory chunk.
-- Data dimensions and types on edges
+- Diagrams with 7+ nodes: organize into 2-4 containers of 2-5 nodes each. Each container = one working-memory chunk.
+- Data dimensions and types on edge labels
 - Framework-specific warnings as highlighted notes — highest-value content
 - Leave out: implementation internals, 1:1 code duplication, obvious control flow
+
+### D2 syntax quick reference
+
+```d2
+direction: down
+
+# Nodes with labels
+node_id: "Display Label"
+
+# Multi-line labels use markdown blocks
+node_id: |md
+  First line
+  Second line
+|
+
+# Containers (grouping)
+group_name: "Group Label" {
+  child1: Child One
+  child2: Child Two
+  child1 -> child2
+}
+
+# Connections
+A -> B: label
+A -> B: "optional label" {
+  style.stroke-dash: 3
+}
+
+# Cross-container connections use fully qualified paths
+group1.child -> group2.child: label
+
+# Shapes
+start_node: Start {
+  shape: oval
+}
+decision: "Choice?" {
+  shape: diamond
+}
+```
+
+D2 gotchas:
+- `vars` is a reserved keyword — don't use it as a node ID
+- `|` inside markdown blocks conflicts with block string delimiters — use `||md ... ||` if content contains `|`, or `|||md ... |||` if content contains `||`
+- Cross-container references require fully qualified dot paths (unlike Mermaid's flat namespace)
 
 ## Markdown file criteria
 

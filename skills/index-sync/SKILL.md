@@ -20,7 +20,7 @@ Four formats to sync:
 |--------|----------|---------------|
 | **README.md** | repo root | Are install steps, commands, flags, and project structure still accurate? |
 | **AGENTS.md** | repo root | Are file paths, routing entries still valid? |
-| **Mermaid diagrams** | `docs/diagrams/` | Do nodes, edges, constants, and labels match current code? |
+| **D2 diagrams** | `docs/diagrams/` | Do nodes, edges, constants, and labels match current code? |
 | **Markdown files** | `docs/` | Are checklists, values, procedures, and traps still accurate? Is the topic still relevant? |
 
 **Accuracy is the primary sync criterion.** Does the document still match current code? Accurate documents that compress cross-file knowledge or capture trap knowledge are kept — diagrams are ~50 lines and maintenance cost is near-zero. Only recommend **Remove** when the underlying code was deleted, the knowledge was fully absorbed elsewhere, or the document is so stale that fixing it costs more than recreating it. For **section-level trimming**, ask: does this section add value beyond what the code shows on its own?

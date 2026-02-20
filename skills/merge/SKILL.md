@@ -36,6 +36,6 @@ Push main. If push fails → warn but continue.
 
 Delete the backup tag. Delete the remote branch (ignore if never pushed).
 
-**Free the slot:** `cd` into the worktree that had the merged branch. Extract the slot name by finding a path component matching `w1`, `w2`, `w3`, or `w4` (match `/w<N>/` or `/w<N>` at end of path — not substrings in repo names). Run `git checkout <slot>-slot` to reset the slot to its placeholder branch. Delete the local feature branch.
+**Free the slot:** `cd` into the worktree that had the merged branch. Extract the slot name by finding a path component matching `w<N>` where N is any digit (match `/w[0-9]+/` or `/w[0-9]+` at end of path — not substrings in repo names). Run `git checkout <slot>-slot` to reset the slot to its placeholder branch. Delete the local feature branch.
 
 Print `git log --oneline -5` from the main worktree to confirm.

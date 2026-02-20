@@ -13,12 +13,12 @@ BUILD         /implement  /ralph
 WORKTREE      /create-worktrees  /merge
 REVIEW        /roborev:fix
 ANALYZE       roborev analyze <type>
-VISUALIZE     /walkthrough  /mermaid-to-html
+VISUALIZE     /walkthrough  /d2-diagram
 CHECKPOINT    /checkpoint
 DISTILL       /index-sync  /index-codebase  /learn  /next-prompt
 ```
 
-Research files are ephemeral — they exist to be absorbed, not maintained. `/index-sync` compresses them into Mermaid diagrams, then deletes the source files. `/index-codebase` builds the full documentation index from scratch.
+Research files are ephemeral — they exist to be absorbed, not maintained. `/index-sync` compresses them into D2 diagrams, then deletes the source files. `/index-codebase` builds the full documentation index from scratch.
 
 **The code is the book. Diagrams are the primary index.**
 
@@ -39,7 +39,8 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/in
 "Need multiple perspectives"  →  /swarm-agents
 "Have a PRD to automate"     →  /ralph
 "Capture what we learned"    →  /learn
-"Explain how this works"      →  /walkthrough  (→ /mermaid-to-html for interactive HTML)
+"Explain how this works"      →  /walkthrough
+"Create a diagram"            →  /d2-diagram
 "New codebase, no docs"       →  /index-codebase
 "Session ending"              →  /index-sync → /next-prompt
 ```
@@ -78,8 +79,8 @@ claude() {
 |------|---------|
 | `docs/research/*.md` | Ephemeral findings (absorbed by `/index-sync`) |
 | `docs/plan/*.md` | Ephemeral plans (deleted after build) |
-| `docs/diagrams/*.md` | Permanent Mermaid diagrams |
-| `walkthrough-*.md` | Mermaid walkthroughs (→ `/mermaid-to-html` for interactive HTML) |
+| `docs/diagrams/*.md` | Permanent D2 diagrams |
+| `walkthrough-*.md` | D2 walkthroughs |
 | `CLAUDE.md` | Agent routing table |
 
 ---

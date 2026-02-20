@@ -1,9 +1,17 @@
 ---
-description: One-time setup — create main + 4 numbered worktree slots for any repo
+description: One-time setup — create main + N numbered worktree slots for any repo
+argument-hint: "[count]"
 allowed-tools:
   - Bash
   - AskUserQuestion
 ---
+
+Parse `$ARGUMENTS` as the number of worktree slots to create. Default to **1** if empty or not a positive integer. Must be 1-4.
+
+```bash
+N=${ARGUMENTS:-1}
+# Validate: must be 1, 2, 3, or 4. Abort if anything else.
+```
 
 Abort if not in a git repo. Abort if working directory is dirty (`git status --porcelain` is non-empty).
 
@@ -64,30 +72,27 @@ ls -A | grep -v '^\.\(bare\|git\)$' | xargs rm -rf
 
 ### Create worktrees
 
-```
+```bash
 git worktree add main main
-git worktree add w1 -b w1-slot main
-git worktree add w2 -b w2-slot main
-git worktree add w3 -b w3-slot main
-git worktree add w4 -b w4-slot main
+for i in $(seq 1 $N); do
+  git worktree add "w$i" -b "w$i-slot" main
+done
 ```
 
 ### Install dependencies
 
-For **each** worktree (`main`, `w1`, `w2`, `w3`, `w4`), `cd` in and detect build system (see [dependency table](#dependency-table) below).
+For **each** worktree (`main`, `w1` .. `w$N`), `cd` in and detect build system (see [dependency table](#dependency-table) below).
 
 ### Confirm
 
-Print:
+Print the tree showing only the slots that were created:
 
 ```
 $REPO_NAME/
 ├── .bare/
 ├── main/   ← read-only reference (always on main)
 ├── w1/     ← work slot
-├── w2/     ← work slot
-├── w3/     ← work slot
-└── w4/     ← work slot
+└── ...     ← up to w$N
 ```
 
 Remind user: `cd w1 && git checkout -b feature-name` to start working.
@@ -115,26 +120,28 @@ Abort if worktrees directory already has `w1/` (already set up).
 
 ### Create overlay worktree slots
 
-For each slot (`w1`, `w2`, `w3`, `w4`):
+For each slot `w1` .. `w$N`:
 
 ```bash
-mkdir -p "$WT_BASE/w<N>/src"
-git worktree add "$WT_BASE/w<N>/src/$PKG_NAME" -b "w<N>-slot" main
+for i in $(seq 1 $N); do
+  mkdir -p "$WT_BASE/w$i/src"
+  git worktree add "$WT_BASE/w$i/src/$PKG_NAME" -b "w$i-slot" main
+done
 ```
 
 ### Build each slot
 
-For each slot:
+For each slot `w1` .. `w$N`:
 
 ```bash
 source "$SETUP_FILE"
-cd "$WT_BASE/w<N>"
+cd "$WT_BASE/w$i"
 colcon build --symlink-install
 ```
 
 ### Confirm
 
-Print:
+Print the tree showing only the slots that were created:
 
 ```
 $WS_DIR/                                      ← parent workspace (underlay)
@@ -146,7 +153,7 @@ $WT_BASE/                                     ← outside workspace
 │   ├── src/$PKG_NAME/                        ← git worktree
 │   ├── build/
 │   └── install/
-├── w2/  w3/  w4/                             ← same structure
+└── ...                                       ← up to w$N
 ```
 
 Remind user: `cd $WT_BASE/w1/src/$PKG_NAME && git checkout -b feature-name` to start working.
@@ -175,29 +182,26 @@ Abort if worktrees directory already has `w1/` (already set up).
 
 ```bash
 mkdir -p "$WT_BASE"
-git worktree add "$WT_BASE/w1" -b w1-slot main
-git worktree add "$WT_BASE/w2" -b w2-slot main
-git worktree add "$WT_BASE/w3" -b w3-slot main
-git worktree add "$WT_BASE/w4" -b w4-slot main
+for i in $(seq 1 $N); do
+  git worktree add "$WT_BASE/w$i" -b "w$i-slot" main
+done
 ```
 
 ### Install dependencies
 
-For each slot, `cd` in and detect build system (see [dependency table](#dependency-table) below).
+For each slot `w1` .. `w$N`, `cd` in and detect build system (see [dependency table](#dependency-table) below).
 
 ### Confirm
 
-Print:
+Print the tree showing only the slots that were created:
 
 ```
 $PARENT_PROJECT/                              ← parent workspace/superproject
 └── .../$REPO_NAME/                           ← original repo = "main"
 
 $WT_BASE/                                     ← outside parent project
-├── w1/     ← work slot (flat worktree)
-├── w2/     ← work slot
-├── w3/     ← work slot
-└── w4/     ← work slot
+├── w1/     ← work slot
+└── ...     ← up to w$N
 ```
 
 Remind user: `cd $WT_BASE/w1 && git checkout -b feature-name` to start working.

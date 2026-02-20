@@ -18,7 +18,7 @@ Five format choices, each with a litmus test:
 |--------|----------|--------|
 | **README.md** | repo root | Is this for a human who just cloned the repo? |
 | **AGENTS.md** | repo root | Can you say it in one line or table row? |
-| **Mermaid diagrams** | `docs/diagrams/` | Can you draw it with nodes and edges? Does it span 3+ files? |
+| **D2 diagrams** | `docs/diagrams/` | Can you draw it with nodes and edges? Does it span 3+ files? |
 | **Markdown files** | `docs/` | Does it span multiple files AND involve external systems, procedures, or empirical values not in code? |
 | **Nothing** | — | Can a competent dev understand this in <5 min by reading the code? |
 
