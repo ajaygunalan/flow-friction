@@ -42,6 +42,9 @@ Flag:
 - **Misalignments** — contradictions between this spec and its dependencies (e.g., spec A says data goes to path X, spec B says path Y)
 - **Stale references** — files, functions, or classes the spec mentions that don't exist in the current codebase or have changed since the spec was written
 - **Missing context** — things a new session would need to know to implement this but the spec doesn't say
+- **Claims vs reality** — for each source file the spec references, check whether the spec's description of that file matches what the file actually does. If the spec says "model on X's pattern" or "port protocol from Y", read X and Y and verify the pattern/protocol exists as described. Flag mismatches.
+- **Fresh-agent test** — ask: "If a new agent got this spec with zero prior context, what would they have to guess?" Flag unspecified file paths, implicit decisions, and ownership questions that aren't written down.
+- **Cross-doc convention check** — compare naming conventions (file paths, entity names, API signatures, data formats) across this spec, its dependencies, and its research docs. Flag anywhere two documents disagree about the same thing.
 
 ### 4. Refine with user
 
