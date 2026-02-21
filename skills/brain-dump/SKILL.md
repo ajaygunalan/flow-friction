@@ -1,6 +1,6 @@
 ---
 name: brain-dump
-description: Dump your research vision — goals, context, unknowns — into a rough what-to-build doc
+description: Dump your research vision into numbered questions with exit criteria and dependencies
 argument-hint: <research topic or vision>
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
@@ -11,22 +11,28 @@ $ARGUMENTS is mandatory — it's the research topic or vision to dump.
 
 ## What this produces
 
-A rough `docs/research/what-to-build.md` — goals, existing code, what's known vs unknown. Not sharp yet. Just getting it out of your head.
+`docs/research/what-to-build.md` — numbered research questions, each with nature, exit criteria, and dependencies.
 
 ## Steps
 
 1. Spawn an Explore agent — map the codebase relevant to $ARGUMENTS
-2. AskUserQuestion — 2-3 clarifying questions (scope, constraints, existing assets)
+2. AskUserQuestion — 2-3 clarifying questions:
+   - What's the goal? What exists already?
+   - What's engineering (clear path) vs research (unknown)?
+   - What depends on what? What's the stacked unknowns?
 3. Create `docs/research/` if it doesn't exist
-4. Write a rough `docs/research/what-to-build.md` — goals, existing code, what's known vs unknown
-5. AskUserQuestion: anything missing?
-
-This is the rough dump. Don't try to be sharp yet.
+4. Write `docs/research/what-to-build.md` as numbered questions (Q1, Q2, ...), each with:
+   - The question itself (clear, grabby — "Where is the US image plane relative to the probe?")
+   - **Nature:** engineering / research / out-of-scope
+   - **Done when:** concrete exit criteria
+   - **Depends on:** which questions must be answered first
+   - Existing assets and what's known so far
+5. AskUserQuestion: is this the right framing? Any questions missing?
 
 ## Commit
 
-`git add docs/research/what-to-build.md && git commit -m "brain-dump: rough what-to-build"`
+`git add docs/research/what-to-build.md && git commit -m "brain-dump: research questions for $ARGUMENTS"`
 
 ## Next
 
-"Next: `/sharpen-it` to turn this rough dump into sharp questions."
+"Next: `/plan-tests` to decompose these questions into testable pieces."
