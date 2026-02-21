@@ -35,6 +35,10 @@ If it exists but looks rough (no numbered questions), tell the user: "what-to-bu
 4. Write `docs/research/how-to-test.md`
 5. AskUserQuestion: revise or continue?
 
+## Commit
+
+`git add docs/research/how-to-test.md && git commit -m "break-into-bricks: testable bricks from sharp questions"`
+
 ## Next
 
 "Next: `/stack-bricks` to decide build order."

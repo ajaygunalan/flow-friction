@@ -30,3 +30,8 @@ Read all three docs. Check:
 - Build order respects test dependencies
 
 Report gaps. Suggest fixes.
+
+## Commit
+
+If any docs were edited to fix gaps:
+`git add docs/research/ && git commit -m "check-the-blueprint: fix alignment gaps"`

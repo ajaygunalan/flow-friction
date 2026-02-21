@@ -35,6 +35,10 @@ If `how-to-test.md` is missing: "I need the test bricks first. Run `/break-into-
    - What to build, depends on, pass/fail, what's logged, human does, AI does
 5. AskUserQuestion: revise or accept?
 
+## Commit
+
+`git add docs/research/how-to-build.md && git commit -m "stack-bricks: layered build pyramid"`
+
 ## Next
 
 "Next: `/check-the-blueprint` to verify everything lines up."

@@ -30,6 +30,10 @@ A sharp `docs/research/what-to-build.md` — rewritten in place with numbered qu
    - **Dependencies:** which questions stack on which
 5. AskUserQuestion: is this the right framing?
 
+## Commit
+
+`git add docs/research/what-to-build.md && git commit -m "sharpen-it: sharp questions from rough dump"`
+
 ## Next
 
 "Next: `/break-into-bricks` to decompose these questions into testable pieces."

@@ -23,6 +23,10 @@ A rough `docs/research/what-to-build.md` — goals, existing code, what's known 
 
 This is the rough dump. Don't try to be sharp yet.
 
+## Commit
+
+`git add docs/research/what-to-build.md && git commit -m "brain-dump: rough what-to-build"`
+
 ## Next
 
 "Next: `/sharpen-it` to turn this rough dump into sharp questions."
