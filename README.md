@@ -8,8 +8,8 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 
 ```
 RESEARCH      /brainstorm  /investigate  /conversation-search  /swarm-agents
-PLAN          /plan  /verify-plan
-BUILD         /implement  /ralph
+PLANNING      /brain-dump  /sharpen-it  /break-into-bricks  /stack-bricks  /check-the-blueprint
+BUILD         /verify-plan  /implement  /ralph
 WORKTREE      /create-worktrees  /merge
 REVIEW        /roborev:fix
 ANALYZE       roborev analyze <type>
@@ -29,7 +29,8 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/in
 "Something's wrong, not sure" →  /investigate
 "New feature, need to think"  →  /brainstorm
 "Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
-"I know what to build"        →  /plan → /verify-plan → /implement
+"New research direction"      →  /brain-dump → /sharpen-it → /break-into-bricks → /stack-bricks → /check-the-blueprint
+"I know what to build"        →  /verify-plan → /implement
 "Set up worktrees"            →  /create-worktrees
 "Done with feature"           →  /merge <name>
 "Review my code"              →  /roborev:review  (branch: /roborev:review-branch)
