@@ -1,6 +1,6 @@
 ---
 name: plan-build
-description: Decide build order — layer the pieces into a pyramid with dependencies and human-AI workflow
+description: Decide build order — layer the pieces into a pyramid with dependencies and risks
 argument-hint: "[optional extra context]"
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
@@ -9,31 +9,37 @@ allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 
 ## Prerequisite
 
-Both must exist in `docs/research/`:
-- `what-to-build.md` (sharp, with Q1/Q2 structure)
-- `how-to-test.md`
+`docs/research/what-to-build.md` must exist with sharp Q structure.
 
-If `what-to-build.md` is missing: "Run `/brain-dump <your topic>` first." Stop.
-If `how-to-test.md` is missing: "I need the test plan first. Run `/plan-tests`." Stop.
+If it's missing: "Run `/brain-dump <your topic>` first." Stop.
 
 ## What this produces
 
 `docs/research/how-to-build.md` — layered build pyramid.
 
+## Boundary
+
+Don't reproduce what AGENTS.md already covers. No Layer 0 inventory of existing code. No premature sections about future phases or tooling. Stay focused on what's being built now.
+
 ## Steps
 
-1. Read both docs
+1. Read `what-to-build.md`
 2. Discuss with user first — reflect understanding, identify tensions
 3. Scale the debate by complexity:
    - **Few pieces (< 5):** single agent synthesizes the build order
    - **Many pieces (5+):** spawn 3 lens agents + 1 moderator:
-     - Lens 1: Scope & Boundaries (granularity, interfaces)
-     - Lens 2: Stacking Order (risk vs dependencies vs research value)
-     - Lens 3: Feedback Loop (verification, observability, human-AI workflow)
+     - Lens 1: Scope & Boundaries
+     - Lens 2: Stacking Order
+     - Lens 3: Risks & Mitigations
      - Moderator: synthesize into layered pyramid
 4. Write `docs/research/how-to-build.md` — layered pyramid with per-piece:
-   - What to build, depends on, pass/fail, what's logged, human does, AI does
-5. AskUserQuestion: revise or accept?
+   - **What**: what this piece does
+   - **Depends on**: which pieces must be built first
+   - **Build**: what exists when this piece is done — deliverables only. Not how to implement them. Implementation belongs in plan mode, not here.
+   - **Test**: how to verify it works
+   - **Risk**: what can go wrong and how to detect/mitigate early
+5. End with: build order diagram, merge points, and milestone markers.
+6. AskUserQuestion: revise or accept?
 
 ## Commit
 
@@ -41,4 +47,4 @@ If `how-to-test.md` is missing: "I need the test plan first. Run `/plan-tests`."
 
 ## Next
 
-"Next: `/check-research` to verify the 3 research docs align, then `/write-specs` to produce spec files."
+"Next: `/plan-tests` to write tests for each piece."

@@ -1,7 +1,7 @@
 ---
 name: write-specs
-description: Decompose research blueprint into self-contained spec files via multi-round team debate — one file per piece, ready for /implement
-allowed-tools: TeamCreate, TeamDelete, SendMessage, Task, TaskCreate, TaskUpdate, TaskList, TaskGet, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+description: Decompose research blueprint into self-contained spec files — one file per piece, minimal context for plan mode
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
 # Write Specs
@@ -10,32 +10,23 @@ allowed-tools: TeamCreate, TeamDelete, SendMessage, Task, TaskCreate, TaskUpdate
 
 All three must exist in `docs/research/`:
 - `what-to-build.md` (sharp, with Q structure)
-- `how-to-test.md`
-- `how-to-build.md`
+- `how-to-build.md` (layered pyramid with pieces)
+- `how-to-test.md` (tests per piece)
 
-If any missing, tell the user which skill to run and stop:
-- Missing `what-to-build.md`: "Run `/brain-dump <your topic>` first."
-- Missing `how-to-test.md`: "Run `/plan-tests` first."
-- Missing `how-to-build.md`: "Run `/plan-build` first."
+If any missing, tell the user which skill to run and stop.
 
 ## What this produces
 
-`docs/specs/` — one self-contained spec file per piece, ready for `/implement`.
+`docs/specs/` — self-contained spec files. Each spec is the input to a fresh Claude Code session in plan mode. The spec carries only what plan mode can't discover from the codebase: the goal, the interfaces, the data contracts between specs, and the verification criteria.
 
 ## Steps
 
-### 1. Read and reflect
+### 1. Read, reflect, and write
 
-Read all three research docs. Reflect back to user: "I see N pieces across L layers. Here's my read." Brief summary.
-
-Also confirm output directory: "Spec files will go to `docs/specs/`. Want a different location?" Wait for user confirmation before proceeding.
-
-### 2. Team lead writes the drafts
-
-The team lead (you) writes the initial draft spec files directly — no need to spawn an agent for this. You already read the research docs.
+Read all three research docs. Print a brief summary. Then immediately start writing spec files.
 
 1. Create `docs/specs/` directory
-2. Write one file per piece from how-to-build.md, named `spec-{id}-{slug}.md` (lowercase kebab-case, e.g., `spec-1a-usstream.md`)
+2. Write spec files named `spec-{id}-{slug}.md` (lowercase kebab-case)
 3. Use this template:
 
 ```
@@ -44,173 +35,37 @@ The team lead (you) writes the initial draft spec files directly — no need to 
 > Layer {N} — depends on: {list or "none"}
 
 ## What & Why
-{2-3 sentences from what-to-build.md — the research question this serves}
+{2-3 sentences — the goal and the research question this serves}
 
-## What to build
-{Concrete: files to create/modify, classes/functions to add, CLI flags}
-
-## How to build
-{Step by step — what AI does, referencing existing patterns in the codebase}
+## Deliverables
+{What exists when this spec is done. Input/output formats for data contracts with other specs.}
 
 ## Test criteria
-{From how-to-test.md — pass/fail, failure modes, what to log}
-
-## Human vs AI
-{Who does what. If hardware needed: exact CLI command for human. If pure code: AI does everything.}
-
-## References
-- what-to-build.md: {section}
-- how-to-test.md: {test number}
-- how-to-build.md: {section}
+{Pass/fail criteria, failure modes, what a human observes vs what's computable.}
 ```
 
-### 3. Create team and spawn 5 advocates
+**Deliverables carry the what, not the how.** Name the deliverable and the interface it implements. Don't describe how to build it — plan mode reads the codebase and figures that out.
 
-Only spawn advocates *after* drafts are written. No moderator agent needed — team lead orchestrates directly.
+**Strip implementation details from how-to-build.md.** The Build field in how-to-build.md describes approach. Do not copy it into specs. If plan mode would figure it out by reading the codebase, don't put it in the spec.
 
-```
-TeamCreate: name = "write-specs"
-```
+**Inline a constraint only when the codebase is actively misleading** — when two options exist and the wrong one looks right. Otherwise trust plan mode to discover conventions.
 
-Spawn 5 advocates via `Task` tool with `team_name: "write-specs"`, `subagent_type: "general-purpose"`.
+**Specify data formats in both producer and consumer specs.** Without this, plan mode for each spec makes independent format choices that may not match.
 
-Send each advocate a DM immediately after spawning with the draft location and findings path.
+### 2. Merge and filter pass
 
-**scope:**
-```
-You are the SCOPE & BOUNDARIES advocate on the write-specs team.
+After writing all specs, review the full set:
 
-Your lens: Is each spec self-contained? Clean interfaces between specs? What files does each touch? No overlap between specs? Could someone implement one spec without reading any other spec file?
+- **Merge small pieces that share a pattern.** Each spec should be worth a full plan mode session.
+- **Route non-code pieces to test checklists.** No code deliverables → not a spec. Write to `docs/` instead. Move any real code deliverables into the last spec that builds something.
+- **Interface-only test.** Re-read each spec: does every sentence describe WHAT to build, WHAT goes in/out, or HOW TO VERIFY? If it describes an implementation approach, cut it.
 
-Source files (read for context):
-- docs/research/what-to-build.md
-- docs/research/how-to-test.md
-- docs/research/how-to-build.md
-
-Spec files: docs/specs/spec-*.md
-
-Protocol:
-1. Read all spec files + research docs
-2. Write your critique to docs/specs/_findings/round-1-scope.md
-3. Message team-lead: "Critique written to docs/specs/_findings/round-1-scope.md"
-4. Wait for team-lead's next round message. Do NOT re-send — one message per round.
-5. If no issues remain, write "No changes needed" in your findings file and message team-lead once.
-```
-
-**codebase:**
-```
-You are the CODEBASE GROUNDING advocate on the write-specs team.
-
-Your lens: Read the actual source code. Do specs match what's really in the codebase? Correct file paths, function names, class names, protocols? Does the existing code support what each spec assumes? Flag any spec that references something that doesn't exist or works differently than described.
-
-Start by reading AGENTS.md for the file map, then read every source file that any spec references.
-
-Source files (read for context):
-- docs/research/what-to-build.md
-- docs/research/how-to-test.md
-- docs/research/how-to-build.md
-
-Spec files: docs/specs/spec-*.md
-
-Protocol:
-1. Read all spec files + the actual source code files they reference
-2. Write your critique to docs/specs/_findings/round-1-codebase.md
-3. Message team-lead: "Critique written to docs/specs/_findings/round-1-codebase.md"
-4. Wait for team-lead's next round message. Do NOT re-send — one message per round.
-5. If no issues remain, write "No changes needed" in your findings file and message team-lead once.
-```
-
-**testability:**
-```
-You are the TESTABILITY advocate on the write-specs team.
-
-Your lens: Is pass/fail concrete for each spec? Can AI verify it (unit test, script) or does it need a human at the robot? What exactly is the "done" signal? Is it binary or ambiguous? Could a new session pick up this spec and know if it's already done?
-
-Source files (read for context):
-- docs/research/what-to-build.md
-- docs/research/how-to-test.md
-- docs/research/how-to-build.md
-
-Spec files: docs/specs/spec-*.md
-
-Protocol:
-1. Read all spec files + research docs
-2. Write your critique to docs/specs/_findings/round-1-testability.md
-3. Message team-lead: "Critique written to docs/specs/_findings/round-1-testability.md"
-4. Wait for team-lead's next round message. Do NOT re-send — one message per round.
-5. If no issues remain, write "No changes needed" in your findings file and message team-lead once.
-```
-
-**hitl:**
-```
-You are the HITL & DATA FLOW advocate on the write-specs team.
-
-Your lens: What does the human actually do for each spec? What data flows out of one spec into the next? Are format handoffs explicit (file paths, data shapes, formats)? If spec A produces data spec B consumes, is that connection documented in both specs?
-
-Source files (read for context):
-- docs/research/what-to-build.md
-- docs/research/how-to-test.md
-- docs/research/how-to-build.md
-
-Spec files: docs/specs/spec-*.md
-
-Protocol:
-1. Read all spec files + research docs
-2. Write your critique to docs/specs/_findings/round-1-hitl.md
-3. Message team-lead: "Critique written to docs/specs/_findings/round-1-hitl.md"
-4. Wait for team-lead's next round message. Do NOT re-send — one message per round.
-5. If no issues remain, write "No changes needed" in your findings file and message team-lead once.
-```
-
-**risk:**
-```
-You are the RISK & FALLBACK advocate on the write-specs team.
-
-Your lens: What if each spec fails? What assumptions might not hold? Are there escape hatches? If a spec's approach doesn't work, does the spec say what to try instead? Flag specs that assume something unverified.
-
-Source files (read for context):
-- docs/research/what-to-build.md
-- docs/research/how-to-test.md
-- docs/research/how-to-build.md
-
-Spec files: docs/specs/spec-*.md
-
-Protocol:
-1. Read all spec files + research docs
-2. Write your critique to docs/specs/_findings/round-1-risk.md
-3. Message team-lead: "Critique written to docs/specs/_findings/round-1-risk.md"
-4. Wait for team-lead's next round message. Do NOT re-send — one message per round.
-5. If no issues remain, write "No changes needed" in your findings file and message team-lead once.
-```
-
-### 4. Collect Round 1, synthesize, iterate
-
-Team lead (you) orchestrates directly — no moderator agent.
-
-1. Wait for all 5 advocates to message back with their findings paths
-2. Read all 5 critique files from `docs/specs/_findings/`
-3. Resolve conflicts — update the spec files directly
-4. If issues were found: send 5 DMs to advocates: "Updated spec files. Round 2 — any remaining issues? Write to docs/specs/_findings/round-2-{your-lens}.md"
-5. Repeat until all advocates respond "no changes needed" or max 5 rounds
-
-Track which advocates have responded each round. Don't re-notify advocates who already replied.
-
-### 5. Clean up
-
-1. Delete `docs/specs/_findings/` directory
-2. Send `shutdown_request` to all 5 advocates
-3. Call `TeamDelete`
-
-### 6. Review with user
-
-AskUserQuestion: "Here are the spec files. Revise or accept?"
-
-## Commit
+### 3. Commit
 
 ```
-git add docs/specs/ && git commit -m "write-specs: self-contained spec files from research blueprint"
+git add docs/specs/ docs/ && git commit -m "write-specs: self-contained spec files from research blueprint"
 ```
 
 ## Next
 
-"Pick a spec and run `/implement` on it. Start from Layer 1."
+"Pick a spec and start a new session in plan mode. Start from Layer 1."

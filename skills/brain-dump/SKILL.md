@@ -27,7 +27,9 @@ $ARGUMENTS is mandatory — it's the research topic or vision to dump.
    - **Done when:** concrete exit criteria
    - **Depends on:** which questions must be answered first
    - Existing assets and what's known so far
-5. AskUserQuestion: is this the right framing? Any questions missing?
+5. Each question describes *what* to answer and *when it's done* — NOT *how* to solve it. Implementation steps, sub-procedures, and solver details belong in specs, not here.
+6. End with a brief phase sequence (3-5 lines) showing the high-level build order — what comes first, what depends on what, where the milestone is.
+7. AskUserQuestion: is this the right framing? Any questions missing?
 
 ## Commit
 
@@ -35,4 +37,4 @@ $ARGUMENTS is mandatory — it's the research topic or vision to dump.
 
 ## Next
 
-"Next: `/plan-tests` to decompose these questions into testable pieces."
+"Next: `/plan-build` to decide build order and define the pieces."

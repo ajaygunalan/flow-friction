@@ -6,9 +6,36 @@ Claude Code skills for solo research workflows. One researcher, one codebase, on
 
 ---
 
+## Two pipelines
+
+### Research → Specs → Plan Mode (multi-session)
+
+For new research directions with stacked unknowns:
+
+```
+/brain-dump    →  docs/research/what-to-build.md    (numbered questions, exit criteria)
+/plan-build    →  docs/research/how-to-build.md     (layered pyramid, deliverables)
+/plan-tests    →  docs/research/how-to-test.md      (pass/fail, failure modes)
+/write-specs   →  docs/specs/spec-*.md               (one per plan mode session)
+```
+
+Each spec feeds a fresh Claude Code session in plan mode. Plan mode reads the spec + codebase, proposes steps, gets approval, executes.
+
+`/review-trim` trims any doc or spec at any point — research docs, all specs, or a single file.
+
+### Ad-hoc (single session)
+
+For tasks where you already know what to build:
+
+```
+Write a plan in docs/plan/  →  /verify-plan  →  /implement
+```
+
+---
+
 ```
 RESEARCH      /brainstorm  /investigate  /conversation-search  /swarm-agents
-PLANNING      /brain-dump  /sharpen-it  /break-into-bricks  /stack-bricks  /check-the-blueprint
+PLANNING      /brain-dump  /plan-build  /plan-tests  /write-specs  /review-trim
 BUILD         /verify-plan  /implement  /ralph
 WORKTREE      /create-worktrees  /merge
 REVIEW        /roborev:fix
@@ -29,7 +56,9 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/in
 "Something's wrong, not sure" →  /investigate
 "New feature, need to think"  →  /brainstorm
 "Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
-"New research direction"      →  /brain-dump → /sharpen-it → /break-into-bricks → /stack-bricks → /check-the-blueprint
+"New research direction"      →  /brain-dump → /plan-build → /plan-tests → /write-specs
+"Specs need trimming"         →  /review-trim docs/specs/
+"Ready to build a spec"       →  Open plan mode, paste the spec
 "I know what to build"        →  /verify-plan → /implement
 "Set up worktrees"            →  /create-worktrees
 "Done with feature"           →  /merge <name>
@@ -78,8 +107,9 @@ claude() {
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/*.md` | Ephemeral findings (absorbed by `/index-sync`) |
-| `docs/plan/*.md` | Ephemeral plans (deleted after build) |
+| `docs/research/*.md` | Ephemeral research docs (absorbed by `/index-sync`) |
+| `docs/specs/spec-*.md` | Spec files — one per plan mode session |
+| `docs/plan/*.md` | Ephemeral plans for ad-hoc pipeline |
 | `docs/diagrams/*.md` | Permanent D2 diagrams |
 | `walkthrough-*.md` | D2 walkthroughs |
 | `CLAUDE.md` | Agent routing table |
