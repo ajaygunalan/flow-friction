@@ -30,7 +30,7 @@ Flow-friction is scaffolding for that collaboration. A set of Claude Code skills
 
 **Keep moving across sessions**
 
-- `/checkpoint` — Marks a human-verified milestone. Summarizes work, creates a checkpoint commit.
+- `/checkpoint` — Your save point. Agents make dozens of atomic commits — you can't remember them all. Checkpoints are milestones *you* name and *you* remember. Scan `git log --grep="checkpoint:"` and get the project's narrative arc, not the noise.
 - `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 
@@ -65,7 +65,8 @@ There's no prescribed order. You enter wherever you are:
 - You know exactly what to do → Just ask Claude
 - You wrote a plan and want a sanity check → `/verify-plan`
 - Your docs are bloated → `/review`
-- Session ending → `/checkpoint` then `/next-prompt`
+- Something works and you want to mark it → `/checkpoint`
+- Session ending → `/next-prompt`
 - New session → Paste the prompt from `/next-prompt`
 
 The full pipeline exists for when you're facing a big build with stacked unknowns. Most days you grab one or two skills and go.
