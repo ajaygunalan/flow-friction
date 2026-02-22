@@ -30,7 +30,7 @@ Flow-friction is scaffolding for that collaboration. A set of Claude Code skills
 
 **Keep moving across sessions**
 
-- `/checkpoint` — Your save point. Agents make dozens of atomic commits — you can't remember them all. Checkpoints are milestones *you* name and *you* remember. Scan `git log --grep="checkpoint:"` and get the project's narrative arc, not the noise.
+- `/checkpoint` — Your save point. Milestones you name and remember, amid dozens of agent commits you don't.
 - `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 
@@ -39,7 +39,6 @@ Flow-friction is scaffolding for that collaboration. A set of Claude Code skills
 - `/index-sync` — Compresses docs into D2 diagrams. Code is the book, diagrams are the index.
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
 - `/walkthrough` — Generates a D2 diagram explaining a flow or architecture. Visual mental model in under 2 minutes.
-- `/d2-diagram` — Creates D2 diagrams directly.
 
 **Worktree workflow**
 
