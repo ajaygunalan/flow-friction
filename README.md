@@ -25,44 +25,45 @@ What worked for me wasn't downloading other people's setups. It was studying the
 
 There's no prescribed order. You enter wherever you are. Most days you grab one or two skills and go.
 
-## Think together
+**Think together**
 
 - `/brainstorm` — Adaptive thinking partner. Dances with you until the picture is clear — explores when you're uncertain, challenges when you're confident, offers options when you're stuck. Crystallizes research questions when ready, not before.
 - `/review` — Reads your docs silently, forms a picture, then asks what you want. Teach me? Trim this? Is this good? Follows your lead.
 
-## Go dig alone
+**Go dig alone**
 
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
-## Structure when you're ready
+**Structure when you're ready**
 
 - `/plan-build` — Takes your brainstorm output and layers it into a build pyramid. Dependencies, risks, ordering — surfaced through dialogue before you commit to a direction.
 - `/plan-tests` — Decomposes each piece into smallest testable items. Pass/fail criteria, failure modes.
 - `/write-specs` — One self-contained spec file per piece. Each spec is the input to a fresh plan mode session.
 - `/verify-plan` — Reads a plan against your original request. Catches drift.
 
-## Build
+**Build**
 
 - `/implement` — Reads the plan, spawns subagents, each commits atomically. Orchestration, not hand-holding.
 
-## Keep moving across sessions
+**Keep moving across sessions**
 
 - `/checkpoint` — Your save point. Agents make dozens of atomic commits you can't remember. Checkpoints are milestones *you* name — the project's narrative arc.
 - `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 
-## Maintain the codebase knowledge
+**Maintain the codebase knowledge**
 
 - `/index-sync` — Compresses docs into D2 diagrams. Code is the book, diagrams are the index.
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
 - `/walkthrough` — Generates a D2 diagram explaining a flow or architecture. Visual mental model in under 2 minutes.
 
-## Worktree workflow
+**Worktree workflow**
 
 - `/create-worktrees` — Sets up parallel worktree slots for a repo.
 - `/merge` — Squash-merges a worktree branch back into main.
 
-## Setup
+<details>
+<summary><strong>Setup</strong></summary>
 
 Skills work immediately. Add to `~/.claude/settings.json`:
 
@@ -86,7 +87,10 @@ claude() {
 }
 ```
 
-## File layout
+</details>
+
+<details>
+<summary><strong>File layout</strong></summary>
 
 | Path | Purpose |
 |------|---------|
@@ -94,6 +98,8 @@ claude() {
 | `docs/specs/spec-*.md` | Spec files — one per plan mode session |
 | `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
+
+</details>
 
 ---
 
