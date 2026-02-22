@@ -30,9 +30,8 @@ This doc describes **what to test and how to judge pass/fail** — NOT how to bu
 2. Reflect back to the user: what are the key test boundaries, what granularity makes sense, which pieces carry the most verification risk. Let the user steer before writing.
 3. Synthesize into smallest testable pieces — each with:
    - What it proves
-   - Pass/fail criteria (binary where possible)
-   - Failure modes (what to look for when it breaks)
-   - How to judge — what the human observes and what computable checks verify. NOT Rerun entity paths, logging API calls, or implementation details of how to log.
+   - Pass/fail criteria (binary where possible — state computable checks directly here)
+   - Failure modes — **only domain knowledge a developer wouldn't infer from pass/fail.** Skip obvious failure modes like "connection failed → check IP." Include things like sensor-specific gotchas, non-obvious physical constraints, or traps where the wrong result looks right.
    - Dependencies on other pieces
 4. Organize tests by phase, matching the phase sequence from `what-to-build.md`. End with a dependency graph.
 5. Write `docs/research/how-to-test.md`
