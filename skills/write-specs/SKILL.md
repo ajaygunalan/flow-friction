@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ## Prerequisite
 
 All three must exist in `docs/research/`:
-- `what-to-build.md` (sharp, with Q structure)
+- `brainstorm.md` (sharp, with Q structure)
 - `how-to-build.md` (layered pyramid with pieces)
 - `how-to-test.md` (tests per piece)
 

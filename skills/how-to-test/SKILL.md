@@ -1,16 +1,16 @@
 ---
-name: plan-tests
+name: how-to-test
 description: Decompose build pieces into smallest testable items — each with pass/fail, failure modes, observability
 argument-hint: "[optional extra context]"
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 ---
 
-# Plan Tests: $ARGUMENTS
+# How to Test: $ARGUMENTS
 
 ## Prerequisite
 
 Both must exist in `docs/research/`:
-- `what-to-build.md` (sharp, with Q1/Q2 structure)
+- `brainstorm.md` (sharp, with Q1/Q2 structure)
 - `how-to-build.md` (layered pyramid with pieces defined)
 
 If missing, tell the user which skill to run and stop.
@@ -28,13 +28,13 @@ If missing, tell the user which skill to run and stop.
    - Pass/fail criteria (binary where possible — state computable checks directly)
    - Failure modes — only domain knowledge a developer wouldn't infer from pass/fail
    - Dependencies on other pieces
-4. Organize tests by phase, matching the phase sequence from `what-to-build.md`. End with a dependency graph.
+4. Organize tests by phase, matching the phase sequence from `brainstorm.md`. End with a dependency graph.
 5. Write `docs/research/how-to-test.md`
 6. AskUserQuestion: revise or continue?
 
 ## Commit
 
-`git add docs/research/how-to-test.md && git commit -m "plan-tests: testable pieces from sharp questions"`
+`git add docs/research/how-to-test.md && git commit -m "how-to-test: testable pieces from sharp questions"`
 
 ## Next
 

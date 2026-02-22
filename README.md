@@ -11,7 +11,15 @@ The flow is the speed of working with an agent that already knows your rhythm. T
 <details>
 <summary><strong>How this differs from other frameworks</strong></summary>
 
-Meta-prompting frameworks for coding agents already exist, and some are good. [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. When I tried it, the ceremony was so heavy that even a brainstorm felt like sprint planning. [GSD](https://github.com/gsd-build/get-shit-done) is much simpler and I drew inspiration from it, but its milestone-driven phases assumed a shape to the work that didn't always match — some days you ship a feature, some days you spend the whole session on one bug. [Spec-Kit](https://github.com/github/spec-kit) never quite landed for me — too esoteric. [Ralph Wiggum](https://github.com/snarktank/ralph) loops the agent until the spec is done, but assumes the spec is right before the first loop starts.
+Meta-prompting frameworks for coding agents already exist, and some are good.
+
+[BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. Too many phases, and each phase took too long. Even the brainstorming felt exhausting — the prompts and skills were so rigid that the agent was constrained rather than liberated. Hard to steer, hard to make agile. And it kept pulling toward web and app development patterns. For domains like robotics, machine learning, game development, graphics — where the work is math-heavy, algorithmic, and the constraints are fundamentally different — it just didn't gel.
+
+[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction keeps brainstorming, what-to-build, and what-to-test as separate sessions so understanding can shift between them in a nonlinear way. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has `/review` specifically to catch bloat before you build.
+
+[Gastown](https://github.com/steveyegge/gastown) goes the other direction — orchestrating 20-30 agents in parallel with persistent state via git hooks. Impressive infrastructure, but it's solving coordination, not alignment. Agents are context-sensitive — one small misalignment at a foundational level propagates through everything built on top of it. With 20-30 parallel agents, if one drifts, the drift multiplies across codepaths. You end up untangling spaghetti instead of shipping. Personally, I work with two-three agents per project, maybe two projects at a time — four to six agents total. Beyond that, context-switching degrades, and the coordination overhead outweighs the parallelism.
+
+[Spec-Kit](https://github.com/github/spec-kit) has good ideas but the command names never clicked — `speckit.constitution`, `speckit.specify` — too esoteric to reach for instinctively. [Ralph](https://github.com/snarktank/ralph) loops the agent until the spec is done, but assumes the spec is right before the first loop starts.
 
 What these frameworks share is an assumption: you know what you're building. When you do, they work. But when you're on the cutting edge — building something that has never existed, or putting your own spin on something that has — you can't write the perfect spec at the start. You find out what to build by building. And a wrong assumption in your spec or your CLAUDE.md doesn't stay small. The agent builds on it, generates more context from it, and the drift compounds every turn. The heavier the upfront ceremony, the faster it spreads.
 
@@ -51,8 +59,8 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Structure when you're ready**
 
-- `/plan-build` — Takes your brainstorm output and layers it into a build pyramid. Dependencies, risks, ordering — surfaced through dialogue before you commit to a direction.
-- `/plan-tests` — Decomposes each piece into smallest testable items. Pass/fail criteria, failure modes.
+- `/how-to-build` — Takes your brainstorm output and layers it into a build pyramid. Dependencies, risks, ordering — surfaced through dialogue before you commit to a direction.
+- `/how-to-test` — Decomposes each piece into smallest testable items. Pass/fail criteria, failure modes.
 - `/write-specs` — One self-contained spec file per piece. Each spec is the input to a fresh plan mode session.
 - `/verify-plan` — Reads a plan against your original request. Catches drift.
 

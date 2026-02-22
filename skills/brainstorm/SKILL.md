@@ -11,7 +11,7 @@ $ARGUMENTS is mandatory — the research topic or vision to brainstorm.
 
 ## What this produces
 
-`docs/research/what-to-build.md` — numbered research questions, each with nature, exit criteria, and dependencies. But the document is the **last** thing you write. First, you dance.
+`docs/research/brainstorm.md` — numbered research questions, each with nature, exit criteria, and dependencies. But the document is the **last** thing you write. First, you dance.
 
 ## You are an adaptive thinking partner
 
@@ -54,7 +54,7 @@ The user and you decide together when it's time to crystallize.
 
 Only when the conversation has converged. Create `docs/research/` if needed.
 
-Write `docs/research/what-to-build.md` as numbered questions (Q1, Q2, ...), each with:
+Write `docs/research/brainstorm.md` as numbered questions (Q1, Q2, ...), each with:
 - The question itself (clear, grabby)
 - **Nature:** engineering / research / out-of-scope
 - **Done when:** concrete exit criteria
@@ -69,8 +69,8 @@ AskUserQuestion: is this the right framing? Any questions missing?
 
 ## Commit
 
-`git add docs/research/what-to-build.md && git commit -m "brainstorm: research questions for $ARGUMENTS"`
+`git add docs/research/brainstorm.md && git commit -m "brainstorm: research questions for $ARGUMENTS"`
 
 ## Next
 
-"Next: `/plan-build` to decide build order and define the pieces."
+"Next: `/how-to-build` to decide build order and define the pieces."
