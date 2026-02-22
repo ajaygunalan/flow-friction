@@ -2,11 +2,9 @@
 
 > Flow fast. Friction for what survives.
 
-Most AI coding tools assume you know what you're building. Flow-friction assumes you don't.
+Coding agents are extraordinary when the problem looks like problems they've seen before. But some work lives outside that distribution — you're building something genuinely new, where the first step is figuring out what the first step is. The agent doesn't know the answer any more than you do. You figure it out together.
 
-You're building something that doesn't exist yet. No tutorial covers it. No Stack Overflow thread has the answer. The first step is figuring out what the first step is. You brainstorm, build, hit a wall, investigate, rethink, build again. The work is nonlinear and the agent needs to keep up with that — not force you into a pipeline.
-
-Flow-friction is a set of Claude Code skills that match how this kind of work actually moves. Each skill is a collaboration mode — not a script to follow, but a behavior that adapts to where you are.
+Flow-friction is scaffolding for that collaboration. A set of Claude Code skills that save you from re-explaining the same patterns every session — how to think together, when to challenge vs. explore, how to structure what you've learned, when to go build. Each skill is a reusable collaboration mode that adapts to where you are in the work, so your energy goes into the problem, not into steering the agent.
 
 ## The skills
 
