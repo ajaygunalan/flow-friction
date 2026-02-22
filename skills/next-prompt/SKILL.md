@@ -26,13 +26,10 @@ Distill the conversation into a prompt for a fresh session entering plan mode. R
 <source files, entry points, paths to read>
 
 ## Start with
-<one of: /brainstorm <file>, /investigate <file>, or raw task>
+<best skill for the context, or raw task if no skill fits>
 ```
 
 **Picking "Start with":**
-- Were we talking through decisions, tradeoffs, design? → `/brainstorm <scratchpad-path>`
-- Were we tracing a bug, digging into code, hunting for answers? → `/investigate <scratchpad-path>`
-- Were we debating approaches, evaluating tradeoffs across multiple lenses, or need competing perspectives? → `/ensemble` in debate mode
-- Straightforward task with clear requirements? → raw task description, no skill
+Read `~/.claude/README.md` to see available skills. Match the conversation context to the best skill, or use a raw task description if no skill fits.
 
 Output one prompt, ready to copy-paste. No preamble, no options.
