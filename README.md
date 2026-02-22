@@ -9,6 +9,15 @@ Flow-Friction is scaffolding for that collaboration. A set of Claude Code skills
 The flow is the speed of working with an agent that already knows your rhythm. The friction is deliberate pushback at decision points: challenging your assumptions, forcing you to name what done looks like, catching drift before you've built the wrong thing.
 
 <details>
+<summary><strong>How this differs from other frameworks</strong></summary>
+
+Meta-prompting frameworks for coding agents already exist, and some are good. [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. When I tried it, the ceremony was so heavy that even a brainstorm session felt astronomical. [GSD](https://github.com/gsd-build/get-shit-done) is much simpler and I took real inspiration from it, but its milestone-driven phases assumed a shape to the work that didn't always match — some days you build a feature, some days you spend the whole session on one bug. [Spec-Kit](https://github.com/github/spec-kit) felt too esoteric to land. [Ralph Wiggum](https://github.com/snarktank/ralph) loops the agent until the spec is done, but assumes the spec is right before the first loop starts. What these frameworks share is an assumption: you know what you're building. When you do, they work. But if you're on the cutting edge — building something that has never existed, or putting your own spin on something that already exists — you can't write the perfect spec at the start. You find out what to build by building. And a wrong assumption in your spec or your CLAUDE.md doesn't stay small. The agent builds on it, generates more context from it, and the drift compounds every turn. The heavier the upfront ceremony, the faster it spreads.
+
+Flow-Friction doesn't organize work. It organizes understanding. Other frameworks hand the agent tasks, milestones, roles — units of work to execute. Flow-Friction hands it questions. A brainstorm produces research questions, not a spec. An investigation produces hypotheses — confirmed, ruled out, still open — not deliverables. A plan surfaces dependencies and risks, not sprint items. The code comes last, after the understanding is there. And when the understanding changes — which it will, because you're building something you've never built before — you throw away the code and rebuild from what you now know. Code is cheap. It's just tokens. Understanding is what's expensive, and you can't spec it upfront. Staying small — small assumptions, small builds, small specs — means when you're wrong, the cost of being wrong stays small too.
+
+</details>
+
+<details>
 <summary><strong>How to use these skills</strong></summary>
 
 These are not magic wands. You don't wave a skill and get pristine working software in one go. The skills are shoes — good shoes help you play football, but shoes don't score goals. The player's rhythm determines the shoe, never the other way around.
