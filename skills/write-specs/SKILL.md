@@ -34,19 +34,21 @@ Read all three research docs. Print a brief summary. Then immediately start writ
 
 > Layer {N} — depends on: {list or "none"}
 
-## What & Why
-{2-3 sentences — the goal and the research question this serves}
+## What
+{1-2 sentences — what this piece does}
 
 ## Deliverables
 {What exists when this spec is done. Input/output formats for data contracts with other specs.}
 
-## Test criteria
-{Pass/fail criteria, failure modes, what a human observes vs what's computable.}
+## Done when
+{One line — what success looks like. Not how to test, not failure modes.}
 ```
 
 **Deliverables carry the what, not the how.** Name the deliverable and the interface it implements. Don't describe how to build it — plan mode reads the codebase and figures that out.
 
 **Strip implementation details from how-to-build.md.** The Build field in how-to-build.md describes approach. Do not copy it into specs. If plan mode would figure it out by reading the codebase, don't put it in the spec.
+
+**Test details stay in how-to-test.md.** Don't duplicate pass/fail criteria, failure modes, or observation checklists into specs. Plan mode implements code — the human runs tests. Specs carry only a one-line "done when."
 
 **Inline a constraint only when the codebase is actively misleading** — when two options exist and the wrong one looks right. Otherwise trust plan mode to discover conventions.
 
@@ -58,7 +60,7 @@ After writing all specs, review the full set:
 
 - **Merge small pieces that share a pattern.** Each spec should be worth a full plan mode session.
 - **Route non-code pieces to test checklists.** No code deliverables → not a spec. Write to `docs/` instead. Move any real code deliverables into the last spec that builds something.
-- **Interface-only test.** Re-read each spec: does every sentence describe WHAT to build, WHAT goes in/out, or HOW TO VERIFY? If it describes an implementation approach, cut it.
+- **Interface-only test.** Re-read each spec: does every sentence describe WHAT to build or WHAT goes in/out? If it describes an implementation approach or detailed test criteria, cut it.
 
 ### 3. Commit
 
