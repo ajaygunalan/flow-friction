@@ -31,8 +31,13 @@ The heavy thinking already happened in `/brainstorm`. Here you're structuring �
 4. Write `docs/research/how-to-build.md` — layered pyramid with per-piece:
    - **What**: what this piece does
    - **Depends on**: which pieces must be built first
-   - **Build**: what exists when this piece is done — deliverables only. Not how to implement them. Implementation belongs in plan mode, not here.
-   - **Test**: one-liner — how to verify it works. Just enough to confirm the piece is testable. Full test plan comes in `/plan-tests`.
+   - **Build**: what exists when this piece is done — deliverables and data contracts only. Plan mode reads the codebase and figures out how to implement. Common leaks to avoid:
+     - Threading/locking strategy ("lock-protected slot, no queue")
+     - API choices ("OpenCV setMouseCallback", "cv2.imshow")
+     - Per-tick/per-step flow ("each tick: poll X, display Y, feed Z")
+     - UI details ("green circles, Enter = next, R = redo")
+     - Pattern references ("same pattern as rtde_connection.py")
+   - **Test**: one sentence — the observable outcome when it works. Not test procedure, not assertions, not mock strategies. Full test plan comes in `/plan-tests`.
    - **Risk**: what can go wrong and how to detect/mitigate early
 5. End with: build order diagram, merge points, and milestone markers.
 6. AskUserQuestion: revise or accept?
