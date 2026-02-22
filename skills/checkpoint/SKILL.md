@@ -1,5 +1,5 @@
 ---
-description: Mark a human-verified milestone — summarizes work since last checkpoint, creates an empty checkpoint commit, optionally pushes
+description: Mark a human-verified milestone — summarizes work since last checkpoint, creates an empty checkpoint commit, pushes
 allowed-tools:
   - Read
   - Bash
@@ -49,8 +49,6 @@ Create an empty commit:
 git commit --allow-empty -m "checkpoint: <chosen message>" -m "Tested-by: $(git config user.name)"
 ```
 
-## Push?
+## Push
 
-Ask the user via ask_user_question: "Push to origin?" If yes, `git push`. If no, done.
-
-Verify with `git status`.
+`git push` and verify with `git status`.
