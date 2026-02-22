@@ -4,7 +4,7 @@
 
 Most AI coding tools assume you know what you're building. Flow-friction assumes you don't.
 
-You're integrating Drake with Rerun before anyone else has. You're building a force-sensing calibration pipeline that no tutorial covers. You're pushing into territory where the first step is figuring out what the first step is. The work is nonlinear — you brainstorm, build, hit a wall, investigate, rethink, build again. The agent needs to keep up with that, not force you into a pipeline.
+You're building something that doesn't exist yet. No tutorial covers it. No Stack Overflow thread has the answer. The first step is figuring out what the first step is. You brainstorm, build, hit a wall, investigate, rethink, build again. The work is nonlinear and the agent needs to keep up with that — not force you into a pipeline.
 
 Flow-friction is a set of Claude Code skills that match how this kind of work actually moves. Each skill is a collaboration mode — not a script to follow, but a behavior that adapts to where you are.
 
