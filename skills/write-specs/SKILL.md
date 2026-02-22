@@ -44,11 +44,17 @@ Read all three research docs. Print a brief summary. Then immediately start writ
 {One line — what success looks like. Not how to test, not failure modes.}
 ```
 
-**Deliverables carry the what, not the how.** Name the deliverable and the interface it implements. Don't describe how to build it — plan mode reads the codebase and figures that out.
+**Deliverables carry the what, not the how.** Name the deliverable and the interface it implements. Don't describe how to build it — plan mode reads the codebase and figures that out. Common leaks to watch for:
+- Threading/locking strategy (e.g., "lock-protected single slot") — implementation choice
+- Wire protocol details discoverable from reference code — plan mode reads the code
+- Per-tick control flow (e.g., "each tick: poll X, display Y, feed Z") — implementation approach
+- UI details (e.g., "drawn circles, Enter = next, R = redo") — implementation choice
 
 **Strip implementation details from how-to-build.md.** The Build field in how-to-build.md describes approach. Do not copy it into specs. If plan mode would figure it out by reading the codebase, don't put it in the spec.
 
 **Test details stay in how-to-test.md.** Don't duplicate pass/fail criteria, failure modes, or observation checklists into specs. Plan mode implements code — the human runs tests. Specs carry only a one-line "done when."
+
+**"Done when" is the observable outcome, not test procedure.** Don't describe how to test (mock servers, unit test steps, assertion details). Describe what you see when it works. "Call latest_frame(), see the image" — not "unit test with mock TCP server passes."
 
 **Inline a constraint only when the codebase is actively misleading** — when two options exist and the wrong one looks right. Otherwise trust plan mode to discover conventions.
 
