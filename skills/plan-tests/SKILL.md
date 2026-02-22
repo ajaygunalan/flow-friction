@@ -13,7 +13,7 @@ Both must exist in `docs/research/`:
 - `what-to-build.md` (sharp, with Q1/Q2 structure)
 - `how-to-build.md` (layered pyramid with pieces defined)
 
-If `what-to-build.md` is missing: "Run `/brain-dump <your topic>` first." Stop.
+If `what-to-build.md` is missing: "Run `/brainstorm <your topic>` first." Stop.
 If `how-to-build.md` is missing: "I need the build plan first. Run `/plan-build`." Stop.
 
 ## What this produces
@@ -24,10 +24,10 @@ If `how-to-build.md` is missing: "I need the build plan first. Run `/plan-build`
 
 This doc describes **what to test and how to judge pass/fail** — NOT how to build. No build instructions, no file paths, no CLI flags, no code snippets. Those belong in `how-to-build.md` or specs.
 
-## Steps
+## How this works
 
 1. Read `docs/research/what-to-build.md` and `docs/research/how-to-build.md`
-2. Spawn an Explore agent to map existing test/verification patterns in the codebase
+2. Reflect back to the user: what are the key test boundaries, what granularity makes sense, which pieces carry the most verification risk. Let the user steer before writing.
 3. Synthesize into smallest testable pieces — each with:
    - What it proves
    - Pass/fail criteria (binary where possible)

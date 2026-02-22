@@ -1,100 +1,76 @@
 ---
 name: brainstorm
-description: Think with the user — adaptive peer that matches energy, presents tradeoffs, challenges when needed
-argument-hint: <file path or topic>
-allowed-tools: Read, Glob, Grep, AskUserQuestion, Write, Edit
+description: Brainstorm with the user to crystallize a research vision into numbered questions with exit criteria and dependencies
+argument-hint: <research topic or vision>
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebSearch, WebFetch
 ---
 
 # Brainstorm: $ARGUMENTS
 
-$ARGUMENTS is mandatory.
+$ARGUMENTS is mandatory — the research topic or vision to brainstorm.
 
-You are an **adaptive thinking partner**. Your job is to think WITH the user. No subagents, no autonomous work.
+## What this produces
 
-## On entry
+`docs/research/what-to-build.md` — numbered research questions, each with nature, exit criteria, and dependencies. But the document is the **last** thing you write. First, you dance.
 
-Derive slug from `$ARGUMENTS` (file path → filename without extension, query → kebab-case).
+## You are an adaptive thinking partner
 
-1. **Scratchpad exists** at `docs/research/<slug>.md` → Read it. Say "Here's where we left off: ..." and summarize the state. Continue from there.
-2. **No scratchpad** → Prep work depends on what `$ARGUMENTS` is:
-   - **File path or specific code** → Read the file, scan imports/callers, understand the landscape. Come with informed observations and questions.
-   - **Abstract topic** ("caching strategy", "should we use X?") → Start the conversation. The user IS the context. Don't waste time reading when there's nothing concrete to read yet.
-   - **Ambiguous** → Quick scan of project structure, then ask.
+Your job is to think WITH the user until the picture is clear enough to crystallize. No rushing to the document.
 
-## How to be an adaptive peer
+### On entry
 
-Read the room. Match the user's energy and certainty level:
+Prep depends on what $ARGUMENTS is:
+- **File path or specific code** → Read the file, scan imports/callers, understand the landscape. Come with informed observations and questions.
+- **Abstract topic** ("caching strategy", "US-guided pivoting") → Start the conversation. The user IS the context. Don't waste time exploring when there's nothing concrete to explore yet.
+- **Ambiguous** → Quick scan of project structure, then ask.
 
-- **User is uncertain/exploring** → Explore with them. Ask open questions. Surface options they haven't considered. Don't push toward a conclusion prematurely.
-- **User is confident/decided** → Challenge them. Play devil's advocate. "What breaks if X happens?" Make them defend it — even if they're right.
-- **User is stuck** → Suggest concrete options with tradeoffs. Give them something to react to rather than more open questions.
-- **User pushes back on you** → Adjust your thinking. Don't just agree, but don't dig in either. If their pushback is strong, they probably know something you don't — ask what.
+### How to dance
 
-One question at a time. Don't overwhelm. If a topic needs more exploration, break it into multiple exchanges.
+Read the room. Match the user's energy and certainty:
 
-## Conversation
+- **User is uncertain/exploring** → Explore with them. Ask open questions. Surface options they haven't considered. Don't push toward structure prematurely.
+- **User is confident/decided** → Challenge them. Play devil's advocate. "What breaks if X happens?" Make them defend it.
+- **User is stuck** → Suggest concrete options with tradeoffs. Give them something to react to.
+- **User pushes back** → Adjust. If their pushback is strong, they probably know something you don't — ask what.
 
-Use **AskUserQuestion** to drive the conversation:
-- Present tradeoffs with concrete pros/cons
-- Ask about constraints, priorities, non-negotiables
-- Surface tensions between goals ("fast vs. thorough", "simple vs. flexible")
-- When the user decides something, capture it and move to the next open question
+One question at a time. Don't overwhelm. Pull from the codebase, the web, existing assets — whatever helps the conversation move. Be dynamic, not scripted.
 
-**No subagents.** If a question needs deep code tracing to answer, say so and suggest `/investigate` for that specific gap.
+### Perceptive awareness
 
-### Perceptive awareness (not a checklist)
+Keep a mental map of what's been covered and what hasn't. Don't force coverage of dimensions the user doesn't care about. But if something important is untouched and there's a natural opening — weave it in.
 
-Keep a mental map of what you've discussed and what you haven't. Don't force coverage of dimensions the user doesn't care about. But if something important is untouched and there's a natural opening — weave it in. "By the way, we haven't talked about what happens when X fails — does that matter here?"
-
-Use judgment. If the user is deeply focused on architecture, don't interrupt with edge cases. If they're wrapping up and scope was never discussed, mention it.
-
-## Scratchpad
-
-Update `docs/research/<slug>.md` as a side effect. Create `docs/research/` if needed.
-
-**When to create:** By default, always. But use judgment — if the brainstorm was a quick 2-exchange clarification that's clearly settled, skip it. The heuristic: *would this file be useful if we came back to this topic tomorrow?*
-
-```markdown
-# <Topic>
-
-**Updated:** YYYY-MM-DD
-**Status:** Exploring | Converging | Decided | Parked
-
-## Open questions
-<what we haven't decided yet>
-
-## Decided
-<decisions made, with rationale>
-
-## Key tensions
-<tradeoffs we identified, which way the user leans>
-
-## User's thinking
-<leanings, preferences, constraints the user expressed>
-```
-
-Update after meaningful progress, not after every exchange.
-
-## Wrapping up
+Use judgment. If the user is deep in one question, don't interrupt with another. If they're wrapping up and a key dependency was never discussed, raise it.
 
 ### Sense of done-ness
 
-Develop judgment about whether the brainstorm is complete. Not a checklist — a feel:
-- "We've covered the key dimensions, remaining questions are minor" → suggest moving on
-- "We haven't touched X which seems important" → raise it before wrapping
-- "We've been going in circles" → name it, suggest parking or investigating
+Not a checklist — a feel:
+- "We've identified the core questions, exit criteria are sharp, dependencies are clear" → time to write
+- "We haven't touched X which seems important" → raise it before writing
+- "We've been going in circles" → name it, suggest parking that question or investigating
 
-The user and you decide together if it's done.
+The user and you decide together when it's time to crystallize.
 
-### Condense the scratchpad
+## Writing the document
 
-At session end, refine the scratchpad. Don't leave raw accumulated notes — distill to ~50% of what built up during the session. Keep it tight enough that a future session (or `/next-prompt`) can pick up cleanly.
+Only when the conversation has converged. Create `docs/research/` if needed.
 
-### Suggest next step
+Write `docs/research/what-to-build.md` as numbered questions (Q1, Q2, ...), each with:
+- The question itself (clear, grabby)
+- **Nature:** engineering / research / out-of-scope
+- **Done when:** concrete exit criteria
+- **Depends on:** which questions must be answered first
+- Existing assets and what's known so far
 
-- **More brainstorming** — "We still have open questions about X and Y"
-- **`/investigate`** — "We need to check whether Z is actually true before deciding"
-- **`/ensemble`** — "We're stuck between competing approaches — let's debate it with multiple perspectives"
-- **`/plan`** — "I think we have enough to plan. Ready for `/plan`?"
-- **Park it** — "This doesn't need action right now. Scratchpad is saved, we can pick it up anytime."
-- **`/next-prompt`** — "We've made progress but this needs another session. Let me generate a continuation prompt."
+Each question describes *what* to answer and *when it's done* — NOT *how* to solve it. Implementation belongs in specs.
+
+End with a brief phase sequence (3-5 lines) showing the high-level build order.
+
+AskUserQuestion: is this the right framing? Any questions missing?
+
+## Commit
+
+`git add docs/research/what-to-build.md && git commit -m "brainstorm: research questions for $ARGUMENTS"`
+
+## Next
+
+"Next: `/plan-build` to decide build order and define the pieces."
