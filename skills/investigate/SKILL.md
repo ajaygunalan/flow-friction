@@ -38,8 +38,6 @@ Collect results, identify gaps, spawn follow-up subagents as needed. Repeat unti
 - **Decision or comparison queries** — spawn teammates with competing perspectives. Each argues for a different approach. Synthesize the strongest position.
 - **Cross-layer coordination** — changes spanning multiple layers where agents need to share discoveries mid-task.
 
-When escalating to agent teams, follow the `ensemble` skill for setup and execution patterns.
-
 ### Guardrails
 
 - If you can test something in 10 seconds yourself, just do it. Don't spawn a subagent for a trivial check.
