@@ -2,86 +2,79 @@
 
 > Flow fast. Friction for what survives.
 
-Claude Code skills for solo research workflows. One researcher, one codebase, one agent.
+Most AI coding tools assume you know what you're building. Flow-friction assumes you don't.
 
----
+You're integrating Drake with Rerun before anyone else has. You're building a force-sensing calibration pipeline that no tutorial covers. You're pushing into territory where the first step is figuring out what the first step is. The work is nonlinear — you brainstorm, build, hit a wall, investigate, rethink, build again. The agent needs to keep up with that, not force you into a pipeline.
 
-## How it works
+Flow-friction is a set of Claude Code skills that match how this kind of work actually moves. Each skill is a collaboration mode — not a script to follow, but a behavior that adapts to where you are.
 
-Skills compose flexibly. Use the full pipeline when there's a lot to build, or pick individual skills when you already know what you need.
+## The skills
 
-### The full pipeline (for big builds with stacked unknowns)
+**Think together**
 
-```
-/brainstorm    →  docs/research/what-to-build.md    (numbered questions, exit criteria)
-/plan-build    →  docs/research/how-to-build.md     (layered pyramid, deliverables)
-/plan-tests    →  docs/research/how-to-test.md      (pass/fail, failure modes)
-/review   →  brief, teach, surface issues, trim through dialogue
-/write-specs   →  docs/specs/spec-*.md               (one per plan mode session)
-```
+- `/brainstorm` — Adaptive thinking partner. Matches your energy: explores when you're uncertain, challenges when you're confident, offers options when you're stuck. Produces a research document when the picture is clear — not before.
+- `/review` — Reads your docs, briefs you, then asks what you want. Teach me? Trim this? Is this good? Follows your lead.
 
-Each spec feeds a fresh Claude Code session in plan mode. Plan mode reads the spec + codebase, proposes steps, gets approval, executes. `/verify-plan` and `/implement` are available downstream.
+**Go dig alone**
 
-### Partial use (most of the time)
+- `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
-Not every task needs the full pipeline. Common shorter paths:
+**Structure when you're ready**
 
-- **Know what to build?** → Write a plan in `docs/plan/` → `/verify-plan` → `/implement`
-- **Need to think first?** → `/brainstorm` to clarify, then plan mode directly
-- **Small feature?** → Just ask Claude
-- **Review docs?** → `/review docs/specs/` or `/review <any path>`
+- `/plan-build` — Takes your brainstorm output and layers it into a build pyramid. Dependencies, risks, ordering.
+- `/plan-tests` — Decomposes each piece into smallest testable items. Pass/fail criteria, failure modes.
+- `/write-specs` — One self-contained spec file per piece. Each spec is the input to a fresh plan mode session.
+- `/verify-plan` — Reads a plan against your original request. Catches drift.
 
-`/review` works at any point — on research docs, specs, or any file. Brief, teach, trim, or just validate.
+**Build**
 
----
+- `/implement` — Reads the plan, spawns subagents, each commits atomically. Orchestration, not hand-holding.
 
-```
-RESEARCH      /brainstorm  /investigate  /conversation-search  /swarm-agents
-PLANNING      /plan-build  /plan-tests  /write-specs  /review
-BUILD         /verify-plan  /implement  /ralph
-WORKTREE      /create-worktrees  /merge
-REVIEW        /roborev:fix
-ANALYZE       roborev analyze <type>
-VISUALIZE     /walkthrough  /d2-diagram
-CHECKPOINT    /checkpoint
-DISTILL       /index-sync  /index-codebase  /learn  /next-prompt
-```
+**Keep moving across sessions**
 
-`/index-sync` compresses docs into D2 diagrams. `/index-codebase` builds the full documentation index from scratch.
+- `/checkpoint` — Marks a human-verified milestone. Summarizes work, creates a checkpoint commit.
+- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
+- `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 
-**The code is the book. Diagrams are the primary index.**
+**Maintain the codebase knowledge**
 
-### What do I type?
+- `/index-sync` — Compresses docs into D2 diagrams. Code is the book, diagrams are the index.
+- `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
+- `/walkthrough` — Generates a D2 diagram explaining a flow or architecture. Visual mental model in under 2 minutes.
+- `/d2-diagram` — Creates D2 diagrams directly.
 
-```
-"I know the fix"              →  Just ask Claude
-"Something's wrong, not sure" →  /investigate
-"New feature, need to think"  →  /brainstorm
-"Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
-"Big research direction"      →  /brainstorm → /plan-build → /plan-tests → /write-specs
-"Know what to build"          →  plan mode → /verify-plan → /implement
-"Review my docs"              →  /review docs/specs/
-"Ready to build a spec"       →  Open plan mode, paste the spec
-"Set up worktrees"            →  /create-worktrees
-"Done with feature"           →  /merge <name>
-"Review my code"              →  /roborev:review  (branch: /roborev:review-branch)
-"Design review"               →  /roborev:design-review  (branch: -branch)
-"Reviews found issues"        →  /roborev:fix
-"Code smells accumulating"    →  roborev analyze <type>
-"Need multiple perspectives"  →  /swarm-agents
-"Have a PRD to automate"     →  /ralph
-"Capture what we learned"    →  /learn
-"Explain how this works"      →  /walkthrough
-"Create a diagram"            →  /d2-diagram
-"New codebase, no docs"       →  /index-codebase
-"Session ending"              →  /index-sync → /next-prompt
-```
+**Worktree workflow**
 
-### Setup
+- `/create-worktrees` — Sets up parallel worktree slots for a repo.
+- `/merge` — Squash-merges a worktree branch back into main.
 
-Commands work immediately. For continuous code review: [`roborev init`](https://github.com/roborev-dev/roborev)
+**External review**
 
-Recommended `~/.claude/settings.json`:
+- `/roborev:review` — Triggers a code review via roborev. Supports `--branch`, `--type design|security`.
+- `/roborev:fix` — Batch-fixes all unaddressed review findings.
+
+**Automation**
+
+- `/ralph` — Converts a PRD into Ralph's JSON format for autonomous execution.
+
+## How it actually gets used
+
+There's no prescribed order. You enter wherever you are:
+
+- You don't know what to build yet → `/brainstorm`
+- You know something's broken but not what → `/investigate`
+- You have a vision and need to structure it → `/brainstorm` then `/plan-build` → `/plan-tests` → `/write-specs`
+- You know exactly what to do → Just ask Claude
+- You wrote a plan and want a sanity check → `/verify-plan`
+- Your docs are bloated → `/review`
+- Session ending → `/checkpoint` then `/next-prompt`
+- New session → Paste the prompt from `/next-prompt`
+
+The full pipeline exists for when you're facing a big build with stacked unknowns. Most days you grab one or two skills and go.
+
+## Setup
+
+Skills work immediately. Add to `~/.claude/settings.json`:
 
 ```json
 {
@@ -95,8 +88,6 @@ Recommended `~/.claude/settings.json`:
 }
 ```
 
-`ENABLE_TOOL_SEARCH` — MCP tool discovery for `/investigate`. `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` — multi-agent coordination for `/investigate` and `/implement`.
-
 Persistent tasks across sessions:
 
 ```bash
@@ -105,20 +96,19 @@ claude() {
 }
 ```
 
-### File layout
+For continuous code review: [`roborev init`](https://github.com/roborev-dev/roborev)
+
+## File layout
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/*.md` | Research docs |
+| `docs/research/*.md` | Working research docs — brainstorm output, investigation scratchpads |
 | `docs/specs/spec-*.md` | Spec files — one per plan mode session |
-| `docs/plan/*.md` | Ephemeral plans for ad-hoc pipeline |
-| `docs/diagrams/*.md` | Permanent D2 diagrams |
-| `walkthrough-*.md` | D2 walkthroughs |
-| `CLAUDE.md` | Agent routing table |
+| `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
+| `docs/diagrams/*.md` | D2 diagrams — the persistent index |
 
 ---
 
-Stateless. No ceremony. No tracking files.
-Built for solo researchers in robotics, ML, scientific computing.
+Built for people who build what hasn't been built yet.
 
 [MIT](https://opensource.org/licenses/MIT)
