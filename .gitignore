@@ -4,7 +4,6 @@
 # Track these
 !.gitignore
 !README.md
-!readme_work_in_progress.md
 !skills/
 !skills/**
 __pycache__/
