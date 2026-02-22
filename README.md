@@ -8,6 +8,19 @@ Flow-Friction is scaffolding for that collaboration. A set of Claude Code skills
  
 The flow is the speed of working with an agent that already knows your rhythm. The friction is deliberate pushback at decision points: challenging your assumptions, forcing you to name what done looks like, catching drift before you've built the wrong thing.
 
+<details>
+<summary><strong>How to use these skills</strong></summary>
+
+These are not magic wands. You don't wave a skill and get pristine working software in one go. The skills are shoes — good shoes help you play football, but shoes don't score goals. The player's rhythm determines the shoe, never the other way around.
+
+Your rhythm is something you find by playing. There's no book for it, no holy source of truth. Every project is different, every domain is different, every person thinks differently. You use the agent on real problems, you notice where it drifts, you learn when to trust it and when to steer — and over time, repeating workflows start to surface. Those are your skills. Not these.
+
+These skills might help you get there. Read them, pull them apart, let them shape how you think about your own patterns. But just running someone else's skills on your problems won't get you far — the same way wearing another player's shoes won't teach you their game. What matters is the play. The energy. The knowledge of when you need grip and when you need speed. That comes from being on the field, not from the gear.
+
+What worked for me wasn't downloading other people's setups. It was studying their workflows, understanding the choices behind them, then rebuilding from scratch to fit my own taste. You have to feel the skill, not just run it.
+
+</details>
+
 ## The skills
 
 There's no prescribed order. You enter wherever you are. Most days you grab one or two skills and go.
