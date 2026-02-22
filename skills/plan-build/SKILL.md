@@ -21,9 +21,8 @@ allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
 2. Reflect understanding back. Surface dependency tensions, ordering disagreements, pieces that might be parallelizable. Let the user steer.
 3. Converge on build order through a few focused exchanges.
 4. Write `docs/research/how-to-build.md` — layered pyramid with per-piece:
-   - **What**: what this piece does
+   - **What**: what this piece does — deliverable + any constraints the codebase can't tell you. For every detail, ask: would a builder figure this out from the codebase? If yes, leave it out.
    - **Depends on**: which pieces must be built first
-   - **Build**: what exists when done — deliverables and data contracts only. For every detail, ask: would plan mode figure this out from the codebase? If yes, leave it out. Inline a constraint only when the codebase is actively misleading.
    - **Test**: one sentence — the observable outcome when it works. Full test plan comes in `/plan-tests`.
    - **Risk**: what can go wrong and how to detect/mitigate early
 5. End with: build order diagram, merge points, milestone markers.

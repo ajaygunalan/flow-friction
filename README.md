@@ -16,7 +16,7 @@ Skills compose flexibly. Use the full pipeline when there's a lot to build, or p
 /brainstorm    →  docs/research/what-to-build.md    (numbered questions, exit criteria)
 /plan-build    →  docs/research/how-to-build.md     (layered pyramid, deliverables)
 /plan-tests    →  docs/research/how-to-test.md      (pass/fail, failure modes)
-/review-trim   →  trim any doc at any point
+/review   →  brief, teach, surface issues, trim through dialogue
 /write-specs   →  docs/specs/spec-*.md               (one per plan mode session)
 ```
 
@@ -29,15 +29,15 @@ Not every task needs the full pipeline. Common shorter paths:
 - **Know what to build?** → Write a plan in `docs/plan/` → `/verify-plan` → `/implement`
 - **Need to think first?** → `/brainstorm` to clarify, then plan mode directly
 - **Small feature?** → Just ask Claude
-- **Specs need trimming?** → `/review-trim docs/specs/`
+- **Review docs?** → `/review docs/specs/` or `/review <any path>`
 
-`/review-trim` works at any point — on research docs, specs, or any single file.
+`/review` works at any point — on research docs, specs, or any file. Brief, teach, trim, or just validate.
 
 ---
 
 ```
 RESEARCH      /brainstorm  /investigate  /conversation-search  /swarm-agents
-PLANNING      /plan-build  /plan-tests  /write-specs  /review-trim
+PLANNING      /plan-build  /plan-tests  /write-specs  /review
 BUILD         /verify-plan  /implement  /ralph
 WORKTREE      /create-worktrees  /merge
 REVIEW        /roborev:fix
@@ -47,7 +47,7 @@ CHECKPOINT    /checkpoint
 DISTILL       /index-sync  /index-codebase  /learn  /next-prompt
 ```
 
-Research files are ephemeral — they exist to be absorbed, not maintained. `/index-sync` compresses them into D2 diagrams, then deletes the source files. `/index-codebase` builds the full documentation index from scratch.
+`/index-sync` compresses docs into D2 diagrams. `/index-codebase` builds the full documentation index from scratch.
 
 **The code is the book. Diagrams are the primary index.**
 
@@ -60,7 +60,7 @@ Research files are ephemeral — they exist to be absorbed, not maintained. `/in
 "Continuing from last session"→  /brainstorm or /investigate (follow /next-prompt)
 "Big research direction"      →  /brainstorm → /plan-build → /plan-tests → /write-specs
 "Know what to build"          →  plan mode → /verify-plan → /implement
-"Specs need trimming"         →  /review-trim docs/specs/
+"Review my docs"              →  /review docs/specs/
 "Ready to build a spec"       →  Open plan mode, paste the spec
 "Set up worktrees"            →  /create-worktrees
 "Done with feature"           →  /merge <name>
@@ -109,7 +109,7 @@ claude() {
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/*.md` | Ephemeral research docs (absorbed by `/index-sync`) |
+| `docs/research/*.md` | Research docs |
 | `docs/specs/spec-*.md` | Spec files — one per plan mode session |
 | `docs/plan/*.md` | Ephemeral plans for ad-hoc pipeline |
 | `docs/diagrams/*.md` | Permanent D2 diagrams |

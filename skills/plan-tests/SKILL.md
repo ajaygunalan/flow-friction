@@ -38,4 +38,4 @@ If missing, tell the user which skill to run and stop.
 
 ## Next
 
-"Next: `/review-trim docs/research/` to audit the 3 research docs together, then `/write-specs` to produce spec files."
+"Next: `/review docs/research/` to audit the 3 research docs together, then `/write-specs` to produce spec files."

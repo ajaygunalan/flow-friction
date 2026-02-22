@@ -10,7 +10,7 @@ Request a code review for a commit and present the results.
 ## Usage
 
 ```
-/roborev:review [commit] [--type security|design]
+/roborev:review [commit] [--branch] [--base <branch>] [--type security|design]
 ```
 
 ## IMPORTANT
@@ -19,7 +19,7 @@ This skill requires you to **execute bash commands** to validate the commit and 
 
 ## Instructions
 
-When the user invokes `/roborev:review [commit] [--type security|design]`:
+When the user invokes `/roborev:review [commit] [--branch] [--base <branch>] [--type security|design]`:
 
 ### 1. Validate inputs
 
@@ -36,10 +36,12 @@ If validation fails, inform the user the ref is invalid. Do not proceed.
 Construct the review command:
 
 ```
-roborev review [commit] --wait [--type <type>]
+roborev review [commit] --wait [--branch] [--base <branch>] [--type <type>]
 ```
 
 - If no commit is specified, omit it (defaults to HEAD)
+- If `--branch` is specified, include it (reviews all commits on the current branch)
+- If `--base` is specified, include it (sets the base branch for `--branch` comparison)
 - If `--type` is specified, include it
 
 ### 3. Run the review in the background
@@ -49,7 +51,7 @@ Launch a background task that runs the command. This lets the user continue work
 Use the `Task` tool with `run_in_background: true` and `subagent_type: "Bash"`:
 
 ```
-roborev review [commit] --wait [--type <type>]
+roborev review [commit] --wait [--branch] [--base <branch>] [--type <type>]
 ```
 
 Tell the user that the review has been submitted and they can continue working. You will present the results when the review completes.
@@ -101,6 +103,4 @@ Agent:
 
 ## See also
 
-- `/roborev:design-review` — shorthand for `/roborev:review --type design`
-- `/roborev:address` — fix a review's findings in code
-- `/roborev:review-branch` — review all commits on the current branch
+- `/roborev:fix` — batch-fix all unaddressed review findings

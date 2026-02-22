@@ -76,6 +76,7 @@ ls -A | grep -v '^\.\(bare\|git\)$' | xargs rm -rf
 git worktree add main main
 for i in $(seq 1 $N); do
   git worktree add "w$i" -b "w$i-slot" main
+  git push -u origin "w$i-slot"
 done
 ```
 
@@ -126,6 +127,7 @@ For each slot `w1` .. `w$N`:
 for i in $(seq 1 $N); do
   mkdir -p "$WT_BASE/w$i/src"
   git worktree add "$WT_BASE/w$i/src/$PKG_NAME" -b "w$i-slot" main
+  git push -u origin "w$i-slot"
 done
 ```
 
@@ -184,6 +186,7 @@ Abort if worktrees directory already has `w1/` (already set up).
 mkdir -p "$WT_BASE"
 for i in $(seq 1 $N); do
   git worktree add "$WT_BASE/w$i" -b "w$i-slot" main
+  git push -u origin "w$i-slot"
 done
 ```
 
