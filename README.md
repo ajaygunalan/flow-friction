@@ -2,11 +2,11 @@
 
 > Flow fast. Friction for what survives.
 
-Coding agents are extraordinary when the problem looks like problems they've seen before. But some work lives outside that distribution — you're building something genuinely new, where the first step is figuring out what the first step is. The agent doesn't know the answer any more than you do. You figure it out together.
+Coding agents are extraordinary when the problem resembles problems they've seen before. But some work lives outside that distribution — where the first step is figuring out what the first step is. The agent doesn't know the answer any more than you do. You figure it out together.
 
-Flow-friction is scaffolding for that collaboration. A set of Claude Code skills that save you from re-explaining the same patterns every session — how to think together, when to challenge vs. explore, how to structure what you've learned, when to go build. Each skill is a reusable collaboration mode that adapts to where you are in the work, so your energy goes into the problem, not into steering the agent.
-
-The *flow* is the speed of working with an agent that already knows how to match your rhythm. The *friction* is the deliberate pushback at decision points — challenging your assumptions, forcing you to name what "done" looks like, catching drift before you've built the wrong thing.
+Flow-Friction is scaffolding for that collaboration. A set of Claude Code skills that save you from re-explaining the same patterns every session: how to think together, when to challenge versus explore, how to structure what you've learned, when to stop talking and go build. Each skill is a reusable collaboration mode that adapts to where you are in the work, so your energy goes into the problem — not into steering the agent.
+ 
+The flow is the speed of working with an agent that already knows your rhythm. The friction is deliberate pushback at decision points: challenging your assumptions, forcing you to name what done looks like, catching drift before you've built the wrong thing.
 
 ## The skills
 
