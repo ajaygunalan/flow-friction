@@ -1,92 +1,150 @@
 ---
 name: brainstorm
-description: Think with the user until the problem space is clear, then crystallize what emerged
-argument-hint: <topic, vision, or file path>
+description: Think with the user across sessions to produce a milestone — a set of issues ready for plan mode
+argument-hint: <topic, vision, or file path to existing milestone>
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebSearch, WebFetch
 ---
 
 # Brainstorm: $ARGUMENTS
 
-$ARGUMENTS is mandatory — the topic, vision, or file path to brainstorm around.
+$ARGUMENTS is mandatory — a topic to explore or a path to an existing milestone file.
 
 ## What this produces
 
-`docs/research/brainstorm.md` — a map of the problem space. But the document is the **last** thing you write. First, you dance.
+A single file in `docs/research/m{id}-{slug}.md` (e.g., `m1-realtime-collab.md`, `m2-auth-rework.md`) containing a milestone and its issues. But the file is what accumulates — the conversation is what matters.
 
-## You are an adaptive thinking partner
+Milestones work best with 3-8 issues. If scope grows beyond that, consider splitting into separate milestones.
 
-Your job is to think WITH the user until the picture is clear enough to crystallize. No rushing to the document.
+## On entry
 
-### On entry
+**New milestone** ($ARGUMENTS is a topic or query):
+- Start the conversation. The user IS the context. Don't explore the codebase unless there's something concrete to explore.
+- Create `docs/research/m{id}-{slug}.md` with the frontmatter (`reviewed: false`) when the first thing worth writing emerges — not before. Increment the id from existing milestone files in `docs/research/`.
 
-Prep depends on what $ARGUMENTS is:
-- **File path or specific code** → Read the file, scan imports/callers, understand the landscape. Come with informed observations and questions.
-- **Abstract topic** ("caching strategy", "US-guided pivoting") → Start the conversation. The user IS the context. Don't waste time exploring when there's nothing concrete to explore yet.
-- **Ambiguous** → Quick scan of project structure, then ask.
+**Existing milestone** ($ARGUMENTS is a file path):
+- Read the file. Scan each issue's subsections — note which are filled and which are empty.
+- Brief the user in 2-3 sentences: what the milestone is about, how many issues exist, which issues are fully specified, which have gaps, and what the gaps are.
+- Ask what they want to work on. Don't assume.
 
-### How to dance
+## How to think together
 
-Read the room. Match the user's energy and certainty:
+Read the room. This is the same regardless of what you're working on:
 
-- **User is uncertain/exploring** → Explore with them. Ask open questions. Surface options they haven't considered. Don't push toward structure prematurely.
-- **User is confident/decided** → Challenge them. Play devil's advocate. "What breaks if X happens?" Make them defend it.
-- **User is stuck** → Suggest concrete options with tradeoffs. Give them something to react to.
-- **User pushes back** → Adjust. If their pushback is strong, they probably know something you don't — ask what.
+- **User is uncertain** → Explore with them. Open questions. Surface options they haven't considered.
+- **User is confident** → Challenge them. "What breaks if X happens?" Make them defend it.
+- **User is stuck** → Give them concrete options with tradeoffs. Something to react to.
+- **User pushes back** → They know something you don't. Ask what.
 
-One question at a time. Don't overwhelm. Pull from the codebase, the web, existing assets — whatever helps the conversation move. Be dynamic, not scripted.
+One question at a time. Don't overwhelm. Pull from the codebase, the web, existing docs — whatever helps the conversation move. Be dynamic, not scripted.
 
-### Perceptive awareness
+## The four lenses
 
-Keep a mental map of what's been covered and what hasn't. If something important is untouched and there's a natural opening — weave it in. Don't force it.
+These are thinking modes, not sequential phases. Shift between them based on what the content needs and what the user asks for. The file's content tells you where things stand — empty subsections mean incomplete, filled subsections mean done.
 
-### Sense of done-ness
+### When exploring what problems to solve
 
-Not a checklist — a feel:
-- "We've mapped the problem space, the key tensions are named" → time to write
-- "We haven't touched X which seems important" → raise it before writing
-- "We've been going in circles" → name it, suggest parking that thread or investigating
+The focus: what are the problems, what are the issues worth solving.
 
-The user and you decide together when it's time to crystallize.
+As problems take shape, issues emerge. Write them into the file as they crystallize — don't wait. Each issue starts with just "What are we solving?" filled in. The rest stays empty. The milestone section captures cross-cutting context: overall strategy, decisions, exclusions.
 
-## Writing the document
+### When defining what each issue delivers
 
-Only when the conversation has converged. Create `docs/research/` if needed.
+The focus: what does each issue actually deliver, what depends on what.
 
-If the landscape is complex, open with a short paragraph capturing the story of what emerged — what you explored, what surprised you, what the key tensions are. Write in first-person plural ("we found that...", "the key tension is..."). Skip it if the headings already tell the story.
+Surface dependency tensions. If one issue can't start until another is done, name it. If two issues could be parallel, say so. Make tradeoffs visible — don't decide.
 
-Per problem, a section with the problem as a question heading:
+Fill in "What are we building?" per issue. Update "Blocked by" lines. Update the milestone's "What are we building?" with the overall approach.
 
-```
-## How do we handle state across sessions?
+### When defining verification criteria
 
-{1-2 sentences: the problem, the gap, or the opportunity}
+The focus: what does "done" mean for each issue.
 
-- **Why it matters:** {consequence of not solving this}
-- **What we know:** {constraints, existing assets, dead ends, unknowns, gaps — everything discovered about this problem}
-```
+Focus on verification risk — which issues are hardest to check, where the boundaries are. Each checkbox should be a concrete check someone can run and answer yes or no.
 
-Name each problem as a question that evokes curiosity. "Why it matters" motivates the problem. "What we know" captures everything relevant — including what we DON'T know yet (gaps and unknowns surface naturally here).
+Fill in "How do we verify?" per issue. Add milestone-level verification in the milestone's "How do we verify?" for anything that spans issues.
 
-End with:
+### When reviewing for readiness
 
-```
-## What's off the table?
+The focus: is this file clean, lean, and ready.
 
-{Things we discussed and deliberately excluded — and why. Prevents re-exploring dead ends in future sessions.}
-```
+Read the whole file silently. Brief the user. Then follow their lead:
 
-If nothing was excluded, skip this section.
+- Surface bloat — things the codebase already handles, duplication between issues, implementation details a builder would figure out.
+- Surface contradictions — issues that conflict, decisions that don't align.
+- Trim only what the user approves.
 
-AskUserQuestion: is this the right map? Anything missing or misframed?
+When the user is satisfied, set `reviewed: true`. If the file is edited after that, note the change and ask the user if the review still holds.
+
+## Writing
+
+Update the file as you go, not at the end. When an issue crystallizes, write it. When a milestone decision becomes clear, add it. The file is a living document across sessions.
+
+### File format
+
+````markdown
+---
+reviewed: false
+---
+
+## Milestone: {name}
+
+### What are we solving?
+
+{The overarching problem — why this body of work exists}
+
+### What are we building?
+
+{Overall strategy and approach — the shape of the whole, not individual pieces}
+
+### How do we verify?
+
+{Milestone-level success criteria — what does done look like across all issues}
+
+### What do you need to know?
+
+{Cross-cutting decisions, constraints, excluded approaches, dead ends}
+
+## {Issue title}
+
+Blocked by: [{other issue title}, {another issue title}]
+
+### What are we solving?
+
+{The specific problem, why it matters}
+
+### What are we building?
+
+{Concrete deliverable, constraints}
+
+### How do we verify?
+
+- [ ] {binary pass/fail condition}
+
+### What do you need to know?
+
+{Decisions, watch-outs, dead ends specific to this issue}
+````
+
+Omit the "Blocked by" line for independent issues. Use issue titles from this file as identifiers in "Blocked by" — avoid renaming issue titles casually once references exist.
+
+### Lean rule
+
+For every sentence, ask: would plan mode figure this out from the codebase? If yes, cut it. This applies during writing and especially during review.
 
 ## If nothing crystallized
 
-Sometimes the conversation clarifies thinking without producing discrete problems worth naming. If that happens, tell the user what you explored and what shifted, and note it briefly in `docs/research/brainstorm.md` so the next session has context. Even a few sentences beats starting from zero.
+Sometimes the conversation clarifies thinking without producing issues. If that happens, create the file with just the milestone section — "What are we solving?" and "What do you need to know?" filled in. No issues yet. The next session picks up from there instead of starting from zero.
 
-## Commit
+## Sense of done-ness
 
-`git add docs/research/brainstorm.md && git commit -m "brainstorm: $ARGUMENTS"`
+Not a checklist — a feel:
+- "Issues are named and problems are clear" → most issues have "What are we solving?" filled
+- "Build plans are defined and ordering makes sense" → most issues have "What are we building?" filled
+- "Verification criteria exist for each issue" → most issues have "How do we verify?" filled
+- "The file is clean and a fresh session could pick up any issue" → `reviewed: true`
 
-## What you might do next
+All issues fully specified and `reviewed: true` → the milestone is ready. Pick an issue and start a fresh plan-mode session.
 
-`/how-to-build` to decide build order and define the pieces — if there are pieces to build. Not every brainstorm leads there.
+## Next
+
+"Pick an issue and start a new session in plan mode. Start from the first unblocked issue."

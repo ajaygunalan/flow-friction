@@ -17,7 +17,7 @@ Meta-prompting frameworks for coding agents already exist, and some are good.
 
 [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. Too many phases, and each phase took too long. Even the brainstorming felt exhausting — the prompts and skills were so rigid that the agent was constrained rather than liberated. Hard to steer, hard to make agile. And it kept pulling toward web and app development patterns. For domains like robotics, machine learning, game development, graphics — where the work is math-heavy, algorithmic, and the constraints are fundamentally different — it just didn't gel.
 
-[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction keeps brainstorming, build planning, and test planning as separate sessions so understanding can shift between them in a nonlinear way. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has `/review-trim` specifically to catch bloat before you build.
+[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction uses one skill (`/brainstorm`) that shifts between four thinking lenses — problem discovery, build planning, test criteria, review — across sessions. Understanding accumulates in one file; issues emerge as they crystallize, not as a batch step. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has review built into the brainstorm process as one of its four lenses.
 
 [Gastown](https://github.com/steveyegge/gastown) goes the other direction — orchestrating 20-30 agents in parallel with persistent state via git hooks. Impressive infrastructure, but it's solving coordination, not alignment. Agents are context-sensitive — one small misalignment at a foundational level propagates through everything built on top of it. With 20-30 parallel agents, if one drifts, the drift multiplies across codepaths. You end up untangling spaghetti instead of shipping. Personally, I work with two-three agents per project, maybe two projects at a time — four to six agents total. Beyond that, context-switching degrades, and the coordination overhead outweighs the parallelism.
 
@@ -27,7 +27,7 @@ What these frameworks share is an assumption: you know what you're building. Whe
 
 Flow-Friction doesn't organize work. It organizes understanding.
 
-Other frameworks hand the agent tasks, milestones, roles — units of work to execute. Flow-Friction hands it questions. A brainstorm produces research questions, not a spec. An investigation produces hypotheses — not deliverables. A plan surfaces dependencies and risks, not sprint items. The code comes last, after the understanding is there. And when the understanding changes — and it will — you throw away the code and rebuild from what you now know.
+Other frameworks hand the agent tasks, roles, phases — units of work to execute. Flow-Friction hands it questions. A brainstorm produces issues — but the issues emerge from understanding, not from upfront specs. You think through problems, build shape, and test criteria across sessions; issues crystallize as you go. An investigation produces hypotheses — not deliverables. The code comes last, after the understanding is there. And when the understanding changes — and it will — you throw away the code and rebuild from what you now know.
 
 Code is cheap. It's just tokens. Understanding is what's expensive, and you can't spec it upfront. Staying small — small assumptions, small builds, small specs — means when you're wrong, the cost stays small too.
 
@@ -52,22 +52,15 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Think together**
 
-- `/brainstorm` — Adaptive thinking partner. Dances with you until the picture is clear — explores when you're uncertain, challenges when you're confident, offers options when you're stuck. Crystallizes the problem space when ready, not before.
-- `/review-trim` — Reads your docs silently, forms a picture, then asks what you want. Teach me? Trim this? Is this good? Follows your lead.
+- `/brainstorm` — Thinks with you across sessions to produce a milestone — a set of issues ready for plan mode. Four lenses, one file: explores problems, defines build pieces, writes test criteria, reviews for readiness. Issues emerge as you go, not as a packaging step at the end.
 
 **Go dig alone**
 
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
-**Structure when you're ready**
-
-- `/how-to-build` — Takes your brainstorm output and structures the build pieces. Dependencies, risks, ordering, key decisions — surfaced through dialogue before you commit to a direction.
-- `/how-to-test` — Defines pass/fail checks for each build piece. Binary, checkable, copy-pasteable into issues.
-- `/breakdown-issues` — Reads the three research docs and produces session-sized issue files. Each issue is the input to a fresh plan mode session.
-- `/verify-plan` — Reads a plan against your original request. Catches drift.
-
 **Build**
 
+- `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
 - `/implement` — Reads the plan, spawns subagents, each commits atomically. Orchestration, not hand-holding.
 
 **Keep moving across sessions**
@@ -119,8 +112,8 @@ claude() {
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/*.md` | Working research docs — brainstorm output, investigation scratchpads |
-| `docs/issues/{id}-{slug}.md` | Issue files — one per plan mode session |
+| `docs/research/m{id}-{slug}.md` | Milestone files — `/brainstorm` output, each contains a milestone and its issues |
+| `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
 | `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
 
