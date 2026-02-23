@@ -57,7 +57,7 @@ If the landscape is complex, open with a short paragraph capturing the story of 
 Per problem, a section with the problem as a question heading:
 
 ```
-### How do we handle state across sessions?
+## How do we handle state across sessions?
 
 {1-2 sentences: the problem, the gap, or the opportunity}
 
