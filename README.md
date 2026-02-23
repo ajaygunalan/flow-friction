@@ -2,7 +2,7 @@
 
 > Flow fast. Friction for what survives.
 
-[![Flow Friction](assets/flow_frcition.png)](https://github.com/ajaygunalan/flow-friction/releases/download/v0.1.0/Flow_Friction_Collaborative_AI_Development.mp4)
+<video src="https://github.com/user-attachments/assets/63bbee6a-f17f-461f-bb42-014e9b381b2f" width="100%"></video>
 
 Coding agents are extraordinary when the problem resembles problems they've seen before. But some work lives outside that distribution — where the first step is figuring out what the first step is. The agent doesn't know the answer any more than you do. You figure it out together.
 
