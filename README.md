@@ -69,6 +69,11 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 - `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 
+**Learn from your sessions**
+
+- `/diary` — Creates a structured diary entry from the current session — what happened, decisions made, preferences observed, challenges encountered. Feeds into `/reflect`.
+- `/reflect` — Analyzes diary entries to find recurring patterns and proposes updates to your CLAUDE.md. Separates signal from noise: one-off requests get filtered, persistent preferences become rules.
+
 **Maintain the codebase knowledge**
 
 - `/index-sync` — Compresses docs into D2 diagrams. Code is the book, diagrams are the index.
