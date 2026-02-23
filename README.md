@@ -17,7 +17,7 @@ Meta-prompting frameworks for coding agents already exist, and some are good.
 
 [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. Too many phases, and each phase took too long. Even the brainstorming felt exhausting — the prompts and skills were so rigid that the agent was constrained rather than liberated. Hard to steer, hard to make agile. And it kept pulling toward web and app development patterns. For domains like robotics, machine learning, game development, graphics — where the work is math-heavy, algorithmic, and the constraints are fundamentally different — it just didn't gel.
 
-[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction keeps brainstorming, build planning, and test planning as separate sessions so understanding can shift between them in a nonlinear way. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has `/review` specifically to catch bloat before you build.
+[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction keeps brainstorming, build planning, and test planning as separate sessions so understanding can shift between them in a nonlinear way. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has `/review-trim` specifically to catch bloat before you build.
 
 [Gastown](https://github.com/steveyegge/gastown) goes the other direction — orchestrating 20-30 agents in parallel with persistent state via git hooks. Impressive infrastructure, but it's solving coordination, not alignment. Agents are context-sensitive — one small misalignment at a foundational level propagates through everything built on top of it. With 20-30 parallel agents, if one drifts, the drift multiplies across codepaths. You end up untangling spaghetti instead of shipping. Personally, I work with two-three agents per project, maybe two projects at a time — four to six agents total. Beyond that, context-switching degrades, and the coordination overhead outweighs the parallelism.
 
@@ -52,8 +52,8 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Think together**
 
-- `/brainstorm` — Adaptive thinking partner. Dances with you until the picture is clear — explores when you're uncertain, challenges when you're confident, offers options when you're stuck. Crystallizes research questions when ready, not before.
-- `/review` — Reads your docs silently, forms a picture, then asks what you want. Teach me? Trim this? Is this good? Follows your lead.
+- `/brainstorm` — Adaptive thinking partner. Dances with you until the picture is clear — explores when you're uncertain, challenges when you're confident, offers options when you're stuck. Crystallizes the problem space when ready, not before.
+- `/review-trim` — Reads your docs silently, forms a picture, then asks what you want. Teach me? Trim this? Is this good? Follows your lead.
 
 **Go dig alone**
 
@@ -61,9 +61,9 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Structure when you're ready**
 
-- `/how-to-build` — Takes your brainstorm output and layers it into a build pyramid. Dependencies, risks, ordering — surfaced through dialogue before you commit to a direction.
-- `/how-to-test` — Decomposes each piece into smallest testable items. Pass/fail criteria, failure modes.
-- `/write-specs` — One self-contained spec file per piece. Each spec is the input to a fresh plan mode session.
+- `/how-to-build` — Takes your brainstorm output and structures the build pieces. Dependencies, risks, ordering, key decisions — surfaced through dialogue before you commit to a direction.
+- `/how-to-test` — Defines pass/fail checks for each build piece. Binary, checkable, copy-pasteable into issues.
+- `/breakdown-issues` — Reads the three research docs and produces session-sized issue files. Each issue is the input to a fresh plan mode session.
 - `/verify-plan` — Reads a plan against your original request. Catches drift.
 
 **Build**
@@ -120,7 +120,7 @@ claude() {
 | Path | Purpose |
 |------|---------|
 | `docs/research/*.md` | Working research docs — brainstorm output, investigation scratchpads |
-| `docs/specs/spec-*.md` | Spec files — one per plan mode session |
+| `docs/issues/{id}-{slug}.md` | Issue files — one per plan mode session |
 | `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
 

@@ -1,17 +1,17 @@
 ---
 name: brainstorm
-description: Brainstorm with the user to crystallize a research vision into numbered questions with exit criteria and dependencies
-argument-hint: <research topic or vision>
+description: Think with the user until the problem space is clear, then crystallize what emerged
+argument-hint: <topic, vision, or file path>
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebSearch, WebFetch
 ---
 
 # Brainstorm: $ARGUMENTS
 
-$ARGUMENTS is mandatory — the research topic or vision to brainstorm.
+$ARGUMENTS is mandatory — the topic, vision, or file path to brainstorm around.
 
 ## What this produces
 
-`docs/research/brainstorm.md` — numbered research questions, each with nature, exit criteria, and dependencies. But the document is the **last** thing you write. First, you dance.
+`docs/research/brainstorm.md` — a map of the problem space. But the document is the **last** thing you write. First, you dance.
 
 ## You are an adaptive thinking partner
 
@@ -37,16 +37,14 @@ One question at a time. Don't overwhelm. Pull from the codebase, the web, existi
 
 ### Perceptive awareness
 
-Keep a mental map of what's been covered and what hasn't. Don't force coverage of dimensions the user doesn't care about. But if something important is untouched and there's a natural opening — weave it in.
-
-Use judgment. If the user is deep in one question, don't interrupt with another. If they're wrapping up and a key dependency was never discussed, raise it.
+Keep a mental map of what's been covered and what hasn't. If something important is untouched and there's a natural opening — weave it in. Don't force it.
 
 ### Sense of done-ness
 
 Not a checklist — a feel:
-- "We've identified the core questions, exit criteria are sharp, dependencies are clear" → time to write
+- "We've mapped the problem space, the key tensions are named" → time to write
 - "We haven't touched X which seems important" → raise it before writing
-- "We've been going in circles" → name it, suggest parking that question or investigating
+- "We've been going in circles" → name it, suggest parking that thread or investigating
 
 The user and you decide together when it's time to crystallize.
 
@@ -54,23 +52,41 @@ The user and you decide together when it's time to crystallize.
 
 Only when the conversation has converged. Create `docs/research/` if needed.
 
-Write `docs/research/brainstorm.md` as numbered questions (Q1, Q2, ...), each with:
-- The question itself (clear, grabby)
-- **Nature:** engineering / research / out-of-scope
-- **Done when:** concrete exit criteria
-- **Depends on:** which questions must be answered first
-- Existing assets and what's known so far
+If the landscape is complex, open with a short paragraph capturing the story of what emerged — what you explored, what surprised you, what the key tensions are. Write in first-person plural ("we found that...", "the key tension is..."). Skip it if the headings already tell the story.
 
-Each question describes *what* to answer and *when it's done* — NOT *how* to solve it. Implementation belongs in specs.
+Per problem, a section with the problem as a question heading:
 
-End with a brief phase sequence (3-5 lines) showing the high-level build order.
+```
+### How do we handle state across sessions?
 
-AskUserQuestion: is this the right framing? Any questions missing?
+{1-2 sentences: the problem, the gap, or the opportunity}
+
+- **Why it matters:** {consequence of not solving this}
+- **What we know:** {constraints, existing assets, dead ends, unknowns, gaps — everything discovered about this problem}
+```
+
+Name each problem as a question that evokes curiosity. "Why it matters" motivates the problem. "What we know" captures everything relevant — including what we DON'T know yet (gaps and unknowns surface naturally here).
+
+End with:
+
+```
+## What's off the table?
+
+{Things we discussed and deliberately excluded — and why. Prevents re-exploring dead ends in future sessions.}
+```
+
+If nothing was excluded, skip this section.
+
+AskUserQuestion: is this the right map? Anything missing or misframed?
+
+## If nothing crystallized
+
+Sometimes the conversation clarifies thinking without producing discrete problems worth naming. If that happens, tell the user what you explored and what shifted, and note it briefly in `docs/research/brainstorm.md` so the next session has context. Even a few sentences beats starting from zero.
 
 ## Commit
 
-`git add docs/research/brainstorm.md && git commit -m "brainstorm: research questions for $ARGUMENTS"`
+`git add docs/research/brainstorm.md && git commit -m "brainstorm: $ARGUMENTS"`
 
-## Next
+## What you might do next
 
-"Next: `/how-to-build` to decide build order and define the pieces."
+`/how-to-build` to decide build order and define the pieces — if there are pieces to build. Not every brainstorm leads there.

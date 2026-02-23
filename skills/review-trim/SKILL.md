@@ -1,5 +1,5 @@
 ---
-name: review
+name: review-trim
 description: Buddy and gatekeeper for docs — brief, teach, surface issues, trim through dialogue
 argument-hint: <path to file or directory>
 allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
@@ -52,4 +52,4 @@ Update files. Show a compact summary of what changed and why. More rounds if nee
 
 If files were edited:
 
-`git add <changed files> && git commit -m "review: <what was crystallized>"`
+`git add <changed files> && git commit -m "review-trim: <what was crystallized>"`
