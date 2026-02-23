@@ -2,6 +2,8 @@
 
 > Flow fast. Friction for what survives.
 
+[![Flow Friction](assets/flow_frcition.png)](assets/Flow_Friction_Collaborative_AI_Development.mp4)
+
 Coding agents are extraordinary when the problem resembles problems they've seen before. But some work lives outside that distribution — where the first step is figuring out what the first step is. The agent doesn't know the answer any more than you do. You figure it out together.
 
 Flow-Friction is scaffolding for that collaboration. A set of Claude Code skills that save you from re-explaining the same patterns every session: how to think together, when to challenge versus explore, how to structure what you've learned, when to stop talking and go build. Each skill is a reusable collaboration mode that adapts to where you are in the work, so your energy goes into the problem — not into re-explaining how to work together.
