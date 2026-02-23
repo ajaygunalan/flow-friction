@@ -89,10 +89,6 @@ roborev comment --job <job_id> "<summary of changes>" && roborev address <job_id
 
 The comment should briefly describe what was changed and why, referencing specific files and findings. Keep it under 2-3 sentences per review. If the message contains quotes or special characters, escape them properly in the bash command.
 
-### 6. Ask to commit
-
-Ask the user if they want to commit all the changes together.
-
 ## Examples
 
 **Auto-discovery:**
@@ -108,8 +104,6 @@ Agent:
 6. Records comments and marks addressed:
    - `roborev comment --job 1019 "Fixed null check and added error handling" && roborev address 1019`
    - `roborev comment --job 1021 "Fixed missing validation" && roborev address 1021`
-7. Asks: "I've addressed 3 findings across 2 reviews. Tests pass. Would you like me to commit these changes?"
-
 **Explicit job IDs:**
 
 User: `/roborev:fix 1019 1021`
@@ -120,8 +114,6 @@ Agent:
 3. Fixes the 2 findings from job 1019
 4. Runs `go test ./...` to verify
 5. Records: `roborev comment --job 1019 "Fixed null check in foo.go and error handling in bar.go" && roborev address 1019`
-6. Asks: "I've addressed 2 findings from 1 review (skipped job 1021 — already passing). Tests pass. Would you like me to commit?"
-
 ## See also
 
 - `/roborev:review` — request a code review for a commit

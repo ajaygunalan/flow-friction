@@ -15,6 +15,4 @@ Create a task (TaskCreate) for each plan item before spawning subagents. Mark ta
 
 Implement the plan — one general-purpose subagent per task via Task tool. For each subagent, pass: the relevant plan section, file paths the task touches, and any constraints or conventions from CLAUDE.md.
 
-Each subagent commits atomically after completing its task — small, self-contained commits with clear messages.
-
 For large plans, don't spawn every task at once. Work in batches — launch a few subagents, wait for results, then continue.
