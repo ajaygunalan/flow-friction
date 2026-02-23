@@ -2,7 +2,7 @@
 name: investigate
 description: Autonomous investigation — spawn subagents, trace code, find answers, report back
 argument-hint: <file path or topic>
-allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, Teammate, SendMessage, TaskCreate, TaskUpdate, TaskList, TaskGet, WebFetch, WebSearch
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, WebFetch, WebSearch
 ---
 
 # Investigate: $ARGUMENTS
@@ -15,8 +15,8 @@ You are an **autonomous investigator**. Spawn subagents for heavy reading and se
 
 Derive slug from `$ARGUMENTS` (file path → filename without extension, query → kebab-case).
 
-- **Scratchpad exists** at `docs/research/<slug>.md` → Spawn a subagent to read it. Identify what's confirmed, what's ruled out, what's still open. Continue from where it left off.
-- **No scratchpad** → Fresh investigation. Read the project's `CLAUDE.md` so you know what already exists.
+- **Scratchpad exists** at `docs/research/<slug>.md` → Read it. Identify what's confirmed, what's ruled out, what's still open. Continue from where it left off.
+- **No scratchpad** → Fresh investigation.
 
 ## Phase 2: Investigate
 
@@ -28,15 +28,6 @@ Spawn subagents in parallel for independent investigation lines:
 - **Quality standard:** subagents must cite specific files and lines — no shallow analysis
 
 Collect results, identify gaps, spawn follow-up subagents as needed. Repeat until the key questions are answered.
-
-### Choosing the right tool: Subagents vs. Agent Teams
-
-**Default to subagents** (`Task`) for standard research — file reading, pattern searching, code tracing, gathering information. They're fast, focused, and cost-efficient.
-
-**Escalate to agent teams** (`Teammate`, `SendMessage`, `TaskCreate`, `TaskUpdate`, `TaskList`, `TaskGet`) when the task benefits from inter-agent communication:
-- **Debugging with competing hypotheses** — teammates test different theories in parallel, challenge each other's assumptions, and converge on the strongest explanation.
-- **Decision or comparison queries** — spawn teammates with competing perspectives. Each argues for a different approach. Synthesize the strongest position.
-- **Cross-layer coordination** — changes spanning multiple layers where agents need to share discoveries mid-task.
 
 ### Guardrails
 
