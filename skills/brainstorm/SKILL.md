@@ -77,8 +77,6 @@ When the user is satisfied, set `reviewed: true`. If the file is edited after th
 
 ## Writing
 
-Update the file as you go, not at the end. When an issue crystallizes, write it. When a milestone decision becomes clear, add it. The file is a living document across sessions.
-
 ### File format
 
 ````markdown
@@ -137,13 +135,12 @@ Sometimes the conversation clarifies thinking without producing issues. If that 
 
 ## Sense of done-ness
 
-Not a checklist — a feel:
-- "Issues are named and problems are clear" → most issues have "What are we solving?" filled
-- "Build plans are defined and ordering makes sense" → most issues have "What are we building?" filled
-- "Verification criteria exist for each issue" → most issues have "How do we verify?" filled
-- "The file is clean and a fresh session could pick up any issue" → `reviewed: true`
+Progress is a gradient, not a gate:
 
-All issues fully specified and `reviewed: true` → the milestone is ready. Pick an issue and start a fresh plan-mode session.
+- Most issues have "What are we solving?" filled → problems are taking shape
+- Most issues have "What are we building?" filled → build plans are emerging
+- Most issues have "How do we verify?" filled → verification is defined
+- All of the above, plus `reviewed: true` → the milestone is ready
 
 ## Next
 
