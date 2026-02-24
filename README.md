@@ -57,34 +57,25 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 - `/brainstorm` — Thinks with you across sessions to produce a milestone — a set of issues ready for plan mode. Four lenses, one file: explores problems, defines build pieces, writes test criteria, reviews for readiness. Issues emerge as you go, not as a packaging step at the end.
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
-**Build**
-
-- `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
-- `/implement` — Reads the plan, spawns subagents, each commits atomically. Orchestration, not hand-holding.
-- `/ralph` — Converts a PRD into JSON for Ralph autonomous execution. Right-sizes stories so each fits in one context window.
-
 **Review**
 
+- `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
 - `/roborev-review` — Submits a commit for automated code review. Shows verdict and findings grouped by severity.
 - `/roborev-fix` — Discovers unaddressed review findings and fixes them all in one pass.
 
-**Ship**
+**Git**
 
 - `/create-worktrees` — Sets up parallel worktree slots for a repo.
 - `/checkpoint` — Summarizes work since last checkpoint, creates a named commit, and pushes. Your narrative arc through dozens of atomic agent commits.
 - `/merge` — Squash-merges a worktree branch back into main.
 
-**Learn**
+**Multi-session**
 
-- `/diary` — Creates a structured diary entry from the current session — what happened, decisions made, preferences observed, challenges encountered. Feeds into `/reflect`.
-- `/reflect` — Analyzes diary entries to find recurring patterns and proposes updates to your CLAUDE.md. Separates signal from noise: one-off requests get filtered, persistent preferences become rules.
-
-**Between sessions**
-
-- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
+- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
+<!-- Future: /diary (capture session learnings) and /reflect (find patterns across sessions, propose CLAUDE.md updates). Stabilizing in project-specific use first. -->
 
-**Document**
+**Docs**
 
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
 - `/index-sync` — Syncs documentation against current code. Proposes updates, removals, and additions to keep the index current.
@@ -106,15 +97,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-`bypassPermissions` lets autonomous skills (`/implement`, `/investigate`) work without prompting for every file edit. `plansDirectory` is where `/verify-plan` and `/implement` look for plans.
-
-For persistent task lists across sessions (used by `/implement`):
-
-```bash
-claude() {
-    CLAUDE_CODE_TASK_LIST_ID="$(basename "$PWD")" command claude "$@"
-}
-```
+`bypassPermissions` lets autonomous skills (`/investigate`) work without prompting for every file edit. `plansDirectory` is where `/verify-plan` looks for plans.
 
 </details>
 
@@ -125,10 +108,8 @@ claude() {
 |------|---------|
 | `docs/research/m{id}-{slug}.md` | Milestone files — `/brainstorm` output |
 | `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
-| `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
+| `docs/plan/*.md` | Plans for `/verify-plan` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
-| `~/.claude/diary/{project}/` | Diary entries — `/diary` output |
-| `~/.claude/diary/{project}/reflections/` | Reflection reports — `/reflect` output |
 
 </details>
 
