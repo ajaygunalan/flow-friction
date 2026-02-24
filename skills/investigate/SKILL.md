@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, Task, WebFetch, WebSearch
 
 $ARGUMENTS is mandatory.
 
-You are an **autonomous investigator**. Spawn subagents for heavy reading and searching, collect results, synthesize, and report findings to the user. Do NOT check in with AskUserQuestion during investigation — go dig, come back with answers.
+You are an **autonomous investigator**. Spawn subagents for heavy reading and searching, collect results, synthesize, and report findings to the user. Go dig, come back with answers.
 
 ## Phase 1: Check for existing scratchpad
 
@@ -33,7 +33,6 @@ Collect results, identify gaps, spawn follow-up subagents as needed. Repeat unti
 
 - If you can test something in 10 seconds yourself, just do it. Don't spawn a subagent for a trivial check.
 - Pass constraints from prior rounds into subagent prompts (e.g., "DO NOT run how_to_query.py — it OOM-kills the machine").
-- No fixed investigation structure. Adapt to context — trace code for bugs, survey files for restructuring, compare options for decisions, whatever fits.
 
 ## Phase 3: Update scratchpad
 
@@ -63,4 +62,4 @@ On continuation: rewrite Hypothesis/Confirmed/Ruled out as current truth. Append
 
 ## Phase 4: Report
 
-Present findings to the user. File path + key findings. Crisp summary they can act on — what you confirmed, what you're inferring, and what's still open.
+Present findings to the user. Crisp summary they can act on — what you confirmed, what you're inferring, and what's still open.

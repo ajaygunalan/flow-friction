@@ -28,7 +28,7 @@ Milestones work best with 3-8 issues. If scope grows beyond that, consider split
 
 ## How to think together
 
-Read the room. This is the same regardless of what you're working on:
+Read the room:
 
 - **User is uncertain** → Explore with them. Open questions. Surface options they haven't considered.
 - **User is confident** → Challenge them. "What breaks if X happens?" Make them defend it.

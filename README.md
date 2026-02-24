@@ -29,6 +29,8 @@ Flow-Friction doesn't organize work. It organizes understanding.
 
 Other frameworks hand the agent tasks, roles, phases — units of work to execute. Flow-Friction hands it questions. A brainstorm produces issues — but the issues emerge from understanding, not from upfront specs. You think through problems, build shape, and test criteria across sessions; issues crystallize as you go. An investigation produces hypotheses — not deliverables. The code comes last, after the understanding is there. And when the understanding changes — and it will — you throw away the code and rebuild from what you now know.
 
+And that understanding compounds. Each session's decisions and patterns feed back into the agent's instructions — so it gets better at working with *you*, not just at the current task.
+
 Code is cheap. It's just tokens. Understanding is what's expensive, and you can't spec it upfront. Staying small — small assumptions, small builds, small specs — means when you're wrong, the cost stays small too.
 
 </details>
@@ -50,59 +52,63 @@ What worked for me wasn't downloading other people's setups. It was studying the
 
 There's no prescribed order. You enter wherever you are. Most days you grab one or two skills and go.
 
-**Think together**
+**Think**
 
 - `/brainstorm` — Thinks with you across sessions to produce a milestone — a set of issues ready for plan mode. Four lenses, one file: explores problems, defines build pieces, writes test criteria, reviews for readiness. Issues emerge as you go, not as a packaging step at the end.
-
-**Go dig alone**
-
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
 **Build**
 
 - `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
 - `/implement` — Reads the plan, spawns subagents, each commits atomically. Orchestration, not hand-holding.
+- `/ralph` — Converts a PRD into JSON for Ralph autonomous execution. Right-sizes stories so each fits in one context window.
 
-**Keep moving across sessions**
+**Review**
 
-- `/checkpoint` — Your save point. Agents make dozens of atomic commits you can't remember. Checkpoints are milestones *you* name — the project's narrative arc.
-- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
-- `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
+- `/roborev-review` — Submits a commit for automated code review. Shows verdict and findings grouped by severity.
+- `/roborev-fix` — Discovers unaddressed review findings and fixes them all in one pass.
 
-**Learn from your sessions**
+**Ship**
+
+- `/create-worktrees` — Sets up parallel worktree slots for a repo.
+- `/checkpoint` — Summarizes work since last checkpoint, creates a named commit, and pushes. Your narrative arc through dozens of atomic agent commits.
+- `/merge` — Squash-merges a worktree branch back into main.
+
+**Learn**
 
 - `/diary` — Creates a structured diary entry from the current session — what happened, decisions made, preferences observed, challenges encountered. Feeds into `/reflect`.
 - `/reflect` — Analyzes diary entries to find recurring patterns and proposes updates to your CLAUDE.md. Separates signal from noise: one-off requests get filtered, persistent preferences become rules.
 
-**Maintain the codebase knowledge**
+**Between sessions**
 
-- `/index-sync` — Compresses docs into D2 diagrams. Code is the book, diagrams are the index.
+- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
+- `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
+
+**Document**
+
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
+- `/index-sync` — Syncs documentation against current code. Proposes updates, removals, and additions to keep the index current.
 - `/walkthrough` — Generates a D2 diagram explaining a flow or architecture. Visual mental model in under 2 minutes.
-
-**Worktree workflow**
-
-- `/create-worktrees` — Sets up parallel worktree slots for a repo.
-- `/merge` — Squash-merges a worktree branch back into main.
+- `/d2-diagram` — Creates D2 diagrams with consistent styling. Other diagram skills follow its rules for visual consistency.
 
 <details>
 <summary><strong>Setup</strong></summary>
 
-Skills work immediately. Add to `~/.claude/settings.json`:
+Add to `~/.claude/settings.json`:
 
 ```json
 {
   "env": {
-    "ENABLE_TOOL_SEARCH": "true",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "permissions": { "defaultMode": "bypassPermissions" },
-  "alwaysThinkingEnabled": true,
   "plansDirectory": "docs/plan/"
 }
 ```
 
-Persistent tasks across sessions:
+`bypassPermissions` lets autonomous skills (`/implement`, `/investigate`) work without prompting for every file edit. `plansDirectory` is where `/verify-plan` and `/implement` look for plans.
+
+For persistent task lists across sessions (used by `/implement`):
 
 ```bash
 claude() {
@@ -117,10 +123,12 @@ claude() {
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/m{id}-{slug}.md` | Milestone files — `/brainstorm` output, each contains a milestone and its issues |
+| `docs/research/m{id}-{slug}.md` | Milestone files — `/brainstorm` output |
 | `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
 | `docs/plan/*.md` | Plans for `/verify-plan` and `/implement` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
+| `~/.claude/diary/{project}/` | Diary entries — `/diary` output |
+| `~/.claude/diary/{project}/reflections/` | Reflection reports — `/reflect` output |
 
 </details>
 
