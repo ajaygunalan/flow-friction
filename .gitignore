@@ -11,3 +11,5 @@ __pycache__/
 !agents/**
 !assets/
 !assets/**
+!skill-analysis/
+!skill-analysis/**
