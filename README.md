@@ -54,7 +54,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Think**
 
-- `/harvest` — End-of-session signal extraction. You brainstorm freely — no skill needed. When you're done, `/harvest` asks you questions to separate signal from noise, proposes what to capture, and writes only what you approve. Carries state across sessions: the file represents current thinking, rewritten each time.
+- `/harvest` — At the end of a session, asks questions to separate signal from noise, then writes only what you approve. The file carries across sessions — rewritten each time, not appended.
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
 **Review**
