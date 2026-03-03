@@ -5,7 +5,7 @@ argument-hint: "[optional: query to focus on]"
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-Ask 1-4 AskUserQuestion to scope what matters — which threads to keep, what to drop, what stage the thinking is at. If $ARGUMENTS is a query, use it to focus.
+Scan the conversation to identify threads and decisions. Then ask 1-4 AskUserQuestion to scope what matters — which threads to keep, what to drop, what stage the thinking is at. If $ARGUMENTS is a query, use it to focus.
 
 Read the conversation through four lenses and draft what fits. Drop exploration, tangents, and dead ends.
 
@@ -16,4 +16,4 @@ Read the conversation through four lenses and draft what fits. Drop exploration,
 
 Present the draft. The user approves, corrects, or cuts.
 
-Write to the existing harvest file if one was referenced, otherwise create a new file.
+Write to the existing file if one was referenced, otherwise create a new file.
