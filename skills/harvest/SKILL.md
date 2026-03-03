@@ -1,7 +1,7 @@
 ---
 name: harvest
 description: End-of-session signal extraction. Asks questions to separate signal from noise, writes only what the user approves. Use when the user says "harvest" or wants to capture thinking before ending a session.
-argument-hint: [path to existing harvest file]
+argument-hint: "[optional: query to focus on]"
 allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
@@ -11,8 +11,8 @@ Extract the signal from a conversation. The brainstorming itself is just convers
 
 ## Startup
 
-1. Scan the conversation.
-2. If $ARGUMENTS is a file path → read it. This is the existing state from previous sessions. Merge with what you find in the conversation.
+1. Scan the conversation. If $ARGUMENTS is a query, focus only on that topic.
+2. If a harvest file was shared in the conversation, that's the existing state — merge the session's signal with it.
 
 ## Question
 
@@ -37,9 +37,11 @@ Use AskUserQuestion for structured choices when the question has discrete option
 
 When signal and noise are separated, propose what to write as one picture. The user approves, corrects, or cuts. Only what survives goes into the file.
 
+If a harvest file was shared in the conversation, write to the same file. Otherwise create a new file.
+
 ## Multi-session
 
-When an existing harvest file is given, the session's signal gets merged with the existing state. The file represents current thinking — not a session log. Decisions get updated. Open questions get resolved or new ones appear. Dead ends accumulate so they are not revisited.
+The file represents current thinking — not a session log. Decisions get updated. Open questions get resolved or new ones appear. Dead ends accumulate so they are not revisited.
 
 The file is rewritten each time, not appended to.
 
@@ -47,6 +49,4 @@ Early sessions the file might be sparse — mostly open questions under "What ar
 
 ## The file
 
-Write it wherever makes sense for the project. The user specifies the path, or the skill asks.
-
-The file should be readable by a fresh agent in 30 seconds and give it enough context to continue the conversation next session.
+Readable by a fresh agent in 30 seconds. Enough context to continue next session.

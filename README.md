@@ -60,7 +60,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 **Review**
 
 - `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
-- `/review-fix` — Scans conversation intent, checks all changes against it, fixes inconsistencies.
+- `/quality-check` — Checks modified files against conversation intent. Fixes what's clear, asks about what's ambiguous.
 
 **Git**
 
@@ -71,7 +71,6 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 **Multi-session**
 
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
-- `/next-prompt` — Distills the current session into a ready-to-paste prompt for the next one. Picks up where you left off.
 <!-- Future: /diary (capture session learnings) and /reflect (find patterns across sessions, propose CLAUDE.md updates). Stabilizing in project-specific use first. -->
 
 **Docs**
