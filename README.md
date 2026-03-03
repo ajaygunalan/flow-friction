@@ -59,8 +59,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Review**
 
-- `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
-- `/quality-check` — Checks modified files against conversation intent. Fixes what's clear, asks about what's ambiguous.
+- `/check` — Compares plans or modified code against conversation intent. Fixes what's clear, asks about what's ambiguous.
 
 **Git**
 
@@ -95,7 +94,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-`bypassPermissions` lets autonomous skills (`/investigate`) work without prompting for every file edit. `plansDirectory` is where `/verify-plan` looks for plans.
+`bypassPermissions` lets autonomous skills (`/investigate`) work without prompting for every file edit. `plansDirectory` is where `/check` looks for plans.
 
 </details>
 
@@ -105,7 +104,7 @@ Add to `~/.claude/settings.json`:
 | Path | Purpose |
 |------|---------|
 | `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
-| `docs/plan/*.md` | Plans for `/verify-plan` |
+| `docs/plan/*.md` | Plans for `/check` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
 
 </details>

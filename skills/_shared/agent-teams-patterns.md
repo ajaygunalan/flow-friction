@@ -1,6 +1,6 @@
 # Agent Teams Patterns
 
-Reference for harvest, investigate, and quality-check skills.
+Reference for harvest, investigate, and check skills.
 Use when Claude Code's experimental agent teams feature stabilizes
 (currently behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`).
 
@@ -58,7 +58,7 @@ Test multiple theories in parallel with adversarial scrutiny.
 
 **Integration point**: `/investigate` branches when the user provides multiple possible causes or says "not sure what's wrong" / "investigate all angles". Falls back to subagent investigation otherwise. Findings report format stays the same.
 
-### 3. Multi-lens review (for quality-check)
+### 3. Multi-lens review (for check)
 
 Parallel review with distinct, non-overlapping concerns.
 
@@ -71,7 +71,7 @@ Parallel review with distinct, non-overlapping concerns.
 - Each reviews independently, writes findings to shared file
 - Lead synthesizes a unified review
 
-**Integration point**: `/quality-check` uses team mode when the diff is large or the user asks for thorough review. Falls back to solo review otherwise. Review output format stays the same.
+**Integration point**: `/check` uses team mode when the diff is large or the user asks for thorough review. Falls back to solo review otherwise. Review output format stays the same.
 
 ## Setup checklist (all patterns)
 
