@@ -60,7 +60,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 **Review**
 
 - `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
-- `/review-fix` — Reviews code and fixes findings. Default mode submits a commit for review; `--fix` mode discovers unaddressed findings and fixes them all in one pass.
+- `/review-fix` — Scans conversation intent, checks all changes against it, fixes inconsistencies.
 
 **Git**
 
