@@ -60,8 +60,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 **Review**
 
 - `/verify-plan` — Reads a plan against your original request. Catches drift before you execute.
-- `/roborev-review` — Submits a commit for automated code review. Shows verdict and findings grouped by severity.
-- `/roborev-fix` — Discovers unaddressed review findings and fixes them all in one pass.
+- `/review-fix` — Reviews code and fixes findings. Default mode submits a commit for review; `--fix` mode discovers unaddressed findings and fixes them all in one pass.
 
 **Git**
 
@@ -106,7 +105,6 @@ Add to `~/.claude/settings.json`:
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/*.md` | Harvest files — accumulated thinking across sessions |
 | `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
 | `docs/plan/*.md` | Plans for `/verify-plan` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |

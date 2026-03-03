@@ -1,6 +1,6 @@
 # Agent Teams Patterns
 
-Reference for brainstorm, investigate, and roborev-review skills.
+Reference for harvest, investigate, and review-fix skills.
 Use when Claude Code's experimental agent teams feature stabilizes
 (currently behind `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`).
 
@@ -20,9 +20,9 @@ Rules of thumb (from official docs):
 
 ## Patterns
 
-### 1. Debate (for brainstorm)
+### 1. Debate (for harvest)
 
-Stress-test a milestone draft through adversarial evaluation.
+Stress-test converged thinking through adversarial evaluation.
 
 **Setup**:
 1. Define evaluation lenses with the user (e.g., feasibility, user impact, technical debt)
@@ -38,7 +38,7 @@ Stress-test a milestone draft through adversarial evaluation.
 
 **Convergence**: Stop when no teammate raises issues above severity threshold, or max rounds hit (cap at 5-8).
 
-**Integration point**: `/brainstorm` detects when the user says "debate this" / "challenge this", or when the topic is contentious. Falls back to solo brainstorm otherwise. Output format (milestone with issues) stays the same.
+**Integration point**: `/harvest` detects when the user says "debate this" / "challenge this", or when the topic is contentious. Falls back to solo harvest otherwise.
 
 ### 2. Competing hypotheses (for investigate)
 
@@ -58,7 +58,7 @@ Test multiple theories in parallel with adversarial scrutiny.
 
 **Integration point**: `/investigate` branches when the user provides multiple possible causes or says "not sure what's wrong" / "investigate all angles". Falls back to subagent investigation otherwise. Findings report format stays the same.
 
-### 3. Multi-lens review (for roborev-review)
+### 3. Multi-lens review (for review-fix)
 
 Parallel review with distinct, non-overlapping concerns.
 
@@ -71,7 +71,7 @@ Parallel review with distinct, non-overlapping concerns.
 - Each reviews independently, writes findings to shared file
 - Lead synthesizes a unified review
 
-**Integration point**: `/roborev-review` uses team mode when the diff is large or the user asks for thorough review. Falls back to solo review otherwise. Review output format stays the same.
+**Integration point**: `/review-fix` uses team mode when the diff is large or the user asks for thorough review. Falls back to solo review otherwise. Review output format stays the same.
 
 ## Setup checklist (all patterns)
 
