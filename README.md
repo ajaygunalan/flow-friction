@@ -17,7 +17,7 @@ Meta-prompting frameworks for coding agents already exist, and some are good.
 
 [BMAD](https://github.com/bmad-code-org/BMAD-METHOD) adapts traditional agile for the agent era — roles, sprints, storyboards. Too many phases, and each phase took too long. Even the brainstorming felt exhausting — the prompts and skills were so rigid that the agent was constrained rather than liberated. Hard to steer, hard to make agile. And it kept pulling toward web and app development patterns. For domains like robotics, machine learning, game development, graphics — where the work is math-heavy, algorithmic, and the constraints are fundamentally different — it just didn't gel.
 
-[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction uses one skill (`/brainstorm`) that shifts between four thinking lenses — problem discovery, build planning, test criteria, review — across sessions. Understanding accumulates in one file; issues emerge as they crystallize, not as a batch step. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated. Flow-Friction has review built into the brainstorm process as one of its four lenses.
+[GSD](https://github.com/gsd-build/get-shit-done) is the closest in spirit — I drew inspiration from it. It separates discuss, plan, execute, and verify into distinct steps per phase, which is smart. But GSD front-loads the full roadmap in one session: questions, research, requirements, all phases scoped upfront. Its own tagline says it — *"if you know clearly what you want, this WILL build it for you."* When you don't know yet, that upfront scoping is where things go wrong. Flow-Friction separates thinking from capturing. You brainstorm freely in conversation — no templates, no structure imposed during the thinking. At the end, `/harvest` extracts the signal through interactive questioning and writes only what you approve. Understanding accumulates across sessions; structure comes when the thinking is ready, not before. GSD also has no step to review and trim planning docs — `/gsd:verify-work` checks if code works, not if your specs are bloated.
 
 [Gastown](https://github.com/steveyegge/gastown) goes the other direction — orchestrating 20-30 agents in parallel with persistent state via git hooks. Impressive infrastructure, but it's solving coordination, not alignment. Agents are context-sensitive — one small misalignment at a foundational level propagates through everything built on top of it. With 20-30 parallel agents, if one drifts, the drift multiplies across codepaths. You end up untangling spaghetti instead of shipping. Personally, I work with two-three agents per project, maybe two projects at a time — four to six agents total. Beyond that, context-switching degrades, and the coordination overhead outweighs the parallelism.
 
@@ -27,7 +27,7 @@ What these frameworks share is an assumption: you know what you're building. Whe
 
 Flow-Friction doesn't organize work. It organizes understanding.
 
-Other frameworks hand the agent tasks, roles, phases — units of work to execute. Flow-Friction hands it questions. A brainstorm produces issues — but the issues emerge from understanding, not from upfront specs. You think through problems, build shape, and test criteria across sessions; issues crystallize as you go. An investigation produces hypotheses — not deliverables. The code comes last, after the understanding is there. And when the understanding changes — and it will — you throw away the code and rebuild from what you now know.
+Other frameworks hand the agent tasks, roles, phases — units of work to execute. Flow-Friction hands it questions. You think freely across sessions; `/harvest` extracts the signal at the end of each one. Issues emerge when the thinking is ready, not as a packaging step. An investigation produces hypotheses — not deliverables. The code comes last, after the understanding is there. And when the understanding changes — and it will — you throw away the code and rebuild from what you now know.
 
 And that understanding compounds. Each session's decisions and patterns feed back into the agent's instructions — so it gets better at working with *you*, not just at the current task.
 
@@ -54,7 +54,7 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 **Think**
 
-- `/brainstorm` — Thinks with you across sessions to produce a milestone — a set of issues ready for plan mode. Four lenses, one file: explores problems, defines build pieces, writes test criteria, reviews for readiness. Issues emerge as you go, not as a packaging step at the end.
+- `/harvest` — End-of-session signal extraction. You brainstorm freely — no skill needed. When you're done, `/harvest` asks you questions to separate signal from noise, proposes what to capture, and writes only what you approve. Carries state across sessions: the file represents current thinking, rewritten each time.
 - `/investigate` — Autonomous. Spawns subagents, traces code, searches the web, comes back with answers. No check-ins, no permission gates. You fire it and it reports back.
 
 **Review**
@@ -106,7 +106,7 @@ Add to `~/.claude/settings.json`:
 
 | Path | Purpose |
 |------|---------|
-| `docs/research/m{id}-{slug}.md` | Milestone files — `/brainstorm` output |
+| `docs/research/*.md` | Harvest files — accumulated thinking across sessions |
 | `docs/research/{slug}.md` | Investigation scratchpads — `/investigate` output |
 | `docs/plan/*.md` | Plans for `/verify-plan` |
 | `docs/diagrams/*.md` | D2 diagrams — the persistent index |
