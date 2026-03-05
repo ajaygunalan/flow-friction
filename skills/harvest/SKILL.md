@@ -1,19 +1,44 @@
 ---
 name: harvest
-description: End-of-session distillation — scans the conversation, filters signal from noise through interactive questioning, and writes an issue file that seeds the next session. Use when the user says "harvest", wants to wrap up a session, capture decisions before closing, or bridge work to a future conversation.
+description: End-of-session distillation — scans the conversation and existing issues, filters signal from noise through adaptive questioning, then creates, updates, or closes issues. Use when the user says "harvest", wants to wrap up a session, capture decisions before closing, or bridge work to a future conversation.
 argument-hint: "[optional: focus angle]"
-allowed-tools: Read, Write, Edit, Glob, Grep
+allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
 ---
 
-Scan the conversation from beginning to end. If `$ARGUMENTS` is given, use that angle to judge what is signal and what is noise.
+## Phase 1: SCAN
 
-Filter through four lenses using sequential `AskUserQuestion` calls. Each lens adds clarity from a different angle — keep asking until you and the user converge on what matters.
+Read the conversation from beginning to end. Read open issues in `docs/issues/` (skip `status: done`). If `$ARGUMENTS` is given, use it to focus.
 
-1. **Problem** — what are we solving?
-2. **Approach** — what are we building?
-3. **Verification** — how do we know it's done?
-4. **Blind spots** — what would a fresh agent get wrong without being told?
+Build a mental map: what was done, what changed, what broke, what was decided, what's still open.
 
-Once the signal is clear, let the content find its natural shape. The format should emerge from what the lenses revealed — not from a rigid template. Write it in whatever structure makes the signal most clear and coherent for that particular case: narrative, bullet points, a decision log, a spec fragment, whatever fits.
+## Phase 2: FUNNEL
 
-Present the essence in chat — brief enough to scan, complete enough to judge. Only after user approval, write to `docs/issues/<N>-<slug>.md` with a descriptive filename.
+Present a short summary of what you extracted — threads, decisions, open questions. Then ask the user what matters using `AskUserQuestion`.
+
+This is adaptive, not fixed. Keep filtering until the user says that's enough. One round may suffice for a focused session. Five rounds may be needed for a sprawling brainstorm. Draw from these angles as needed — they are prompts, not a mandatory sequence:
+
+- What are we solving?
+- What are we building?
+- How do we know it's done?
+- What would a fresh agent get wrong?
+
+Stop when the signal is clear.
+
+## Phase 3: DECIDE
+
+Based on the filtered signal + existing issues, propose a set of actions. Present them as a list for user approval:
+
+- **Update** issue N — what changed and why
+- **Create** issue N — new problem/deliverable surfaced
+- **Close** issue N — resolved or no longer relevant
+- **No issue** — signal captured as memory or noted in chat, nothing to file
+
+Multiple actions in one harvest is normal. One session might update two issues and create a third.
+
+Do NOT write anything yet. Get explicit approval on the action list first.
+
+## Phase 4: WRITE
+
+Execute the approved actions. Edit existing files or create new ones. Let the content find its natural shape — narrative, bullets, decision log, spec fragment, whatever makes the signal clearest.
+
+Follow the issue conventions defined in global CLAUDE.md (location, header format, statuses, types).
