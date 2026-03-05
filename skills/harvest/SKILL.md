@@ -28,9 +28,9 @@ Stop when the signal is clear.
 
 Based on the filtered signal + existing issues, propose a set of actions. Present them as a list for user approval:
 
-- **Update** issue N — what changed and why
-- **Create** issue N — new problem/deliverable surfaced
-- **Close** issue N — resolved or no longer relevant
+- **Update** `<slug>` — what changed and why
+- **Create** `<slug>` — new problem/deliverable surfaced
+- **Close** `<slug>` — resolved or no longer relevant
 - **No issue** — signal captured as memory or noted in chat, nothing to file
 
 Multiple actions in one harvest is normal. One session might update two issues and create a third.
