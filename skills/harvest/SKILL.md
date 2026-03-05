@@ -1,19 +1,19 @@
 ---
 name: harvest
-description: End-of-session signal extraction. Asks questions to separate signal from noise, writes only what the user approves. Use when the user says "harvest" or wants to capture thinking before ending a session.
-argument-hint: "[optional: query to focus on]"
-allowed-tools: Read, Write, Edit, Glob, Grep, AskUserQuestion
+description: End-of-session distillation — scans the conversation, filters signal from noise through interactive questioning, and writes an issue file that seeds the next session. Use when the user says "harvest", wants to wrap up a session, capture decisions before closing, or bridge work to a future conversation.
+argument-hint: "[optional: focus angle]"
+allowed-tools: Read, Write, Edit, Glob, Grep
 ---
 
-Scan the conversation to identify threads and decisions. Then ask 1-4 AskUserQuestion to scope what matters — which threads to keep, what to drop, what stage the thinking is at. If $ARGUMENTS is a query, use it to focus.
+Scan the conversation from beginning to end. If `$ARGUMENTS` is given, use that angle to judge what is signal and what is noise.
 
-Read the conversation through four lenses and draft what fits. Drop exploration, tangents, and dead ends.
+Filter through four lenses using sequential `AskUserQuestion` calls. Each lens adds clarity from a different angle — keep asking until you and the user converge on what matters.
 
-1. What are we solving? — the problem
-2. What are we building? — the approach
-3. How do we verify? — done-ness
-4. Context — what a fresh agent would get wrong without being told
+1. **Problem** — what are we solving?
+2. **Approach** — what are we building?
+3. **Verification** — how do we know it's done?
+4. **Blind spots** — what would a fresh agent get wrong without being told?
 
-Present the draft. The user approves, corrects, or cuts.
+Once the signal is clear, let the content find its natural shape. The format should emerge from what the lenses revealed — not from a rigid template. Write it in whatever structure makes the signal most clear and coherent for that particular case: narrative, bullet points, a decision log, a spec fragment, whatever fits.
 
-Write to the existing file if one was referenced, otherwise create a new file.
+Present the essence in chat — brief enough to scan, complete enough to judge. Only after user approval, write to `docs/issues/<N>-<slug>.md` with a descriptive filename.
