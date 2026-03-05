@@ -28,12 +28,16 @@ Stop when the signal is clear.
 
 Based on the filtered signal + existing issues, propose a set of actions. Present them as a list for user approval:
 
-- **Update** `<slug>` — what changed and why
 - **Create** `<slug>` — new problem/deliverable surfaced
+- **Update** `<slug>` — what changed and why
+- **Rewrite** `<slug>` — understanding changed fundamentally
+- **Split** `<slug>` into `<slug-a>` + `<slug-b>` — one issue is actually two problems
+- **Merge** `<slug-a>` + `<slug-b>` into `<slug>` — two issues are actually one problem
+- **Promote** `<slug>` from draft to open — clear enough to build
 - **Close** `<slug>` — resolved or no longer relevant
-- **No issue** — signal captured as memory or noted in chat, nothing to file
+- **No issue** — nothing to file
 
-Multiple actions in one harvest is normal. One session might update two issues and create a third.
+Multiple actions in one harvest is normal.
 
 Do NOT write anything yet. Get explicit approval on the action list first.
 
