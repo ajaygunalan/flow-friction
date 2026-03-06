@@ -146,7 +146,7 @@ url: "https://..."
 ---
 # Author Year — Short Title
 
-**Intent:** Why this paper was saved (captured from conversation context)
+**Thoughts:** Your thoughts on this paper (captured from conversation context)
 **Abstract:** First 2-3 sentences of the abstract
 **Key finding:** One-line summary of the main result
 
@@ -155,7 +155,7 @@ url: "https://..."
 
 The filename convention: `year_institution_country_short_title.pdf` (matching the user's existing naming pattern in paper_inbox).
 
-Use `AskUserQuestion` to confirm the save and capture any additional intent the user wants recorded — a brief "why are you saving this?" helps future triage.
+Use `AskUserQuestion` to confirm the save and capture the user's thoughts — "what do you think about this paper?" Their words, however brief, help future triage.
 
 ## What This Skill Does NOT Do
 
