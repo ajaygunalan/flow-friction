@@ -72,6 +72,10 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 - `/conversation-search` — Searches past sessions. What did we try? What broke? What did we decide?
 <!-- Future: /diary (capture session learnings) and /reflect (find patterns across sessions, propose CLAUDE.md updates). Stabilizing in project-specific use first. -->
 
+**Research**
+
+- `/literature-review` — Search academic literature via [Semantic Scholar](https://www.semanticscholar.org/) + 17 databases. Synthesize answers backed by citations. Download and read full papers. One MCP ([academic-mcp](https://github.com/academic-mcp/academic-mcp)), no bloat.
+
 **Docs**
 
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
