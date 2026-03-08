@@ -76,6 +76,10 @@ There's no prescribed order. You enter wherever you are. Most days you grab one 
 
 - `/literature-review` — Search academic literature via [Semantic Scholar](https://www.semanticscholar.org/) + 17 databases. Synthesize answers backed by citations. Download and read full papers. One MCP ([academic-mcp](https://github.com/academic-mcp/academic-mcp)), no bloat.
 
+**Backup**
+
+- `/push-to-gdrive` — Push local drive to Google Drive. Uses current directory to decide scope — from gdrive root pushes everything, from a subfolder pushes only that folder. Uses [rclone](https://rclone.org/) with custom OAuth.
+
 **Docs**
 
 - `/index-codebase` — Builds the full documentation index from scratch for a new codebase.
