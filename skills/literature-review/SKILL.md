@@ -37,5 +37,3 @@ If called during /sift: focus on landscape and bridge searches.
 ## Saving Papers
 
 All papers download to `/media/ajay/gdrive/paper_inbox/pdfs/`, filename `year_institution_country_short_title.pdf`. Do NOT create a per-paper note — papers get evaluated during /sift.
-
-ARGUMENTS: a research question (required)
