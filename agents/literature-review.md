@@ -2,7 +2,6 @@
 name: literature-review
 description: >
   Search academic literature, synthesize answers backed by citations, download and read papers.
-  Search academic literature, synthesize answers backed by citations, download and read papers.
   Use for any scientific question that needs cited evidence.
 tools:
   - mcp__academic-mcp__paper_search
@@ -43,6 +42,6 @@ question → SEARCH (parallel: semantic + google_scholar + WebSearch)
 
 ## Saving Papers
 
-All papers download to `/media/ajay/gdrive/paper_inbox/pdfs/`, filename `year_institution_country_short_title.pdf`. Do NOT create a per-paper note — papers get evaluated during the session.
+`paper_download` saves to `./downloads/` — this is the inbox. Leave papers there after downloading. Do NOT rename, move to `pdfs/`, or create notes — papers move to the vault only when they earn a citation during a session.
 
 ARGUMENTS: a research question (required)
