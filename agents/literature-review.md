@@ -2,11 +2,20 @@
 name: literature-review
 description: >
   Search academic literature, synthesize answers backed by citations, download and read papers.
-  Triggers on: literature questions, "find papers about", "what does the literature say",
-  "seminal papers", "who are the key authors in", or any scientific question that needs cited evidence.
+  Search academic literature, synthesize answers backed by citations, download and read papers.
+  Use for any scientific question that needs cited evidence.
+tools:
+  - mcp__academic-mcp__paper_search
+  - mcp__academic-mcp__paper_download
+  - mcp__academic-mcp__paper_read
+  - WebSearch
+  - WebFetch
+  - Read
+  - Glob
+  - Grep
 ---
 
-# /literature-review
+# Literature Review
 
 Answer a research question. Lead with the answer, not the papers.
 
@@ -32,10 +41,8 @@ question → SEARCH (parallel: semantic + google_scholar + WebSearch)
          → SAVE (on request — paper_download to vault)
 ```
 
-If called during /sift: focus on landscape and bridge searches.
-
 ## Saving Papers
 
-All papers download to `/media/ajay/gdrive/paper_inbox/pdfs/`, filename `year_institution_country_short_title.pdf`. Do NOT create a per-paper note — papers get evaluated during /sift.
+All papers download to `/media/ajay/gdrive/paper_inbox/pdfs/`, filename `year_institution_country_short_title.pdf`. Do NOT create a per-paper note — papers get evaluated during the session.
 
 ARGUMENTS: a research question (required)
